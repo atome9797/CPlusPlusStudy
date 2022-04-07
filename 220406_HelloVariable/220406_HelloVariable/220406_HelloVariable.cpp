@@ -115,7 +115,20 @@ int main()
 
     cout << name2 << " : " << name1 << "님의 " <<  age << "살 생일을 축하합니다.\n";
     
+    // 배열 기반으 문자열 입출력
+
+    char name[100]; //char 배열
+    char lang[200];
+
+    cout << "이름은 무엇입니까?";
+    cin >> name;
     
+    cout << "좋아하는 프로그래밍 언어는 무엇입니까?";
+    cin >> lang;
+
+    cout << "내 이름은 " << name << "입니다." << endl;
+    cout << "제일 좋아하는 언어는 " << lang << "입니다." << endl;
+
 
     
     
