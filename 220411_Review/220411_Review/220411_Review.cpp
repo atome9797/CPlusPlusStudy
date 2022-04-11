@@ -316,6 +316,27 @@ int main()
 
     cout << "총합: " << balance;
 
+    //시프트 연산으로 2의 거듭제곱 알아보기
+    unsigned char num21 = 1; // 1 : 0000 0001
+    printf("%u\n", num21 << 1); //  2 : 0000 0010 : 2
+    printf("%u\n", num21 << 2); //  4 : 0000 0100 : 2^2
+    printf("%u\n", num21 << 3); //  8 : 0000 1000 : 2^3
+    printf("%u\n", num21 << 4); //  16 : 0001 0000 : 2^4
+    printf("%u\n", num21 << 5); //  32 : 0010 0000 : 2^5
+    printf("%u\n", num21 << 6); //  64 : 0100 0000 : 2^6
+    printf("%u\n", num21 << 7); //  128 : 1000 0000 : 2^7
+
+    //논리 연산자 우선순위 : ! , && , || 순
+    bool b1;
+    b1 = (false || true) && !false || false;
+    printf("%d\n", b1); //true 출력됨 1
+
+    //비교연산자 우선순위 : < , == 순
+    int num22 = 5;
+    num22 = 5 == 5 < 10; 
+    //5<10 비교로 true 1이 나옴, 5와1을 비교 false됨 0, num22에 0을 대입 
+    printf("%d\n", num22);
+
 
 }
 
