@@ -597,6 +597,33 @@ int main()
         cout << endl;
     }
 
+
+    
+    int idx, idx2; for (idx = 1; idx <= 9; idx++) { 
+        for (idx2 = 2; idx2 <= 4; idx2++) { 
+            printf("%2d *%2d = %2d ", idx2, idx, idx * idx2); 
+        } 
+        printf("\n"); 
+    } 
+    
+    printf("\n"); 
+    
+    for (idx = 1; idx <= 9; idx++) { 
+        for (idx2 = 5; idx2 <= 7; idx2++) { 
+            printf("%2d *%2d = %2d ", idx2, idx, idx * idx2); 
+        } 
+        printf("\n"); 
+    } 
+    printf("\n"); 
+    
+    for (idx = 1; idx <= 9; idx++) { 
+        for (idx2 = 8; idx2 <= 9; idx2++) { 
+            printf("%2d *%2d = %2d ", idx2, idx, idx * idx2); 
+        } 
+        printf("\n"); 
+    }
+
+
 #pragma endregion
 
 
