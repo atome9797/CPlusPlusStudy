@@ -330,6 +330,8 @@ int main()
     } 
 
     
+    
+    
     /*
         *****
         -****
@@ -337,6 +339,7 @@ int main()
         ---**
         ----*
     */
+
     //0 1 => j는 1 부터 출력이라 "-"로 출력못함
     //0 10/0 9/0 8/0 7.... 0 0 => "*" 출력
     //1 0/1 1 =======> "-" 출력
@@ -470,7 +473,7 @@ int main()
         }
 
         for (int j = 1; j < i; j++) {
-            cout << "-";
+            cout << " ";
         }
 
 
@@ -478,8 +481,136 @@ int main()
     }
 
 
+    //8) 
+    /*
+        *--------*
+        **------**
+        ***----***
+        ****--****
+        **********
+        
+        ****  ****
+        ***    ***
+        **      **
+        *        *
+    */
 
+
+    //입력 : 7번과 같이 4개의 삼각형을 합해서 만듬
+    int star_num9 = 5;
+    int star_num10 = 5;
     
+    //1 0  => - 처리
+    //2 0/2 1 => **처리
+    // 
+    //1 0
+    //처리 :
+    for (int i = 0; i < star_num9; i++) {
+        
+        for (int j = 0; j < i; j++) {
+            cout << "*";
+        }
+        
+        for (int j = star_num9; j > i; j--) {
+            cout << " ";
+        }
+        for (int j = star_num9; j > i; j--) {
+            cout << " ";
+        }
+        for (int j = 0; j < i; j++) {
+            cout << "*";
+        }
+
+        cout << endl;
+    }
+    
+    for (int i = 0; i < star_num10; i++) {
+        
+        for (int j = star_num9; j > i; j--) {
+            cout << "*";
+        }
+       
+        for (int j = 0; j < i; j++) {
+            cout << " ";
+        }
+        
+        for (int j = 0; j < i; j++) {
+            cout << " ";
+        }
+        for (int j = star_num9; j > i; j--) {
+            cout << "*";
+        }
+
+        cout << endl;
+    }
+
+
+    //2x2배열로 출력 하기
+    int cnt1 = 2; //가로/세로 열 갯수
+    int star_num11 = 5;// 가로/세로 길이 범위
+    //0 10/0 9..... 0 1 => "*" 출력
+    //0 10 => j조건 부적합으로 "-" 출력 못함
+    for (int i = 0; i < cnt1; i++) {
+        if (i == 0) {
+
+            for (int j = 0; j < star_num11; j++) { //별자리 행의 값
+                for (int p = 0; p < cnt1; p++) { //가로로 나열 해야 하므로 2개의 반복문을 실행
+            
+                    //두가지 방향을 나타내기 위해선 두갈래로 나눠지는 조건을 추가 해야함
+                    if (p == 1) {
+                        for (int k = star_num11; k > j; k--) { //별자리 열의 값
+                            cout << "*";
+                        }
+                        for (int k = 0; k < j; k++) {
+                            cout << " ";
+                        }
+                    }
+                    else {
+                    
+                        for (int k = 0; k < j; k++) {
+                            cout << " ";
+                        }
+                        for (int k = star_num11; k > j; k--) { //별자리 열의 값
+                            cout << "*";
+                        }
+                    }
+                }
+
+                cout << endl;
+            }
+        } else {
+
+            for (int j = 1; j < star_num11; j++) { //별자리 행의 값
+                for (int p = 0; p < cnt1; p++) { //가로로 나열 해야 하므로 2개의 반복문을 실행
+
+                    //두가지 방향을 나타내기 위해선 두갈래로 나눠지는 조건을 추가 해야함
+                    if (p == 1) {
+                       
+                        for (int k = 0; k < j; k++) {
+                            cout << "*";
+                        }
+                        for (int k = star_num11; k > j; k--) { //별자리 열의 값
+                            cout << " ";
+                        }
+                    }
+                    else {
+
+                        for (int k = star_num11; k > j; k--) { //별자리 열의 값
+                            cout << " ";
+                        }
+                        for (int k = 0; k < j; k++) {
+                            cout << "*";
+                        }
+                    }
+                }
+
+                cout << endl;
+            }
+        }
+    }
+    
+
+    //9) 
 
     
 #pragma endregion

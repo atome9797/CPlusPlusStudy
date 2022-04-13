@@ -15,10 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="220411_Review.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="dojang1.cpp">
+    <ClCompile Include="220413_Array.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
