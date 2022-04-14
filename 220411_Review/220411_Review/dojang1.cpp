@@ -1,42 +1,143 @@
 #include <string>
 #include <iostream>
+#include <stdlib.h>
 
 using namespace std;
 
 int main() {
 
-#pragma region 별자리
+#pragma region 포인터
+
+    cout << "========== 포인터 변수 =========" << endl;
+
+    //포인터 변수 선언
+    /*
+        자료형 *포인터이름; -> 값 저장해줌
+        포인터 = &변수; -> 메모리 주소 저장해줌
+    */
+    int* numPtr; //메모리 주소 저장해줌 => 포인터 변수 선언
+    int exnum5 = 10;
+
+    numPtr = &exnum5; //exnum5의메모리 주소를 포인터 변수에 저장
+
+    cout << numPtr << endl;
+    cout << *numPtr << endl;
+
+    cout << sizeof(numPtr) << endl; //64비트 운영체제 에서는 8바이트로 나온다. 32비트 운영체제는 4바이트
+
+    *numPtr = 2; //포인터로 연결된 주소값도 같이 변함
+
+    cout << exnum5 << endl; //2로 바뀐것을 볼수있음
+
+
+    //!!!!!!주의 !!!!!!!
+    //포인터 변수 사용전에 반드시 초기화 시켜 줘야함 
+    //-> 값을 가지고 있어서 문제 발생할수있음 -> 프로그램 꼬일수 있음
+    *numPtr = NULL;
+
+    int a = 10, b = 10, temp;
+    int* x, * y;
+    x = &a; //포인터로 연결됨 -> 값이 바뀜
+    y = &b;
+    cout << "a : b => " << a << " : " << b << endl;
+
+    temp = *x; //포인터 변수의 값을 저장함 temp = 10
+    *x = *y;  //역참조로 포인터 변수에 포인트 변수값을 할당함 *x= 10
+    *y = temp; // temp의 값을 역참조로 y포인트 변수에 할당함 *y = 10 -> y와 temp은 역참조로 연결됨
+
+    *y = 15;
+
+    cout << "a : b => " << a << " : " << b << endl; // 10 15로 나옴
+
+    //디버깅으로 포인터 변수 값 확인하기
+    int* numPtr10;
+    int exnum10 = 10;
+
+    numPtr10 = &exnum10; //포인터로 연결
+    *numPtr10 = 20; //역참조로 값 할당 -> exnum10 도 값이 바뀜
+    cout << *numPtr10 << endl;
+    cout << exnum10 << endl;
+
+
+    //void pointer 선언하기
+    int num1v = 10;
+    char c1v = 'a';
+    int* numPtr1v = &num1v; //메모리 주소 할당 -> 포인터로 연결
+    char* cPtr1v = &c1v;
+
+    void* ptrv; //void 포인터 변수 선언 
+
+    //포인터는 자료형 달라도 컴파일 경고 없음
+    ptrv = numPtr1v; //void 포인터에 int 포인터 저장
+    //cout << *ptrv << endl; -> void 포인터는 역참조 할수없음 
+    // -> 역 참조 하기 전에 void 포인터를 형변환 해주면된다.
+
+
+    numPtr1v = (int*)ptrv;
+    //형변환을 시켜주면 void 포인터도 역참조 할수있다.
+    //void 포인터를 int형 포인터에 저장
+
+
+    //이중 포인터 사용하기
+    //포인터의 메모리 주소를 저장하는 포인터의 포인터
+    int* numPtr1a; //단일 포인터
+    int** numPtr2a; //이중 포인터 => 포인터의 포인터를 저장할수 있다.
+    int num1a = 10;
+
+    numPtr1a = &num1a;//int 변수의 메모리 주소 단일포인터에 저장
+    numPtr2a = &numPtr1a; //단일 포인터의 메모리 주소를 2중 포인터에 저장
+
+    // numPtr2a ->numPtr1a ->num1a 연결됨 (java의 super와 동일)
+    cout << **numPtr2a << endl; //역참조한 값을 출력함
+
+    //연습문제
+    int* numPtrb;
+    int num1b = 10;
+    int num2b = 20;
     
-    int total_line; // 총 줄의 수
-    int line; // 현재 몇번째 줄인지
-    int line_star; // 현재 줄에 있어야하는 별의 개수
-    int line_gap; // 현재 줄에 있어야하는 공백의 개수
-    int repeat; // 반복 횟수
-    string star = "*";
+    numPtrb = &num1b;
+    cout << *numPtrb << endl;
 
-    cout << "몇 줄짜리 별을 찍기 원하세요?" << endl;
-    cin >> total_line;
+    numPtrb = &num2b;
+    cout << *numPtrb << endl;
 
-    for (line = 1; line <= total_line; line++) {
-        line_star = 1 + (2 * (line - 1));
-        line_gap = (1 + (2 * (total_line - 1))) - line_star;
+    //연습문제
+    int* numPtr1c;
+    int** numPtr2c;
+    int num1c;
+    
+    cin >> num1c;
 
-        for (repeat = 1; repeat <= (line_gap / 2); repeat++) {
-            cout << " ";
-        }
+    numPtr1c = &num1c;
+    numPtr2c = &numPtr1c;
 
-        for (repeat = 1; repeat <= line_star; repeat++) {
-            cout << star;
-        }
+    printf("%d\n", **numPtr2c);
+    
+    //메모리 사용하기
+    int num1d = 20;
+    int* numPtr1d;
 
-        for (repeat = 1; repeat <= (line_gap / 2); repeat++) {
-            cout << " ";
-        }
+    numPtr1d = &num1d;
 
-        cout << endl;
-    }
+    int* numPtr2d;
+
+    numPtr2d = (int*)malloc(sizeof(int)); 
+    //int 형 포인터에 int 타입의 4바이트 메모리 공간을 만들어준다
+    //c++에서는 void 함수의 경우 형변환을 해줘야한다.
+
+    printf("%p\n", numPtr1d);//num1d의 메모리 주소 출력
+    printf("%p\n", numPtr2d);//malloc에 의해 만들어진 heap 메모리 주소 출력
+    
+    free(numPtr2d);//동적 할당 메모리 해제 (heap할당 메모리는 반드시 해제 해줘야함)
+    //메모리를 해제 하지 않아서 메모리가 쌓여 시스템이 꺼지는 문제 발생할수 있음
+    //buffer 메모리를 clean 하는 것과 비슷함 
+
+
 #pragma endregion
 
+#pragma region 강의
+
+    cout << "=============강의 ================" << endl;
 
     float testFloat = 5.3f;
     float testFloat2 = 5.3; //데이터 범위가 double로 바뀐다
@@ -367,57 +468,11 @@ int main() {
 
 
 
-    cout << "========== 포인터 변수 =========" << endl;
 
-    //포인터 변수 선언
-    /*
-        자료형 *포인터이름; -> 값 저장해줌
-        포인터 = &변수; -> 메모리 주소 저장해줌
-    */
-    int *numPtr; //메모리 주소 저장해줌 => 포인터 변수 선언
-    int exnum5 =10; 
     
-    numPtr = &exnum5; //exnum5의메모리 주소를 포인터 변수에 저장
-
-    cout << numPtr << endl;
-    cout << *numPtr << endl;
-
-    cout << sizeof(numPtr) << endl; //64비트 운영체제 에서는 8바이트로 나온다. 32비트 운영체제는 4바이트
-
-    *numPtr = 2; //포인터로 연결된 주소값도 같이 변함
-
-    cout << exnum5 << endl; //2로 바뀐것을 볼수있음
-
-
-    //!!!!!!주의 !!!!!!!
-    //포인터 변수 사용전에 반드시 초기화 시켜 줘야함 
-    //-> 값을 가지고 있어서 문제 발생할수있음 -> 프로그램 꼬일수 있음
-    *numPtr = NULL;
-
-    int a = 10, b = 10, temp;
-    int *x, *y;
-    x = &a; //포인터로 연결됨 -> 값이 바뀜
-    y = &b;
-    cout << "a : b => " << a << " : " << b << endl;
-
-    temp = *x; //포인터 변수의 값을 저장함 temp = 10
-    *x = *y;  //역참조로 포인터 변수에 포인트 변수값을 할당함 *x= 10
-    *y = temp; // temp의 값을 역참조로 y포인트 변수에 할당함 *y = 10 -> y와 temp은 역참조로 연결됨
-    
-    *y = 15; 
-
-    cout << "a : b => " << a << " : " << b << endl; // 10 15로 나옴
-
-    //디버깅으로 포인터 변수 값 확인하기
-    int *numPtr10;
-    int exnum10 = 10;
-
-    numPtr10 = &exnum10; //포인터로 연결
-    *numPtr10 = 20; //역참조로 값 할당 -> exnum10 도 값이 바뀜
-    cout << *numPtr10 << endl;
-    cout << exnum10 << endl;
 
 
 
+#pragma endregion
 
 }//end main
