@@ -18,5 +18,11 @@
     <ClCompile Include="220413_Array.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="console_game.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="console_game_upgrade.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
