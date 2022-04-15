@@ -6,6 +6,7 @@ using namespace std;
 
 int main() {
 
+
 #pragma region 포인터
 
     cout << "========== 포인터 변수 =========" << endl;
@@ -133,7 +134,37 @@ int main() {
     //buffer 메모리를 clean 하는 것과 비슷함 
 
 
+    //메모리에 값 저장하기
+    int *numPtr1e;
+    numPtr1e = (int*)malloc(sizeof(int));
+    
+    // malloc 함수로 메모리크기 할당해주고 할당 받은 메모리에 10이라는 정수를 대입함으로써 역참조한다
+    *numPtr1e = 10; 
+
+    cout << *numPtr1e << endl;
+    
+    free(numPtr1e); //heap 으로 생성된 임시 메모리 공간을 리셋 해줘야함
+
+
+    //메모리 내용을 한꺼번에 설정하기 memset
+    char numf[20];
+
+    memset(numf, 65, sizeof(numf));
+
+    for (int i = 0; i < (sizeof(numf)/sizeof(char)); i++) {
+        cout << numf[i] << endl;
+    }
+    
+
+    //memset 
+
+
+
+
+
 #pragma endregion
+
+    cout << "============== 포인터 변수 end =============" << endl;
 
 #pragma region 강의
 

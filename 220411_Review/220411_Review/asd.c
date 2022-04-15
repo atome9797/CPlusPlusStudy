@@ -10,7 +10,7 @@ int main()
 
     int* numPtr2;     // int형 포인터 선언
 
-    numPtr2 = malloc(sizeof(int));    // int의 크기 4바이트만큼 동적 메모리 할당
+    numPtr2 = (int*)malloc(sizeof(int));    // int의 크기 4바이트만큼 동적 메모리 할당
 
     printf("%p\n", numPtr1);    // 006BFA60: 변수 num1의 메모리 주소 출력
                                 // 컴퓨터마다, 실행할 때마다 달라짐
