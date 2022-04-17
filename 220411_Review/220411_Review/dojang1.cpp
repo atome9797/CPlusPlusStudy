@@ -6,6 +6,125 @@ using namespace std;
 
 int main() {
 
+#pragma region 포인터2
+    //지뢰 찾기 알고리즘 문제
+    int m5 = 0;
+    int n5 = 0;
+    cout << "행 크기 : ";
+    cin >> m5;
+    cout << "열 크기 : ";
+    cin >> n5;
+
+    cout << "맵 구성 : ";
+    //배열 크기를 사용자가 지정가능 + 원래 배열은 상수여야 하는데 쌉가능해짐
+    char** matrix5 = (char**)malloc(sizeof(char*) * m5);//세로
+    for (int i = 0; i < m5; i++) {
+        matrix5[i] = (char*)malloc(sizeof(char) * n5);//가로
+    }
+    //원래 int[][]배열에 상수만 가능했는데 입력값 받을수 있게됨
+    int** matrix6 = (int**)malloc(sizeof(int*) * m5);//세로
+    for (int i = 0; i < m5; i++) {
+        matrix6[i] = (int*)malloc(sizeof(int) * n5);//가로
+    }
+
+    //입력값
+    for (int i = 0; i < m5; i++) {
+        for (int j = 0; j < n5; j++) {
+            cin >> matrix5[i][j];
+            if (matrix5[i][j] == '.') {
+                matrix6[i][j] = 0;
+            }
+        }
+        cout << endl;
+    }
+
+    for (int k = 0; k < m5; k++) {
+        for (int p = 0; p < n5; p++) {
+
+            //3x3배열로 값 비교
+            if (matrix5[k][p] != '*') {
+                for (int i = k-1; i <= k+1; i++) {
+                    for (int j = p-1; j <= p+1; j++) {
+                        if (i >= 0 && i < m5 && j >=0 && j < n5) {
+                            if (matrix5[i][j] == '*') {
+                                matrix6[k][p] += 1;
+                            }
+                        }
+                    }
+                }
+            }
+        
+        }
+    }
+
+    //.의 땅을 숫자로 변형
+    //for (int i = 0; i < m5; i++) {
+    //    for (int j = 0; j < n5; j++) {
+    // 
+    //        if (matrix5[i][j] != '*') {//별이 아닌 .일때 실행
+    //            
+    //            //세로 범위 안에 들어 가 있고 , 위로 한칸 움직일수 있을경우, 위한칸에 *이 있으면
+    //            if (i > 0 && i <= m5-1 && matrix5[i-1][j] == '*') {
+    //                matrix6[i][j] += 1;
+    //            }
+    //            if (i >= 0 && i <= m5 - 2 && matrix5[i + 1][j] == '*') {//세로 범위 안에 들어 가 있고 , 아래로 한칸 움직일수 있을경우, 아래칸에 *이 있으면
+    //                matrix6[i][j] += 1;
+    //            }
+    //            if (j >= 0 && j <= m5 - 2 && matrix5[i][j+1] == '*') {//가로 범위 안에 들어 가 있고 , 오른쪽로 한칸 움직일수 있을경우, 오른쪽칸에 *이 있으면
+    //                matrix6[i][j] += 1;
+    //            }
+    //            if (j > 0 && j <= m5 - 1 && matrix5[i][j- 1] == '*') {//가로 범위 안에 들어 가 있고 , 왼쪽로 한칸 움직일수 있을경우, 왼쪽칸에 *이 있으면
+    //                matrix6[i][j] += 1;
+    //            }
+
+    //            if (j >= 0 && j <= m5 - 2 && i > 0 && i <= m5 - 1 && matrix5[i - 1][j + 1] == '*') {//오위 대각선 범위 안에 들어 가 있고 , 위대각선으로 한칸 움직일수 있을경우, 위 대각선에 *이 있으면
+    //                matrix6[i][j] += 1;
+    //            }
+    //            if (j >= 0 && j <= m5 - 2 && j >= 0 && j <= m5 - 2 && matrix5[i + 1][j + 1] == '*') {//오아 대각선 범위 안에 들어 가 있고 , 위대각선으로 한칸 움직일수 있을경우, 위 대각선에 *이 있으면
+    //                matrix6[i][j] += 1;
+    //            }
+    //            if (j > 0 && j <= m5 - 1 && i >= 0 && i <= m5 - 2 && matrix5[i + 1][j - 1] == '*') {//왼아 대각선 범위 안에 들어 가 있고 , 위대각선으로 한칸 움직일수 있을경우, 위 대각선에 *이 있으면
+    //                matrix6[i][j] += 1;
+    //            }
+    //            if (j > 0 && j <= m5 - 1 && i > 0 && i <= m5 - 1 && matrix5[i - 1][j - 1] == '*') {//위 대각선 범위 안에 들어 가 있고 , 위대각선으로 한칸 움직일수 있을경우, 위 대각선에 *이 있으면
+    //                matrix6[i][j] += 1;
+    //            }
+    //        }
+    //    }
+    //}
+
+
+    //맵 출력
+    for (int i = 0; i < m5; i++) {
+        for (int j = 0; j < n5; j++) {
+
+            if (matrix5[i][j] == '*') {
+                cout << matrix5[i][j];
+            }
+            else {
+                cout << matrix6[i][j];
+            }
+        }
+        cout << endl;
+    }
+
+    for (int i = 0; i < n5; i++) {
+        free(matrix6[i]);
+    }
+
+    //세로 메모리 초기화
+    free(matrix6);
+
+    //가로 메모리 초기화
+    for (int i = 0; i < n5; i++) {
+        free(matrix5[i]);
+    }
+
+    //세로 메모리 초기화
+    free(matrix5);
+
+
+#pragma endregion
 
 #pragma region 포인터
 
@@ -149,16 +268,306 @@ int main() {
     //메모리 내용을 한꺼번에 설정하기 memset
     char numf[20];
 
-    memset(numf, 65, sizeof(numf));
+    
+    cout << "메모리 사이즈(바이트 수) : " << sizeof(numf) << endl;
 
+    //=> sizeof(numf) 에서 numf[20] 는 char형 1바이트 메모리 공간을 20개 만드는 것과 동일
+    memset(numf, 65, sizeof(numf));  // 65라는 글자는 char형으로 표현하면 A이므로 A를 20개의 배열에 각각 저장시킴
+
+    //sizeof(numf)/sizeof(char)  는 20/1 이므로 20값 나온다 => 20번 실행하는것과 동일
     for (int i = 0; i < (sizeof(numf)/sizeof(char)); i++) {
         cout << numf[i] << endl;
     }
     
 
     //memset 
+    long long* numPtrg = (long long *)malloc(sizeof(long long)); //8바이트의 메모리 공간을 만들어줌
+    memset(numPtrg, 0, 8); // 포인터 변수에 0 값을 8바이트공간에 넣겠다는 의미 => 초괴화 시킬때 0 넣어서 사용
+
+    cout << *numPtrg << endl;
+
+    free(numPtrg);
+    
+    int* numPtrh = (int*)malloc(sizeof(int));
+    memset(numPtrh, 1, sizeof(int)); //(int형 이므로 4바이트)1바이트 마다 01이 채워짐 =>  16진수의 0x01010101 = 16843009
+
+    cout << *numPtrh << endl;
+
+    free(numPtrh);
+
+    //memset 함수 초기화 
+
+    long long* numPtri = (long long*)malloc(sizeof(long long));
+    memset(numPtri, 0, sizeof(long long)); //0을 넣음으로써 메모리 값을 초기화 시킨다.
+    free(numPtri);
 
 
+    //null 로 메모리 할당하지 않는 포인터 변수 만들기
+    int *numPtrj = NULL;
+    cout << "null :" << numPtrj << endl; //00000000
+
+    if (numPtrj == NULL) {
+        numPtrj = (int *)malloc(1024); //1024 바이트만큼의 메모리 공간 부여
+    }
+
+
+    //배열을 포인터에 넣기
+    cout << "========= 배열 포인터 ==========" << endl;
+    //배열은 사실 첫 번째 요소의 주솟값만 담고 있다. => 주솟값이라 포인터에 넣을수 있음
+    int numArrl[10] = { 11,22,33,44,55,66,77,88,99,110 };
+    int* numPtrl = numArrl; //포인터에 배열 주소 할당 
+    cout << *numPtrl << endl; // 11
+    cout << *numArrl << endl; //배열을 역참조해도 포인터와 똑같이 11이 나옴
+    
+    cout << numPtrl[5] << endl; // 주소는 하나지만 인덱스의 메모리에 접근 가능
+    
+    // 메모리주소가 32비트 컴퓨터는 4바이트 까지 , 64비트 컴퓨터는 8바이트 까지 이다
+    // 포인터 변수는 주소값을 받으므로 , int , char , double 상관없이 (32비트 컴퓨터) 4바이트 또는
+    // (64비트 컴퓨터) 8바이트로 해당된다.
+    cout << sizeof(numArrl) << endl; //4*10 바이트 메모리 공간 : 40
+    cout << sizeof(numPtrl) << endl; 
+    //배열의 주소값의 바이트만 표현 : 8 (int,char,double 상관없이 주소값 8바이트를 받는다)
+
+    //배열을 이용해 10진수를 2진수로 만들기
+    //입력 : 
+    int input_user1 = 13; //유저가 입력한 정수 -> 이것을 2진수로 바꾸어야함
+    int binary[10] = { 0, };//임의의 배열공간 만들기
+    int cnt = 0; //binary 배열의 인덱스
+
+    //처리 : 무한 반복문 사용 , 나누기를 할수 없을때까지 반복
+    while (true) {
+
+        binary[cnt] = input_user1 % 2; //나머지값 들어감
+        input_user1 = input_user1 / 2; //나눈 몫을 다음 차례로 넘김
+
+        cnt++; //binary 배열의 인덱스로 사용
+        if (input_user1 == 0) {
+            break;
+        }
+    }
+
+    //cnt 는 인덱스로 사용했으므로 재활용
+    for (int i =  cnt-1 ; i >= 0; i--){
+        cout << "binary값 : "<< i << " : " << binary[i] << endl;
+    }
+
+    float scores1[10] = { 67.2f, 84.3f, 97.0f, 87.1f, 71.9f, 63.0f, 90.1f, 88.0f, 79.7f, 95.3f };
+    float sum1 = 0.0f;
+    float average1;
+
+    for (int i = 0; i < sizeof(scores1) / sizeof(float); i++) { //배열 갯수 출력
+        sum1 += scores1[i];
+    }
+
+    average1 = sum1 / (sizeof(scores1) / sizeof(float));
+
+
+    cout << average1 << endl;
+
+    //2진수를 10진수로 변환
+    //int decimal10 = 0;//결과값
+    //int binary10[4] = { 1, 1, 0, 1 };    // 1101 순서대로 저장됨
+
+    //for (int i = 0; i < sizeof(binary10)/sizeof(int); i++) { //4번 반복
+    //    decimal10 = 2 * decimal10 + binary10[i];
+    //}
+
+    //cout << decimal10 << endl;
+
+    int decimal10 = 0;//결과값
+    int binary10[4] = { 1, 1, 0, 1 };    // 1101 순서대로 저장됨
+    int position = 0;
+    for (int i = sizeof(binary10) / sizeof(int) - 1; i >= 0; i--)
+    {
+        if (binary10[i] == 1)
+            decimal10 += 1 << position;
+
+        position++;
+    }
+
+    cout << decimal10 << endl;
+
+    //가장 작은 정수값
+    int numArrg[5];
+    int smallestNumber;
+
+    cin >> numArrg[0] >> numArrg[1] >> numArrg[2] >> numArrg[3] >> numArrg[4];
+
+    smallestNumber = numArrg[0];
+
+    for (int i = 0; i < sizeof(numArrg)/sizeof(int); i++) {
+        if (smallestNumber > numArrg[i]) {
+            smallestNumber = numArrg[i];
+        }
+    }
+
+    cout << "가장 작은 수 :  " << smallestNumber << endl;
+    
+
+    //2차원 배열에 포인터 넣기
+    
+    int(*numPtrm)[4]; //int 형 포인터를 4개 담을수 있다. 
+    //=> 1차원 배열은 주소가 1개 이므로 포인터에 담을수 있음
+
+    int numArro[3][4] = { {11,22,33,44},{55,66,77,88},{99,110,121,132} };
+    int(*numPtro)[4] = numArro; // 1차원 배열의 공간에 2차원배열로 4개의 포인터 공간 더 만듬
+
+    cout << *numPtro[0] << endl;
+    cout << *numArro[0] << endl; //배열 첫 값나옴
+
+    //3차원 배열에 포인터 넣기
+    int numArrp[2][3][4] = {
+    {
+        { 11, 22, 33, 44 },
+        { 55, 66, 77, 88 },
+        { 99, 110, 121, 132 }
+    },
+    {
+        { 111, 122, 133, 144 },
+        { 155, 166, 177, 188 },
+        { 199, 1110, 1121, 1132 }
+    }
+    };
+
+    int(*numPtrp)[3][4] = numArrp;
+
+    //주 대각선 성분 구하기
+    int matrix[8][8] = {
+        {  1,  2,  3,  4,  5,  6,  7,  8 },
+        {  9, 10, 11, 12, 13, 14, 15, 16 },
+        { 17, 18, 19, 20, 21, 22, 23, 24 },
+        { 25, 26, 27, 28, 29, 30, 31, 32 },
+        { 33, 34, 35, 36, 37, 38, 39, 40 },
+        { 41, 42, 43, 44, 45, 46, 47, 48 },
+        { 49, 50, 51, 52, 53, 54, 55, 56 },
+        { 57, 58, 59, 60, 61, 62, 63, 64 }
+    };
+    
+    cout << "주 대각 " << endl;
+    for (int i = 0; i < sizeof(matrix) / sizeof(matrix[0]); i++) {//8 x
+        for (int j = 0; j < sizeof(matrix[0]) / sizeof(int); j++){ //8 y
+            if (j == i) {
+                cout << matrix[i][j] << " ";
+            }
+        }
+    }
+    cout << endl;
+    
+
+    //포인터를 배열 처럼 사용
+    int* numPtrq = (int*)malloc(sizeof(int) * 10); //int형 메모리공간을 10개 만듬
+    numPtrq[0] = 10;
+    numPtrq[9] = 20;
+
+    cout << numPtrq << endl; // malloc 함수로 만들었을때 0000023A51D7EBC0 메모리 주소 생성해줌
+    cout << numPtrq[0] << endl;
+    cout << numPtrq[9] << endl;
+
+    free(numPtrq);
+
+    //포인터의 메모리를 2차원 배열 처럼 사용
+
+    int** m = (int**)malloc(sizeof(int*) * 3); //이중포인터로 int형 포인터 3개 공간 만듬
+
+    for (int i = 0; i < 3; i++) {
+        m[i] = (int*)malloc(sizeof(int) * 4); //int형 포인터 공간에 4개의 메모리 공간을 만듬
+                                              // => 이중포인터에 포인터가 3개 있고 그 포인터는 4개의 메모리 공간을 가짐
+    }
+
+    m[2][3] = 14;//3*4의 2차원 배열 생성됨
+    cout << m[2][3] << endl;
+
+    //초기화
+    for (int i = 0; i < 3; i++) {
+        free(m[i]); //가로 (포인터 담은 공간 초기화)
+    }
+
+    free(m); //세로 공간 초기화
+
+
+    //사용자가 입력한 만큼 메모리 크기 할당
+    int row, col;
+    cin >> row;
+    cin >> col;
+
+    int **m2 = (int**)malloc(sizeof(int*) * row);//2중 포인터에 포인터 원하는 갯수만큼 넣기
+
+    //스택이 세로줄로 쌓임
+    for (int i = 0; i < row; i++) {
+        m2[i] = (int*)malloc(sizeof(int) * col); //포인터를 불러와 포인터 안에 원하는 갯수 만큼 int형 메모리 생성
+    }
+
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            m2[i][j] = i + j;
+        }
+    }
+
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            cout << m2[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    for (int i = 0; i < row; i++){
+        free(m2[i]);
+    }
+
+    free(m2);
+
+    //포인터를 3차원 배열처럼 사용하기
+    
+    long long*** m3 = (long long***)malloc(sizeof(long long**) * 2); //3중 포인터에 2중포인터 2개 넣음
+
+    for (int i = 0; i < 2; i++) {//높이 2개
+        m3[i] = (long long**)malloc(sizeof(long long*) * 3);//세로 크기 3개 포인터로 받음
+        for (int j = 0; j < 3; j++) {//세로3개
+            m3[i][j] = (long long*)malloc(sizeof(long long) * 5);//가로크기 5개 int로 받음 
+        }
+    }
+    
+
+    m3[1][2][4] = 100;
+
+    cout << m3[1][2][4] << endl;
+
+    //포인터 초기화
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 3; j++){
+            free(m3[i][j]); // 제일 마직막에 선언한 2중 배열문을 초기화 시킴
+        }
+        free(m3[i]); //2중포인터가 들어간 배열문을 초기화 시킴
+    }
+
+    int m4;
+    cin >> m4;
+
+
+    int** plan = (int **)malloc(sizeof(int*) * m4);
+
+    for (int i = 0; i < m4; i++) {
+        plan[i] = (int*)malloc(sizeof(int) * m4);
+        memset(plan[i], 0, sizeof(int)* m4);
+    }
+
+    for (int i = 0; i < m4; i++)
+    {
+        plan[i][i] = 1;
+    }
+
+    for (int i = 0; i < m4; i++) {
+        for (int j = 0; j < m4; j++) {
+            printf("%d ", plan[i][j]);
+        }
+        printf("\n");
+    }
+
+    for (int i = 0; i < m4; i++) {
+        free(plan[i]);
+    }
+
+    free(plan);
 
 
 
