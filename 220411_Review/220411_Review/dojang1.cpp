@@ -7,6 +7,56 @@ using namespace std;
 int main() {
 
 #pragma region 포인터2
+
+
+
+    //포인터는 타입 상관없이 8바이트이므로 , 문자열 담을수 있다.
+    char* s1z = (char*)"Hello"; // 끝에 NULL 들어감  , 문자열 주소가 들어가는거지 값이 들어가는건 아님
+    cout << s1z << endl; //문자열 주소를 불러와 값을 가져옴 
+
+    int* c1 = (int*)10;// 주소를 할당하는게 아닌 값을 할당하게됨
+    cout << c1 << endl;
+    
+
+    int c2 = 10;
+    int* c3 = &c2;
+    cout << *c3 << endl;
+    
+
+    //문자열 포인터에서 인덱스 값 접근
+    char* s1y = (char*)"Hello";
+    cout << s1y << endl;
+    cout << s1y[5] << endl; //5는 인덱스 범위를 벗어나므로 문자열 맨뒤인 NULL 값 출력
+
+    //문자 할당 안됨 => 읽기전용 이기 때문에 실행에러(컴파일) 에러남
+    //s1y[0] = 's';
+
+
+    //배열
+    char s10[10] = "Hello"; //배열 할당하고 나머지 메모리공간은 null값으로 채워줌
+    cout << s10 << endl;
+    s10[0] = 'S';
+    cout << s10 << endl;//배열 크기가 정해지면 읽기 전용이 아니게됨
+
+    char s11[] = "Hello";//인덱스값을 부여하지 않고
+
+
+    //문자열 만들기 (배열 또는 포인터로 문자열 받을수 있음) => 포인터는 읽기 전용, 배열은 인덱스 별 사용가능
+
+    char *s1d = (char*)"Beethoven\n9th\nSymphony";
+    cout << s1d << endl;
+
+    //5중 실제저장 4
+    char s2d[5];
+    cin >> s2d;
+    cout << s2d << endl;
+
+
+
+
+#pragma endregion
+
+#pragma region 지뢰찾기
     //지뢰 찾기 알고리즘 문제
     int m5 = 0;
     int n5 = 0;
@@ -43,9 +93,9 @@ int main() {
 
             //3x3배열로 값 비교
             if (matrix5[k][p] != '*') {
-                for (int i = k-1; i <= k+1; i++) {
-                    for (int j = p-1; j <= p+1; j++) {
-                        if (i >= 0 && i < m5 && j >=0 && j < n5) {
+                for (int i = k - 1; i <= k + 1; i++) {
+                    for (int j = p - 1; j <= p + 1; j++) {
+                        if (i >= 0 && i < m5 && j >= 0 && j < n5) {
                             if (matrix5[i][j] == '*') {
                                 matrix6[k][p] += 1;
                             }
@@ -53,7 +103,7 @@ int main() {
                     }
                 }
             }
-        
+
         }
     }
 
@@ -122,7 +172,6 @@ int main() {
 
     //세로 메모리 초기화
     free(matrix5);
-
 
 #pragma endregion
 
