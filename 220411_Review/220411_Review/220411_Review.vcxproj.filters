@@ -21,7 +21,7 @@
     <ClCompile Include="dojang1.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="asd.c">
+    <ClCompile Include="dojangc.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

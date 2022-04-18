@@ -1,4 +1,6 @@
+#define _CRT_SECURE_NO_WARNINGS    // strcat 보안 경고로 인한 컴파일 에러
 #include <stdio.h>
+#include <string.h> // strcpy 함수가 선언된 헤더 파일
 #include <stdlib.h>    // malloc, free 함수가 선언된 헤더 파일
 
 int main()
@@ -20,5 +22,40 @@ int main()
 
     free(numPtr2);    // 동적으로 할당한 메모리 해제
 
+
+    //strcat 포인터 붙이기
+    char* s1 = "world";
+    char* s2 = malloc(sizeof(char) * 20);
+
+    strcpy(s2, "Hello");
+    strcat(s2, s1);
+    printf("%s\n", s2);
+
+
+    //배열형태 문자열을 문자열 포인터에 복사하기
+    char s1a[10] = "Hello";
+    char* s1b = malloc(sizeof(char) * 10);
+    
+    strcpy(s1b, s1a);//s1a 의 문자열을 s1b에 복사 => 포인터에 문자열 들어감
+    printf("%s\n", s1b); //Hello
+    
+    //동적 메모리 해제
+    free(s1b);
+
+    //예제1
+    char s1c[40];
+
+    scanf("%30s", s1c);
+
+    strcat(s1c, "th");
+    printf("%s\n", s1c);
+    
+    //크기가 20인
+
+
+
+
     return 0;
+
+    
 }

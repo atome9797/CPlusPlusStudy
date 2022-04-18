@@ -7,14 +7,14 @@ using namespace std;
 int main() {
 
 #pragma region 포인터2
-
-
+    
 
     //포인터는 타입 상관없이 8바이트이므로 , 문자열 담을수 있다.
     char* s1z = (char*)"Hello"; // 끝에 NULL 들어감  , 문자열 주소가 들어가는거지 값이 들어가는건 아님
     cout << s1z << endl; //문자열 주소를 불러와 값을 가져옴 
 
-    int* c1 = (int*)10;// 주소를 할당하는게 아닌 값을 할당하게됨
+    int* c1 = (int*)10;// 주소를 할당하는게 아닌 값을 할당하게됨 
+    //의문 : int형은 왜 값을 불러올때 int 형 메모리를 생성해야 하는지 ?
     cout << c1 << endl;
     
 
@@ -46,11 +46,70 @@ int main() {
     char *s1d = (char*)"Beethoven\n9th\nSymphony";
     cout << s1d << endl;
 
+
     //5중 실제저장 4
     char s2d[5];
-    cin >> s2d;
-    cout << s2d << endl;
+    cin >> s2d; //4바이트 이상 입력 할수 있는데, 원칙적으로는 -1 공간으로 입력을 받을수 없다. => 그러나 받을수 있게됨
+    cout << s2d << endl; 
+   //원래는 4개의 글자와 \0 마지막 NULL 자리 까지 포함 해서 5개 까지만 받을수 있는데, 왜 더 많이 받을수 있는지 ?
 
+    
+    //문자열 길이 반환 strlen
+    char* s1x = (char*)"Hello";
+    //char s2x[10] = "Helloasdasdasdasd"; => cin으로 입력값을 받을때는 오류가 생겨버림
+    //=> 10 바이트 이상 받게 되면 오류가 생김
+    char s2x[10] = "Hello";
+    
+
+    cout << strlen(s1x) << endl; //NULL 부분은 포함 안됨
+    cout << strlen(s2x) << endl;
+
+    //strcmp : 문자열 길이 비교
+    char s1f[10] = "Hellp";
+    char *s2f = (char*)"Hello";
+    int ret = strcmp(s1f, s2f); //문자열 같으면 0, 다르면 -1 또는 1 => 앞의 문자열이 더 높으면 1, 낮으면 -1
+    cout << "문자열 비교 : " << ret << endl;
+
+
+  
+    //문자열 복사 strcpy => strcpy(복사 대상, 복사체)
+    char s1a[10] = "Hello";
+    char s2a[10];
+
+    // strcpy_s  :에러 나서 바꿈
+    strcpy_s(s2a, s1a); // s1a배열값을 s2a로 복사
+    cout << "복사본 : " << s2a << endl;
+
+    //문자열 복사 strcpy_s 사용하려면 포인터의 경우 메모리 공간을 만들어 줘야한다.
+    char *s1b = (char*)"hello";
+    char* s2b = (char*)malloc(sizeof(char)*10);
+
+    char *strcpy(char *s1b, char*s2b);
+    cout << "포인터 복사본 : " << s1b << endl;
+
+    free(s2b);
+
+
+    //strcat : 문자열 붙이기 
+    char s1c[10] = "world";
+    char s2c[20] = "Hello";
+
+    //s2뒤에 s1을 붙임 => strcat이 오류나서 strcat_s사용
+    strcat_s(s2c, s1c);
+
+    cout << "문자열 붙이기" << s2c << endl;
+    
+
+    //strcat : 포인터 붙이기 => 포인터는 단순히 문자열 쓰면 읽기 전용이라  붙이기 못함
+    //char* s1d = (char*)"world";
+    //char* s2d = (char*)malloc(sizeof(char) * 20);
+    //char* named = (char*)"Hello";
+    //char * strcpy(char*s2d, char*named);
+    //strcat(char*s2d, char*s1d);
+
+    //cout << (char)s2d << endl;
+    //
+    //free(s2d); //동적 메모리 해제
 
 
 
