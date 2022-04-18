@@ -49,13 +49,45 @@ int main()
 
     strcat(s1c, "th");
     printf("%s\n", s1c);
+
+
+
+    //배열에 문자열 만들기 sprintf
+    char s1d[20]; //버퍼로 사용됨
+    sprintf(s1d, "Hello ,%s", "world");
+    printf("%s\n", s1d);
     
-    //크기가 20인
+    char s1e[20];
+    //sprintf(s1e, "Hello ,%s %d %f", "world",10,3.2f);
+    //printf("%s\n", s1e);
+
+    //문자열 포인터에 문자열 만들기
+    char* s1f = malloc(sizeof(char) * 20); //버퍼로 사용됨
+    sprintf(s1f, "Hello, %s", "world");
+    printf("%s\n", s1f);
+    free(s1f);
+    
+    char* s1g = malloc(sizeof(char) * 30);
+    sprintf(s1g, "%c %d %f %e", 'a',10,3.4f,1.123456e-21);
+    printf("%s\n", s1g);
+    free(s1g);
+
+    //strchr : 문자열 검색하기 : 문자열에서 특정문자로 검색해서 이후 문자열 출력
+    char s1h[30] = "A Garden Diary";
+    char* ptr = strchr(s1h, 'a'); 
+    while (ptr != NULL)
+    {
+        printf("%s\n", ptr);
+        ptr = strchr(ptr + 1, 'a'); //1번 ptr 문자열 뽑았으면 다음 해당 글자가 있는 지점 찾아서 출력
+    }
 
 
+    //strrchr : 오른쪽끝을 기준으로 문자열 검색하기 : 문자열에서 특정문자로 검색해서 이후 문자열 출력
+    char s1j[30] = "A Garden Diary";
+    char* ptrj = strrchr(s1j, 'a');
+    
+    //strstr :문자열 안에서 문자열 검색
 
 
     return 0;
-
-    
 }
