@@ -123,7 +123,7 @@ int main()
     scanf(" %[^\n]",v10);
     
     
-    char* ptr10 = strchr(v10, ' '); //문자열을 받기 때문에 문자열 포인터에 문자열 주소가 들어감
+    char* ptr10 = strchr(v10, ' '); //문자열을 받기 때문에 문자열 포인터에 char v10[1001] 배열 주소 들어감
     int count = 0;
     while (ptr10 != NULL) {
         ptr10 = strchr(ptr10 + 1 , ' ');
@@ -134,9 +134,70 @@ int main()
     printf(" %d\n", count);
 
 
-    //strtok : 문자열 자르기 => 포인터 이용하는 방식
-    
+    //strtok : 문자열 자르기 => 포인터 이용하는 방식 (s100의 주소를 받음) 
+    char s100[30] = "The Little Prince";
+    char* ptr100 = strtok(s100, " "); //s100 배열중 띄어쓰기 부분까지 짤라서  포인터에 주소와 값 입력
+    //토큰 [0][1][2] 
 
+    while (ptr100 != NULL) {
+        printf("%s\n", ptr100);
+        ptr100 = strtok(NULL, " "); //NULL 을 넣어주면 버퍼에 있는 저장값의 다음 문자열을 불러옴
+    } //=> 자르는 부분에 NULL 을 널어 줌으로 원본이 바뀌는것 주의
+
+
+
+    char s1h50[30] = "A Garden Diary";
+    char* ptr50 = strchr(s1h50, 'a');
+    while (ptr50 != NULL)
+    {
+        printf("%s\n", ptr50);
+        ptr50 = strchr(ptr50 + 1, 'a'); //1번 ptr 문자열 뽑았으면 다음 해당 글자가 있는 지점 찾아서 출력
+    }
+
+
+    //malloc 문자열 자르기
+    char* s101 = malloc(sizeof(char*) * 30); //버퍼, 동적 메모리
+    strcpy(s101, "The Little Prince");// 문자열값 복사해서 할당
+
+    char* ptr101 = strtok(s101, " ");
+    while (ptr101 != NULL)
+    {
+        printf("%s\n", ptr101);
+        ptr101 = strtok(NULL, " "); //버퍼 값의 " "부분을 불러와 NULL로 채워줌
+    }
+    free(s101);
+
+
+    //다양한 기준문자 지정해서 문자열 자르기
+    char s102[30] = "2015-06-10T15:32:19";
+    char* ptr102 = strtok(s102, "-T:");//기준문자 여러개 가능
+    
+    while (ptr102 != NULL)
+    {
+        printf("%s\n", ptr102);
+        ptr102 = strtok(NULL, "-T:"); //버퍼 값의 "-T:"부분을 불러와 NULL로 채워줌
+    }
+
+    //자른 문자열 배열에 담고 출력하기
+    char s103[30] = "The Little Prince";
+    char* sArr103[10] = { NULL, };//배열 담을 저장소
+    int i = 0;
+
+    char* ptr103 = strtok(s103, " ");
+    while (ptr103 != NULL)
+    {
+        sArr103[i] = ptr103;//토큰별로 자른 값을 넣어줌
+        i++;
+        ptr103 = strtok(NULL, " ");//띄어쓰기 자리에 null 넣어줌
+    }
+
+    for (int i = 0; i < 10; i++)
+    {
+        if (sArr103[i] != NULL)
+        {
+            printf("%s\n", sArr103[i]);
+        }
+    }
 
     return 0;
 }
