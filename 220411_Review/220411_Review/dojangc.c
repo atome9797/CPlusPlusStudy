@@ -86,7 +86,56 @@ int main()
     char s1j[30] = "A Garden Diary";
     char* ptrj = strrchr(s1j, 'a');
     
-    //strstr :문자열 안에서 문자열 검색
+    //strstr :문자열 안에서 문자열 검색 : 해당 문자열이 있는곳 검색해서 이후 문자열 출력
+    char s1k[30] = "A Garden Diary";
+    char* ptrk = strstr(s1k, "den");
+    printf("%s\n", ptrk);
+    
+    while (ptrk != NULL) {
+        printf("%s\n", ptrk);
+        ptrk = strstr(ptrk + 1, "den");
+    }
+
+    //예제
+    char s1m[30] = "Alice in Wonderland";
+    char* ptrm = strchr(s1m, 'n');
+    
+    //n자리에서 출력하면됨
+    
+    while (ptrm != NULL) {
+        printf("%s\n", ptrm);
+        ptrm = strchr(ptrm + 1, 'n');
+    }
+
+
+    printf("============== strtchr\n");
+    char s1o[30] = "The Little Prince";
+    char* ptro = strrchr(s1o , 'i');
+    printf("%s\n", ptro);
+
+    
+    printf("================= 문자열\n");
+
+    
+    char v10[1001];
+    printf("문자열을 입력하세요 :");
+    //%[^\n] 사용시 오류 나면 한칸 띄어쓰기 해주기
+    scanf(" %[^\n]",v10);
+    
+    
+    char* ptr10 = strchr(v10, ' '); //문자열을 받기 때문에 문자열 포인터에 문자열 주소가 들어감
+    int count = 0;
+    while (ptr10 != NULL) {
+        ptr10 = strchr(ptr10 + 1 , ' ');
+        count++;
+    }
+
+
+    printf(" %d\n", count);
+
+
+    //strtok : 문자열 자르기 => 포인터 이용하는 방식
+    
 
 
     return 0;
