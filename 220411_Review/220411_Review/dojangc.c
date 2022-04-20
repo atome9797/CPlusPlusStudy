@@ -2,9 +2,17 @@
 #include <stdio.h>
 #include <string.h> // strcpy 함수가 선언된 헤더 파일
 #include <stdlib.h>    // malloc, free 함수가 선언된 헤더 파일
+#include <stdbool.h>
 
 int main()
 {
+
+#pragma region 구조체
+
+#pragma endregion
+
+#pragma region 포인터와문자열 
+
     int num1 = 20;    // int형 변수 선언
     int* numPtr1;     // int형 포인터 선언
 
@@ -334,12 +342,45 @@ int main()
     printf("문자열 숫자로 변환\n");
     scanf(" %[^\n]", s125);
 
-    num125 = strtof(s125, &end125); //실수 부분을 끊어줌, 
-    num126 = strtof(end125, &end125); //실수 부분을 끊어줌, 
-    num127 = strtof(end125, NULL); //마지막 문자열 만나고 NULL로 끝남
+    num125 = strtol(s125, &end125,16); //16 진수로 출력 
+    num126 = strtol(end125, &end125,10); //10진수로 출력 
+    num127 = strtof(end125, NULL); //실수형으로 출력
     printf("0x%x\n", num125);
     printf("%d\n", num126);
     printf("%f\n", num127);
     
+    //정수,실수를 문자열로 변환
+    char s128[10];
+    char s129[10];
+    int num128;
+    float num129;
+
+    scanf("%d %f", &num128, &num129); //포인터가 아닌 변수를 넣을때는 주소로 넣어줌
+
+    sprintf(s128, "%d", num128);
+    sprintf(s129, "%f", num129);
+
+    printf("%s\n", s128);
+    printf("%s\n", s129);
+
+    //회문 판별과 n-gram 만들기
+    char word1[30];
+    int length1;
+    bool isPalindrome1 = true;
+
+    printf("단어를 입력하세요. :");
+    scanf("%s", word1);
+    
+    length1 = strlen(word1);
+    for (int i = 0; i < length1/2; i++) {
+        if (word1[i] != word1[length1-1-i]) {//왼쪽 과 오른족이 같지 않으면
+            isPalindrome1 = false;
+            break; //회문이 아니므로 끝냄
+        }
+    }
+    printf("%d\n", isPalindrome1);
+
+#pragma endregion
+
     return 0;
 }
