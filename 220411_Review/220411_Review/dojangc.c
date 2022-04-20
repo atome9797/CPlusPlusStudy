@@ -139,6 +139,7 @@ int main()
     char* ptr100 = strtok(s100, " "); //s100 배열중 띄어쓰기 부분까지 짤라서  포인터에 주소와 값 입력
     //토큰 [0][1][2] 
 
+
     while (ptr100 != NULL) {
         printf("%s\n", ptr100);
         ptr100 = strtok(NULL, " "); //NULL 을 넣어주면 버퍼에 있는 저장값의 다음 문자열을 불러옴
@@ -199,5 +200,146 @@ int main()
         }
     }
 
+
+    char s104[40] = "Alice's Adventures in Wonderland";
+    char* ptr104 = strtok(s104, " ");
+    while (ptr104 != NULL)
+    {
+        printf("%s\n", ptr104);
+        ptr104 = strtok(NULL, " "); //버퍼 안에 있는 " " 부분을 NULL로 변경함
+    }
+
+
+    char s105[100];
+    printf("주소 입력 :");
+    scanf("%s", s105);
+    char* ptr105 = strtok(s105, ".");
+    while (ptr105 != NULL) {
+        printf("%s\n", ptr105);
+        ptr105 = strtok(NULL, ".");
+    }
+
+    //문자열과 숫자를 서로 변환하기
+    char* s106 = "283"; //문자열 주소 추가
+    int num106;
+    
+    num106 = atoi(s106); //문자열을 정수로 변환
+    printf("%d\n", num106);
+
+    //특정 진법 문자열을 정수로표현
+    char* s107 = "0xaf10";
+    int num107;
+    num107 = strtol(s107, NULL, 16);//16진수 문자열을 정수로 바꾸기 
+    //=> strtol 함수에서 문자열 띄어쓰기 또는끝부분에 null 을 넣어 줌으로써 짤라서 출력하게 해줌
+       
+    printf("%x %d\n", num107, num107);//%x는 16진수로 표현  => af10 44816
+
+    char* s108 = "0xaf10 42 0x27C 9952";
+    int num108;
+    int num109;
+    int num110;
+    int num111;
+    char* end;
+
+    num108 = strtol(s108, &end, 16); //s108 char 불러와 end주소에 16진수로 띄어쓰기까지 끊어서 넣어줌
+    num109 = strtol(end, &end, 16); //42 0x27C 9952 불러와 end 주소에 16진수로 띄어쓰기까지 끊어서 넣어줌
+    num110 = strtol(end, &end, 16); //0x27C 9952 불러와 띄어쓰기 까지 끊어서 end에 저장함
+    num111 = strtol(end, NULL, 16); //9952 는 null 만나고 끝나고 마직막 end값을 num111에 저장함
+
+    printf("%x\n", num108);
+    printf("%d\n", num109);
+    printf("%x\n", num110);
+    printf("%d\n", num111);
+
+
+    //문자열을 실수로 변환
+    char* s112 = "35.283672";
+    float num112;
+    
+    num112 = atof(s112);
+    printf("%f\n", num112);
+
+    char* s113 = "35.283672 3.e5 9.281772 7.e-5";
+    float num113;
+    float num114;
+    float num115;
+    float num116;
+    char* end113;
+    
+    num113 = strtof(s113, &end113); //s113문자열을 띄어쓰기 부분에서 자른후 나머지값을 포인터에 대입
+    num114 = strtof(end113, &end113); //포인터에 대입한 값에서 띄어쓰기 부분에서 자른후 나머지값을 다시 포인터에 대입
+    num115 = strtof(end113, &end113);
+    num116 = strtof(end113, NULL); //문자열의 NULL 만나면 종료
+
+    printf("%f\n",num113);
+    printf("%e\n",num114);
+    printf("%f\n",num115);
+    printf("%e\n",num116);
+
+    //정수를 문자열로 변환하기
+    char s117[10];
+    int num117 = 283;
+    sprintf(s117, "%d", num117); //정수를 문자열로 변환
+    printf("%s\n", s117);
+    sprintf(s117, "%x", num117); //정수를 문자열로 변환
+    printf("%s\n", s117);
+    sprintf(s117, "%X", num117); //정수를 문자열로 변환
+    printf("%s\n", s117); //16진수 출력함
+
+    //실수를 문자열로 변환
+    char s118[10];
+    float num118 = 38.972340f;
+    sprintf(s118, "%f", num118);
+    printf("%s\n", s118);
+    
+    //예제
+    char* s119 = "0x1facefee";
+    int num119;
+    num119 = strtol(s119, NULL, 16); //첫인자 : NULL로 종결되는 부분을 포함하는 문자열 포인터, 두번째 인자 : 변환이 멈춘 문자열 포인터, 새번째 : 진수
+    printf("0x%X\n", num119); //16진수로 출력
+
+    //예제2 문자열을 실수로 변환
+    char* s120 = "97.527824";
+    float num120;
+    num120 = atof(s120);
+    printf("%f\n", num120);
+
+    //예제2 문자열 실수로 변환
+    char* s121 = "29.977213 4528.112305";
+    float num121;
+    float num122;
+    char* end121;
+
+    num121 = strtof(s121, &end121); //문자열을 문자 끊어지는데까지 받고 포인터에 나머지 넣기 그리고 float 에 받은값 담기
+    num122 = strtof(end121, NULL); //문자열을 문자 끊어지는데까지 받고 NULL이면 끝내기 그리고 float 에 받은값 담기
+
+    printf("%f\n", num121);
+    printf("%f\n", num122);
+    
+    //예제3 숫자를 문자열로 변환하기
+    char* s123[10];
+    float num123 = 98.415237f;
+    int num124 = 0x3fce1920;
+    sprintf(s123, "%f 0x%x", num123, num124);
+
+    printf("%s\n", s123);
+    
+    //예제 4 문자열 숫자로 변환하기
+    char s125[50];
+    int num125;
+    int num126;
+    float num127;
+    char* end125;
+
+    printf("문자열 숫자로 변환\n");
+    scanf(" %[^\n]", s125);
+
+    num125 = strtof(s125, &end125); //실수 부분을 끊어줌, 
+    num126 = strtof(end125, &end125); //실수 부분을 끊어줌, 
+    num127 = strtof(end125, NULL); //마지막 문자열 만나고 NULL로 끝남
+    printf("0x%x\n", num125);
+    printf("%d\n", num126);
+    printf("%f\n", num127);
+    
     return 0;
 }
