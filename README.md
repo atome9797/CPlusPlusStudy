@@ -3,17 +3,19 @@
 ## 1. 연산자 
 
 ### 1) 출력 연산자 =>  <<
-### 2) 입력 연산자 =>  >>
+### 2) 입력 연산자 =>  >>  
+</br>
 
-2. std:: => <iostream> 라이브러리에 존재하는 표준클래스
-=> #include <iostream>으로 선언후 사용
-=> using namespace std 선언시 std:: 생략가능 ex) std::string helloText = "Hello World"; cout <<  sizeof(helloText) << endl;
+## 2. std:: => <iostream> 라이브러리에 존재하는 표준클래스
+- #include <iostream>으로 선언후 사용
+- using namespace std 선언시 std:: 생략가능 ex) std::string helloText = "Hello World"; cout <<  sizeof(helloText) << endl;
 
-3. std::cin, std::cout, std::endl
-  1) std::cin => 데이터를 입력 받을때 사용 ex) int num = 3; std::cin >> num; => 입력값을 새로 받는다 
-  2) std::cout => 결과값을 출력할때 사용 ex) std::cout << num << "hellon\n";
-  3) std::endl => 개행문자로 사용 ex) std::cout << num << std::endl; => \n
+## 3. std::cin, std::cout, std::endl
+###  1) std::cin => 데이터를 입력 받을때 사용 ex) int num = 3; std::cin >> num; => 입력값을 새로 받는다 
+### 2) std::cout => 결과값을 출력할때 사용 ex) std::cout << num << "hellon\n";
+### 3) std::endl => 개행문자로 사용 ex) std::cout << num << std::endl; => \n
 
+```
 ex) 
 
 #include <iostream>
@@ -23,25 +25,30 @@ int main(){
  cout << "Hello World";
  return 0;
  }
- 
-4. 변수의 구성요소 
-   1) 이름 : testNum 2) 데이터 크기 :  4btye 3) 메모리 주소 00000059686FFAD4 4) 값 2.8
-   cout << &testNum << endl; // &사용시 메모리 주소나옴
+ ```
 
-5. 변수명 이름 규칙
- 1) 카멜기법, 파스칼 기법, 스네이크 기법, 헝가리안 기법 , 케밥 기법
+## 4. 변수의 구성요소 
+- 이름 : testNum 2) 데이터 크기 :  4btye 3) 메모리 주소 00000059686FFAD4 4) 값 2.8
+- cout << &testNum << endl; // &사용시 메모리 주소나옴
+
+## 5. 변수명 이름 규칙
+### 1) 카멜기법, 파스칼 기법, 스네이크 기법, 헝가리안 기법 , 케밥 기법
  
-6. 연산자 
- 1) 사칙 연산 
-  
+## 6. 연산자 
+### 1) 사칙 연산 
+
+```  
   cout << "+ : " << left_value + right_value << endl;
   cout << "- : " << left_value - right_value << endl;
   cout << "* : " << left_value * right_value << endl;
   cout << "/ : " << left_value / right_value << endl;
   cout << "% : " << left_value % right_value << endl;
+```
+
   
- 2) 대입 연산
+## 2) 대입 연산
  
+```
     //left_value = left_value + right_value; or left_value += right_value;
     //cout << "+= : " << left_value << endl;
  
@@ -53,11 +60,13 @@ int main(){
     cout << "*= : " << (left_value *= right_value) << endl;
     cout << "/= : " << (left_value /= right_value) << endl;
     cout << "%= : " << (left_value %= right_value) << endl;
+```
+
+## 3) 증감 연산자 
  
- 3) 증감 연산자 
- 
-   ++가 뒤에 있으면 실행문이 종료가 되어야 값이 변한다.
-   
+-   ++가 뒤에 있으면 실행문이 종료가 되어야 값이 변한다.
+
+```  
    int left_value = 14;
    int right_value =3;
    
@@ -66,18 +75,21 @@ int main(){
  
    cout << left_value-- << endl; // 출력 : 16, 메모리 : 15
    cout << --left_value << endl; // 출력 : 14, 메모리 : 14
+```   
    
-   
- 4) 관계 연산자
-   두 값을 비교한 결과가 참(1,true)인지 거짓인지(0,false)인지 반환하는 연산자
+## 4) 관계 연산자
+-   두 값을 비교한 결과가 참(1,true)인지 거짓인지(0,false)인지 반환하는 연산자
 
+###
        < : a < b : 왼쪽 항의 값이 오른쪽 항의 값보다 작으면 참을 반환한다.
        > : a > b : 왼쪽 항의 값이 오른쪽 항의 값보다 크면 참을 반환한다.
        <= : a <= b : 왼쪽 항의 값이 오른쪽 항의 값보다 작거나 같으면 참을 반환한다.
        >= : a >= b : 왼쪽 항의 값이 오른쪽 항의 값보다 크거나 같으면 참을 반환한다.
        == : 왼쪽 항의 값과 오른쪽 항의 값이 같을때, 참을 반환한다.
        != : 왼쪽 항의 값과 오른쪽 항의 값이 다를때, 참을 반환한다
-       
+###
+
+```      
    int customer_age2;
    cout << "고객의 나이를 입력하세요.";
    cin >> customer_age2;
@@ -85,9 +97,11 @@ int main(){
    cout << "고객님은 미성년자가 " << (customer_age2 <= 19) << "입니다." << endl;
    cout << "고객님은 주민등록발급대상 " << (customer_age2 == 20) << "입니다" << endl;
    cout << "고객님은 아홉수 " << ((customer_age2 % 10) == 9) << "입니다" << endl;
- 
- 5) 논리 연산자 
-   두 값을 비교해서 참과 거짓을 반환하는 연산자
+```
+
+## 5) 논리 연산자 
+-   두 값을 비교해서 참과 거짓을 반환하는 연산자
+###
         && : 논리 곱 (AND)
         a && b  :  a의 결과 값이 참이고, b의 결과값이 참이면 1을 반환
 
@@ -96,24 +110,28 @@ int main(){
 
         ! : 논리 부정(NOT)
         !a : a 의 결과값이 참이면 거짓을 반환, 거짓이면 참을 반환
-        
+
+###
+
     cout << !1 << endl; // 0이 출력
     cout << !0 << endl; // 1이 출력
     cout << !-300 << endl; // 0이 출력
+###
 
-  6) 삼항 연산자
-  a ? b : c; a의 결과값이 참이면 b 실행문이 동작, 거짓이면 c실행문이 동작.
-    (10 < 5) ? cout << "10이 5보다 크다." << endl : cout << "10이 5보다 작다" << endl;
+##  6) 삼항 연산자
+-  a ? b : c; a의 결과값이 참이면 b 실행문이 동작, 거짓이면 c실행문이 동작.
+-    (10 < 5) ? cout << "10이 5보다 크다." << endl : cout << "10이 5보다 작다" << endl;
     
- 7) 난수
-   rand(); -> 랜덤 값 나옴 // 0 ~ 32767 사이의 랜덤한 값이 반환된다. 
+## 7) 난수
+-   rand(); -> 랜덤 값 나옴 // 0 ~ 32767 사이의 랜덤한 값이 반환된다. 
         : 2 바이트의 최대 표현 범위에서 나옴 
         함수 내부에 seed값이 있어서 이 값에 의해서 리턴값이 정해진다.
         기본적으로 seed : 1로 세팅되어 있다.
 
-   srand(time(NULL)); => 컴퓨터는 난수를 출력할수 없다. 난수를 만드는 계산식만 표함하고 있기 때문에 시드속성을 부여해서, 난수를 만든다.
+-   srand(time(NULL)); => 컴퓨터는 난수를 출력할수 없다. 난수를 만드는 계산식만 표함하고 있기 때문에 시드속성을 부여해서, 난수를 만든다.
                          시드로는  "시간"을 부여한다.
    
+```
    EX) 3 ~7 사이의 난수 값을 구하시오. 
         int ran_num;
         ran_num = 3 , 4, 5,6,7
@@ -121,8 +139,11 @@ int main(){
         srand(time(NULL));
         ran_num = rand() % 5 +3;     => rand() % (임의의 큰수 - 작은수 +1 )+ 작은수
    
-   
-  8) 제어문 
+```
+
+##  8) 제어문
+
+```
     1-1. 조건문 : if/switch
     1-2. 반복문 : while/for/do-while
  
@@ -186,14 +207,15 @@ int main(){
         }
         
     } while (val_num != val_num2);
-    
+```    
     
     1-3) for문 반복문
     구구단 출력 문제, 별찍기 문제 참고 
     
     
- 9) 배열 
-   
+## 9) 배열 
+
+```   
         배열 (자료구조)
      같은 데이터 타입의 여러 변수를 하나의 묶음으로 나타낸 것.
 
@@ -209,7 +231,7 @@ int main(){
       -> 3개의 반에 각각 5명의 학생이 있다.
      3차원 배열 : int student_nums[4][3][5]; -> 메모리 주소는 이어져 있다. // 60개 int
       -> 4개의 학년에 각각 3개 반이 존재 하고, 각 반에 5명의 학생이 있다.
-
+```
 
      //입력 :
      int array_gugu[9][9];
@@ -230,9 +252,10 @@ int main(){
 
      cout << dan << " * " << gob << " = " << array_gugu[dan-1][gob-1] << endl;
  
+```
+```
 
-  
- 10) _getch()
+## 10) _getch()
     
     (엔터 없이)문자 하나를 입력받는 방법
     
@@ -240,7 +263,7 @@ int main(){
 	   cout << input_key_char << endl; //문자 값이 나옴  => 엔터 안해도됨
  
  
- 11) 구조체 
+## 11) 구조체 
  
     변수 모아두는 "클래스"!!랑 비슷한 개념
 	- 변수를 모아 놓은 집합체
@@ -250,10 +273,10 @@ int main(){
 	- '학생'의 땡땡땡
 	- 이름, 나이, 국어 점수, 석차 등등을 '학생' 이라는 구조체로 묶어서 사용
 	
-	1. 구조체를 정의하는 위치 : 구조체가 사용되는 함수의 앞에 구조체는 정의한다.
+###	1. 구조체를 정의하는 위치 : 구조체가 사용되는 함수의 앞에 구조체는 정의한다.
 	(해당 함수의 바깥쪽 위)
 
-	2. 구조체 정의 방법
+###	2. 구조체 정의 방법
 	struct 구조체 변수명 {
 		구조체 안에  들어갈 하위 변수들
 		(위의 예시에 따르면 이름,나이,국어점수, 석차 같은 애들이 하위 변수다.)
