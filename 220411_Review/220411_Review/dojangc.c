@@ -3,13 +3,269 @@
 #include <string.h> // strcpy 함수가 선언된 헤더 파일
 #include <stdlib.h>    // malloc, free 함수가 선언된 헤더 파일
 #include <stdbool.h>
+#include <math.h>
+#include <stddef.h>
+
+#pragma region 구조체선언
+struct Person {//구조체 명은 태그라 한다
+
+    char name[20];
+    int age;
+    char address[100];
+
+} p1; //전역변수로 구조체 변수선언 : 어떤 함수에도 속하지 않은 변수를 전역 변수라함
+
+
+typedef struct Person_test {
+    char name[20];
+    int age;
+    char address[100];
+} test;
+
+struct Data {
+
+    char c123;
+    int* numPtr123;//구조체 안에서 포인터를 받음
+};
+
+
+struct Point2D {
+    int x;
+    int y;
+};
+
+struct Rectangle {
+    int x1, y1;
+    int x2, y2;
+};
+
+#pragma pack(push,1)
+struct PacketHeader {
+
+    char flags;
+    int seq;
+};
+#pragma pack(pop)
+
+#pragma endregion
+
+#pragma region typedef선언 
+
+    // 예제
+typedef struct _Point3D {
+    float x;
+    float y;
+    float z;
+} Point3D;
+
+    //typedef : 형식을 정의하는 클래스 : 자료형에 별칭을 부여하고 선언
+typedef int MYINT; //int형의 별칭 선언
+typedef int *PMYINT;//포인터의 별칭 선언
+
+    //typedef 구조체 태그명 생략가능
+typedef struct {
+    char name[20];
+    int age;
+    char address[100];
+    char asd;
+} User;
+
+
+
+#pragma endregion
 
 int main()
 {
 
 #pragma region 구조체
 
+    /*
+        struct 태그 {
+            자료형 멤버이름;
+        };
+
+        typedef struct 태그 {
+            자료형 멤버이름;
+        } 타입이름;
+    */
+    
+    //struct Person p1; //구조체명(태그) 과 구조체 변수선언 => 전역변수를 선언하면 따로 선언할 필요없음
+    strcpy(p1.name, "홍길동");//문자열 넣어줌
+    p1.age = 30;
+    strcpy(p1.address, "서울시 광진구");
+
+    printf("이름 : %s\n", p1.name);
+    printf("나이 : %d\n", p1.age);
+    printf("주소 : %s\n", p1.address);
+
+    
+    //구조체 변수 선언과 동시에 초기화 하기
+    struct Person p2 = { "김영훈",27,"서울시 용산구" };
+
+    //별칭으로 선언
+    test t1;
+    strcpy(t1.name, "김영훈");
+    t1.age = 30;
+    strcpy(t1.address, "제주특별시");
+
+    printf("이름 : %s\n", t1.name);
+    printf("나이 : %d\n", t1.age);
+    printf("주소 : %s\n", t1.address);
+
+
+    //typedef
+
+    MYINT numMY; //별칭에서 변수 선언
+    PMYINT numPtrMY; //별칭에서 변수 선언
+
+    numPtrMY = &numMY;
+
+    //2중 포인터로 선언
+    PMYINT* numPtrMY2; //2중포인터 됨
+
+
+    User ip;
+    strcpy(ip.name, "김영훈");
+    ip.age = 27;
+    strcpy(ip.address, "경기도");
+    //strcpy(ip.asd, "a"); => 문자열을 받을수 없어서 안됨
+    ip.asd = 'a';
+    printf("문자 : %c\n", ip.asd);
+    
+    //포인터를 사용해야 하는 이유
+    /*
+        변수 접근이 용이 상수가 아니라 값을 변화시키는데 용이
+        메모리 절약가능
+    */
+
+
+    printf("구조체 공간 : %d\n", sizeof(struct Person_test)); //구조체 공간은 구조체안의 변수의 데이터 공간만큼 할당됨
+
+    //구조체의 포인터 생성
+    struct Person_test* pt1 = malloc(sizeof(struct Person_test));
+
+    //화살표 연산자로 구조체 멤버 접근 한다. 
+    strcpy(pt1->name, "김영훈");
+    pt1->age = 26;
+    strcpy(pt1->address, "서울특별시");
+    //strcpy((*pt1).address, "서울특별시"); 화살표 연산자 대신 .으로도 표현 가능하다.
+    //pointer to struct Person_test 에서 pointer to 가 (*pt1) 로 제거되서 표현 가능해짐
+    
+    printf("%s\n", pt1->name);
+    printf("%d\n", pt1->age);
+    printf("%s\n", pt1->address);
+
+    free(pt1);
+
+
+    int num100 = 10;
+    struct Data dt; //구조체 변수 선언
+    struct Data* dt2 = malloc(sizeof(struct Data)); //구조체메모리공간을 포인터로 받기
+    
+    dt.numPtr123 = &num100; //int 메모리 주소값을 구조체의 int형 변수에 대입
+    dt2->numPtr123 = &num100; //구조체의 포인터변수에 int형 변수를 할당
+    
+    printf("구조체 변수 주소 : %d\n", *dt.numPtr123);//포인터가 아니더라도 주소값을 할당해주면 역참조시 값을 가져올수있다.
+    printf("구조체 포인터변수에 int주소 할당값 : %d\n", *dt2->numPtr123);//값 잘나옴
+
+    dt2->c123 = 'a';
+    printf("%c\n",(* dt2).c123);
+    printf("%d\n", *(*dt2).numPtr123);//포인터 구조체에서 포인터를 찾아 가져옴
+    printf("%d\n", *dt2->numPtr123);//포인터 구조체에서 역참조해, 구조체를 가져온뒤 구조체의 포인터를 역참조해 값을 불러온다.
+
+    free(dt2);
+
+    //포인터는 주소값에 접근 하는것으로 역참조는주소값을 거슬러 올라가 값을 출력 해주는 역할을 한다.
+    //int *ptr = &abc; 라는 값이 있을때 int adc의 주소를 참조한 포인터로써 주소값을 가지고 있지만 
+    //int abd = 10이라는 값을 가지고 있다면  포인터 ptr은 int abc를 역추적해서 값 10 을 불러온다.
+
+    /*
+        결론 : *(*dt2).numPtr123)는 dt2 포인터로 역추적하고, 구조체의 포인터로 *으로 역추적해서 포인터의 값을 불러온다.
+    */
+
+    //구조체 포인터에 구조체 변수 할당
+    struct Person_test pt100;
+    struct Person_test* pt200;
+    
+    pt200 = &pt100; //포인터 구조체에 구조체 할당
+    pt200->age = 30;
+    printf("나이 : %d\n", pt200->age);
+    printf("나이 : %d\n", (* pt200).age); //포인터 역추적후 구조체에 접근
+
+
+    Point3D* p1 = malloc(sizeof(Point3D));
+    
+    p1->x = 10.0f;
+    p1->y = 20.0f;
+    p1->z = 30.0f;
+
+    free(p1);
+
+    char asd[10] = "asdasd";
+
+
+    //두점 사이의 거리 구하기
+    struct Point2D p2d1; //구조체 1
+    struct Point2D p2d2; //구조체 2
+    
+    p2d1.x = 30;//구조체 1의 x값
+    p2d1.y = 20;//구조체 1의 y값
+    
+    p2d2.x = 60;//구조체 2의 x값
+    p2d2.y = 50;//구조체 2의 y값
+
+    printf("p2d1 : %d %d\n", p2d1.x, p2d1.y);
+    printf("p2d2 : %d %d\n", p2d2.x, p2d2.y);
+
+    //피타고라스 이용 c^2 = a^2+d^2
+    int numa = p2d2.x - p2d1.x; //x좌표의 거리 구하기
+    int numb = p2d2.y - p2d1.y;// y좌표 거리 구하기
+
+    //제곱근 함수 sqrt 사용 => 4의 제곱근은 2, -2 => 음수의 제곱근은 sqrt(-d) 로 사용한다.
+    double numc = sqrt((numa* numa) + (numb*numb));
+    //double numc = sqrt(pow(numa,2) + pow(numb,2)); 
+    //pow 함수를 이용하여, 제곱을 할수도 있다.
+    printf("%f\n", numc);
+
+    //절댓값을 구할때 사용
+    int negative_number = abs(-10);
+    float negative_number2 = fabs(-10.459);
+    float negative_number3 = fabsf(-16.364);
+
+    printf("절댓값 : %d\n", negative_number);
+    printf("절댓값2 : %.3f\n", negative_number2);
+    printf("절댓값3 : %.3f\n", negative_number3);
+
+
+    //사각형 넓이 구하기 예제1
+    struct Rectangle rect;
+    int area;
+
+    rect.x1 = 20; //a점
+    rect.y1 = 20;//a점
+    rect.x2 = 40;//b점
+    rect.y2 = 30;//b점
+    
+    area = abs(rect.x1 - rect.x2) * abs(rect.y1 - rect.y2);
+    
+    
+    //구조체 크기 
+    struct PacketHeader header;
+    printf("%d\n", sizeof(header.flags)); //1바이트 나옴
+    printf("%d\n", sizeof(header.seq));//4바이트 나옴
+    printf("%d\n", sizeof(header));//8바이트 나옴 => 왜냐하면 구조체는 가장큰 자료형의 크기의 배수로 정렬함
+    //5바이트중 남은 3바이트 공간을 채워 주는데 , 이것을 패딩(padding)이라고 한다.
+    printf("%d\n", sizeof(struct PacketHeader));
+
+    //offsetof : 멤버의 메모리위치구하기
+    printf("%d\n", offsetof(struct PacketHeader, flags));//메모리 0바이트위치 시작
+    printf("%d\n", offsetof(struct PacketHeader, seq)); //메모리 4바이트 위치에서 시작
+
+    
+
 #pragma endregion
+
+    printf("========== 구조체 end ===========\n");
 
 #pragma region 포인터와문자열 
 
@@ -379,6 +635,9 @@ int main()
         }
     }
     printf("%d\n", isPalindrome1);
+
+    //구조체
+
 
 #pragma endregion
 
