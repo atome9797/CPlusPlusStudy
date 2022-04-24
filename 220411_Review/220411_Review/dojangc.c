@@ -261,8 +261,129 @@ int main()
     printf("%d\n", offsetof(struct PacketHeader, flags));//메모리 0바이트위치 시작
     printf("%d\n", offsetof(struct PacketHeader, seq)); //메모리 4바이트 위치에서 시작
 
-    
 
+    //구조체 메모리 활용하기
+    struct Point2D pt2d;
+    memset(&pt2d, 0, sizeof(struct Point2D));//구조체에 접근해서 구조체 0(null)으로 초기화 함
+                                            //0비트는 null과 동일 (int형이면 0값 출력)
+    printf("메모리 초기화 : %d %d\n", pt2d.x, pt2d.y);
+
+
+    //포인터를 사용한 메모리 초기화
+    struct Point2D* ppt2d = malloc(sizeof(struct Point2D));
+    memset(ppt2d, 0, sizeof(struct Point2D));//포인터 구조체에 접근해(어차피 구조체와 동일) 구조체를 메모리 초기화
+    printf("포인터 메모리 초기화 : %d %d\n", ppt2d->x, ppt2d->y);//포인터에서 구조체 접근하는법
+    free(ppt2d);
+
+
+    //구조체와 메모리 복사하기
+    struct Point2D pt101;
+    struct Point2D pt102;
+    pt101.x = 10;
+    pt101.y = 10;
+    //목적지 , 원본 , 메모리크기
+    memcpy(&pt102, &pt101, sizeof(struct Point2D));
+
+    printf("복사 : %d %d \n", pt102.x, pt102.y);
+
+    //포인터로 메모리 복사하기
+    struct Point2D * pt103 = malloc(sizeof(struct Point2D));
+    struct Point2D * pt104 = malloc(sizeof(struct Point2D));
+    
+    pt103->x = 10;
+    pt103->y = 20;
+    //목적지 , 원본 , 메모리크기
+    memcpy(pt104, pt103, sizeof(struct Point2D));
+    printf("포인터 복사 : %d %d\n", pt104->x, pt104->y);
+    free(pt103);
+    free(pt104);
+
+
+    //구조체 배열 사용하기
+    struct Point2D pt105[3];//구조체에 배열 붙여 사용
+    pt105[0].x = 10;
+    pt105[0].y = 20;
+    pt105[1].x = 30;
+    pt105[1].y = 40;
+    pt105[2].x = 50;
+    pt105[2].y = 60;
+    
+    printf("구조체 배열0 : %d %d\n", pt105[0].x, pt105[0].y);
+    printf("구조체 배열1 : %d %d\n", pt105[1].x, pt105[1].y);
+    printf("구조체 배열2 : %d %d\n", pt105[2].x, pt105[2].y);
+
+    //구조체 배열 초기화
+    //구조체 배열을 선언 하면서 초기화1
+    struct Point2D pt106[3] = { {.x = 10,.y = 20}, {.x = 30,.y = 40},{.x = 50,.y = 60} };//인덱스 없이 사용
+    
+    printf("구조체 배열 초기화 0 : %d %d\n", pt106[0].x, pt106[0].y);
+    printf("구조체 배열1 : %d %d\n", pt106[1].x, pt106[1].y);
+    printf("구조체 배열2 : %d %d\n", pt106[2].x, pt106[2].y);
+
+    //// 구조체 배열을 선언하면서 초기화2
+    struct Point2D pt107[3] = {{10,20},{30,40},{50,60}};
+    printf("구조체 배열 초기화 2 0 : %d %d\n", pt107[0].x, pt107[0].y);
+    printf("구조체 배열1 : %d %d\n", pt107[1].x, pt107[1].y);
+    printf("구조체 배열2 : %d %d\n", pt107[2].x, pt107[2].y);
+
+    //// 구조체 배열을 선언하면서 0으로 초기화
+    struct Point2D pt108[3] = { 0, }; 
+
+    
+    // 포인터 구조체 배열 선언하기
+    struct Point2D* pt109[3]; //포인터 구조체 배열
+    // 포인터 배열 사이즈 / 포인터 => 배열 크기 나옴
+    for (int i = 0; i < sizeof(pt109)/sizeof(struct Point2D *); i++) {
+        pt109[i] = malloc(sizeof(struct Point2D)); //포인터 구조체 배열에 구조체 대입
+    }
+
+
+    pt109[0]->x = 10;
+    pt109[0]->y = 20;
+    pt109[1]->x = 30;
+    pt109[1]->y = 40;
+    pt109[2]->x = 50;
+    pt109[2]->y = 60;
+
+    printf("======================\n");
+    printf("포인터 구조체 배열 0: %d %d\n", pt109[0]->x, pt109[0]->y);
+    printf("포인터 구조체 배열 1: %d %d\n", pt109[1]->x, pt109[1]->y);
+    printf("포인터 구조체 배열 2: %d %d\n", pt109[2]->x, pt109[2]->y);
+
+
+    for (int i = 0; i < sizeof(pt108)/sizeof(struct Point2D*); i++) {
+        free(pt109[i]);
+    }
+    
+    struct Person* p100[5];
+    int index = 0;
+    for (int i = 0; i < sizeof(p100) / sizeof(struct Person*); i++) {
+        p100[i] = malloc(sizeof(struct Person));
+    }
+
+    strcpy(p100[0]->name, "김영훈");
+    p100[0]->age = 20;
+
+    char strn[30] = "";
+    int stri = 0;
+    int stri2 = 0;
+    scanf("%s %d\n", p100[0]->name, p100[0]->age);
+
+    for (int i = 0; i < 5; i++) {
+        //scanf("%d %d", stri2, stri);
+        /*strcpy(p100[0]->name, strn);
+        p100[i]->age = stri;*/
+    }
+
+
+    /*
+        for (int i = 1; i < sizeof(p100) / sizeof(struct Person*); i++) {
+        if (p100[i - 1]->age < p100[i]->age) {
+            index = i;
+        }
+    }*/
+    //printf("%s\n", p100[index]->name);
+    
 #pragma endregion
 
     printf("========== 구조체 end ===========\n");
@@ -636,7 +757,6 @@ int main()
     }
     printf("%d\n", isPalindrome1);
 
-    //구조체
 
 
 #pragma endregion
