@@ -65,6 +65,42 @@ struct Person3 {
     struct Phone phone;
 };
 
+struct Person4 {
+    char name[20];
+    int age;
+    struct Phone *phone;
+};
+
+struct Vector3 { //3차원 벡터 좌표
+    union { //익명공용체 12바이트
+        struct { //익명구조체
+            float x; //x좌표
+            float y; //y좌표
+            float z; //z좌표
+        };
+        float v[3]; //좌표 배열로 저장
+    };
+};
+
+//비트 필드 설정 : unsigned 자료형에 주로 사용 + 실수 자료형은 사용 못함
+struct Flags {
+    unsigned int a : 1; //a는 1비트 크기
+    unsigned int b : 3; //b는 3비트 크기
+    unsigned int c : 7; //c는 7비트 크기
+};
+
+//비트필드와 공용체 함께 사용하기
+struct Flags2 {
+    union {
+        struct {
+            unsigned short a : 3;
+            unsigned short b : 2;
+            unsigned short c : 7;
+            unsigned short d : 4;
+        };
+        unsigned short e; //도합 16비트와 메모리 맞춤
+    };
+};
 
 #pragma endregion
 
@@ -188,30 +224,87 @@ int main()
 
 
     //공용체 별칭과 익명 공용체 포인터에 메모리 할당하기
-    union Box bx10; //공용체 변수 선언
-    union Box *bxptr;//공용체 변수 포인터 선언
-    
-    bxptr = &bx10; //공용체 포인터에 공용체 할당
-    
-    strcpy(bxptr->doll, "bear");
+    //union Box bx10; //공용체 변수 선언
+    //union Box *bxptr;//공용체 변수 포인터 선언
+    //
+    //bxptr = &bx10; //공용체 포인터에 공용체 할당
+    //
+    //strcpy(bxptr->doll, "bear");
 
-    printf("%d\n", bxptr->candy);
-    printf("%f\n", bxptr->snack);
-    printf("%s\n", bxptr->doll);
+    //printf("%d\n", bxptr->candy);
+    //printf("%f\n", bxptr->snack);
+    //printf("%s\n", bxptr->doll);
 
-    free(bxptr);
+    //free(bxptr); => heap영역 초기화 할때 에러 발생
 
 
     //구조체 안에 구조체 선언
     struct Person3 psn;
     psn.phone.areacode = 82;
     psn.phone.number = 3045671234;
-    printf("%d ull%\n", psn.phone.areacode, psn.phone.number);
+    printf("%d %llu\n", psn.phone.areacode, psn.phone.number);
 
     //선언과 동시에 초기화
     struct Person3 psn2 = { .name = "Andrew", .age = 25, {.areacode = 82, .number= 3045671234} };
     //선언과 동시에 초기화2
     struct Person3 psn3 = { "Andrew",25,{82,3045671234} };
+
+
+    //구조체 안의 구조체에 메모리 할당하기
+    //포인터에서 구조체의구조체로 값 할당
+    struct Person3* psn4 = malloc(sizeof(struct Person3));
+    psn4->phone.areacode = 83;
+    psn4->phone.number = 3045671234;
+
+    //포인터에서 구조체의 포인터로 값 할당
+    struct Person4* psn5 = malloc(sizeof(struct Person4));
+    psn5->phone->areacode = 83;
+    psn5->phone->number = 3045671234;
+    printf("포인터로 값 : %d %llu\n", psn5->phone->areacode, psn5->phone->number);
+
+    free(psn5->phone);//포인터구조체안의 포인터를 초기화 시켜줌
+    free(psn5);// 포인터 초기화
+
+
+    //익명 구조체와 익명 공용체 활용하기
+    struct Vector3 pos;
+
+    for (int i = 0; i < 3; i++)
+    {
+        pos.v[i] = 1.0f;//익명 공용체, 익명구조체이기 때문에 .으로 들어가는거 없이 바로 사용가능
+        //union이기 때문에 x,y,z에 값이 할당됨(같은 공간 공유 성질이용)
+    }
+    
+    printf("%f %f %f\n", pos.x,pos.y,pos.z);//union으로 할당받음
+    
+
+    //구조체 비트 필드 사용하기 => 지정한 비트수 만큼만 저장됨(나머지 잘라냄)
+    struct Flags f1;
+    f1.a = 1; //1비트이므로 안잘림
+    f1.b = 15; //3비트이므로 3비트자리 만큼만 잘려서 출력됨 111 =>7
+    f1.c = 255; //7비트 자리까지만 잘려서 출력됨
+
+    //비트 필드의 메모리는 작은 비트부터 나머지 비트들을 순서대로 배치함
+    printf("%d", sizeof(struct Flags)); //4출력
+    //멤버를 unsigned int로 선언했으므로 4출력됨
+
+    //주의
+    /*
+        unsigned int a : 37;    // 컴파일 에러. unsigned int보다 큰 비트 수는 지정할수 없음
+    */
+
+
+    //비트필드와 공용체 함께 사용하기
+    struct Flags2 f2 = { 0, };//구조체 초기화
+    f2.a = 4; //4비트 까지이므로 안잘림 0000 0100
+    f2.b = 2; //안잘림 0000 0010
+    f2.c = 80;//안잘림 0101 0000
+    f2.d = 15;//0000 1111
+
+    //%u는 부호없는 정수에서 사용
+    printf("%u\n", f2.e); 
+    //1111 1010000 10 100 => 비트순서대로 배치하기 때문에 해당 2진수를 10진수로 바꾸면 64020됨
+    
 
 
 #pragma endregion
