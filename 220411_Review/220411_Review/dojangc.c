@@ -16,6 +16,13 @@ struct Person {//구조체 명은 태그라 한다
 } p1; //전역변수로 구조체 변수선언 : 어떤 함수에도 속하지 않은 변수를 전역 변수라함
 
 
+struct Person2 {
+
+    char name[20];
+    int age;
+
+};
+
 typedef struct Person_test {
     char name[20];
     int age;
@@ -74,8 +81,84 @@ typedef struct {
 
 #pragma endregion
 
+#pragma region 공용체선언
+
+union Box {
+    short candy; //2바이트
+    float snack; //4바이트
+    char doll[8]; //8바이트
+};
+
+union uData {
+    char c1;
+    short num1;
+    int num2;
+};
+
+//익명의 공용체 선언
+typedef union { 
+    short candy;
+    float snack;
+    char doll[8];
+} Box2;//별칭 지정
+
+Box2 bx2;//별칭으로 공용체 변수 선언
+
+
+//공용체 정의와 동시에 변수 선언
+union Box3 {
+    short candy;
+    float snack;
+    char doll[8];
+} b2;
+
+
+#pragma endregion
+
+
 int main()
 {
+
+#pragma region 공용체
+
+    // 메모리 공간을 절약할수 있다.
+    //공용체 사용하기 => 멤버 저장 방식이 구조체와 다름
+    union Box b1;
+    printf("%d\n", sizeof(b1)); //공용체는 가장큰 자료형 크기로 설정됨 (서로 다른 자료형이 동일한 데이터 기억장소를 서로 공유)
+
+    strcpy(b1.doll, "bear");
+    b1.candy = 1;
+    b1.snack = 1.3;
+
+    //공용체는 데이터 기억 장소를 공유하기 때문에 값을 하나만 할당 할 수 있고, 
+    //나머지 값들은 엉망이 되어 출력됨 => 한번씩만 쓰면 정상적으로 사용할수 있다.
+    printf("%d\n", b1.candy);  
+    printf("%f\n", b1.snack);  
+    printf("%s\n", b1.doll);
+
+    
+    //한번씩만 사용하면 정상적으로 사용가능
+    strcpy(b1.doll, "bear");
+    printf("공용체 : %s\n", b1.doll);
+    b1.candy = 1;
+    printf("공용체 : %d\n", b1.candy);  
+    b1.snack = 1.3;
+    printf("공용체 : %f\n", b1.snack);  
+    
+
+    //공용체와 엔디언
+    union uData udt;// 공용체 선언
+
+    udt.num2 = 0x12345678;//리틀 엔디언 방식으로 메모리 설정 => 78 56 34 12 메모리 순 (4가지로 4바이트)
+    printf("0x%x\n", udt.num2); //4바이트 전체값 출력  
+    printf("0x%x\n", udt.num1); //2바이트 출력 => 78 56 앞 2개만 출력됨 (리틀 엔디언은 78이 낮은 자리수임)
+    printf("0x%x\n", udt.c1); //1바이트 출력 => 78 앞 1개만 출력됨
+
+    printf("%d\n", sizeof(udt));//가장큰 메모리값 int형 4바이트 가짐
+
+#pragma endregion
+
+    printf("=============공용체 end ==========\n");
 
 #pragma region 구조체
 
@@ -262,6 +345,21 @@ int main()
     printf("%d\n", offsetof(struct PacketHeader, seq)); //메모리 4바이트 위치에서 시작
 
 
+    dt.c123 = 'c';
+    dt.numPtr123 = 40; //구조체 안의 포인터에 int 형 주소와 값을 부여
+
+    //구조체 메모리 0으로 설정
+    struct Data data = { 0, };//구조체 변수의 내용 모두 0으로 초기화(malloc에는 사용불가)
+    //memset을 이용하여 메모리 0으로 설정
+    memset(&data, 0, sizeof(struct Data));
+    printf("메모리 초기화 1 %c %d\n", data.c123, data.numPtr123);
+    //구조체 포인터 메모리 0으로 설정
+    struct Data* data2 = malloc(sizeof(struct Data));
+    memset(data2, 0, sizeof(struct Data)); //포인터를 구조체 크기만큼 0으로 초기화
+    printf("메모리 초기화 2 %c %d\n", data2->c123, data2->numPtr123);
+    free(data2);
+
+
     //구조체 메모리 활용하기
     struct Point2D pt2d;
     memset(&pt2d, 0, sizeof(struct Point2D));//구조체에 접근해서 구조체 0(null)으로 초기화 함
@@ -355,7 +453,7 @@ int main()
         free(pt109[i]);
     }
     
-    struct Person* p100[5];
+    struct Person2* p100[5];
     int index = 0;
     for (int i = 0; i < sizeof(p100) / sizeof(struct Person*); i++) {
         p100[i] = malloc(sizeof(struct Person));
@@ -367,23 +465,24 @@ int main()
     char strn[30] = "";
     int stri = 0;
     int stri2 = 0;
-    scanf("%s %d\n", p100[0]->name, p100[0]->age);
+    //scanf("%s %d\n", &p100[0]->name, &p100[0]->age); //주소를 붙여야함(포인터 변수에 접근해서 화살표 연산자로 구조체에접근한다)
 
-    for (int i = 0; i < 5; i++) {
-        //scanf("%d %d", stri2, stri);
-        /*strcpy(p100[0]->name, strn);
-        p100[i]->age = stri;*/
+    printf("숫자 1 : %d\n", sizeof(p100) / sizeof(struct Person*));
+    
+
+    for (int i = 0; i < sizeof(p100) / sizeof(struct Person*); i++) {
+        scanf("%s %d", &p100[i]->name, &p100[i]->age); //scanf에는 줄바꿈을 넣으면 안됨(오류남)
     }
 
-
-    /*
-        for (int i = 1; i < sizeof(p100) / sizeof(struct Person*); i++) {
+    
+    for (int i = 1; i < sizeof(p100) / sizeof(struct Person*); i++) {
         if (p100[i - 1]->age < p100[i]->age) {
             index = i;
         }
-    }*/
-    //printf("%s\n", p100[index]->name);
+    }
+    printf("%s\n", p100[index]->name);
     
+
 #pragma endregion
 
     printf("========== 구조체 end ===========\n");
