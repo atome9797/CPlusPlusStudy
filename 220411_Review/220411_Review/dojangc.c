@@ -54,6 +54,18 @@ struct PacketHeader {
 };
 #pragma pack(pop)
 
+struct Phone {    // 휴대전화 구조체
+    int areacode;                 // 국가번호
+    unsigned long long number;    // 휴대전화 번호
+};
+
+struct Person3 {
+    char name[20];
+    int age;
+    struct Phone phone;
+};
+
+
 #pragma endregion
 
 #pragma region typedef선언 
@@ -155,6 +167,52 @@ int main()
     printf("0x%x\n", udt.c1); //1바이트 출력 => 78 앞 1개만 출력됨
 
     printf("%d\n", sizeof(udt));//가장큰 메모리값 int형 4바이트 가짐
+
+
+    //공용체 포인터를 선언하고 메모리 할당하기
+    //공용체의 별칭으로 변수 선언했으므로 , 변수에서 직접 공용체에 접근가능
+    bx2.candy;
+
+    //포인터에 선언 => 공용체 용량은 8바이트임 
+    union Box *bxp = malloc(sizeof(union Box));
+    printf("%d\n", sizeof(union Box));
+
+    bxp->snack = 1.3f;
+    strcpy(bxp->doll, "bear"); //마지막에 대입된 값으로 공용체 타입및 값이 바뀜
+    
+    printf("%d\n", bxp->candy); 
+    printf("%s\n", bxp->doll);
+    printf("%f\n", bxp->snack); 
+    
+    free(bxp);
+
+
+    //공용체 별칭과 익명 공용체 포인터에 메모리 할당하기
+    union Box bx10; //공용체 변수 선언
+    union Box *bxptr;//공용체 변수 포인터 선언
+    
+    bxptr = &bx10; //공용체 포인터에 공용체 할당
+    
+    strcpy(bxptr->doll, "bear");
+
+    printf("%d\n", bxptr->candy);
+    printf("%f\n", bxptr->snack);
+    printf("%s\n", bxptr->doll);
+
+    free(bxptr);
+
+
+    //구조체 안에 구조체 선언
+    struct Person3 psn;
+    psn.phone.areacode = 82;
+    psn.phone.number = 3045671234;
+    printf("%d ull%\n", psn.phone.areacode, psn.phone.number);
+
+    //선언과 동시에 초기화
+    struct Person3 psn2 = { .name = "Andrew", .age = 25, {.areacode = 82, .number= 3045671234} };
+    //선언과 동시에 초기화2
+    struct Person3 psn3 = { "Andrew",25,{82,3045671234} };
+
 
 #pragma endregion
 
