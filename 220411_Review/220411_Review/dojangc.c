@@ -213,7 +213,7 @@ int main()
     union Box *bxp = malloc(sizeof(union Box));
     printf("%d\n", sizeof(union Box));
 
-    bxp->snack = 1.3f;
+    //bxp->snack = 1.3f;
     strcpy(bxp->doll, "bear"); //마지막에 대입된 값으로 공용체 타입및 값이 바뀜
     
     printf("%d\n", bxp->candy); 
@@ -224,18 +224,19 @@ int main()
 
 
     //공용체 별칭과 익명 공용체 포인터에 메모리 할당하기
-    //union Box bx10; //공용체 변수 선언
-    //union Box *bxptr;//공용체 변수 포인터 선언
-    //
-    //bxptr = &bx10; //공용체 포인터에 공용체 할당
-    //
-    //strcpy(bxptr->doll, "bear");
+    union Box bx10 = {0,}; //공용체 변수 선언
+    union Box *bxptr;//공용체 변수 포인터 선언
+    
+    bxptr = &bx10; //공용체 포인터에 공용체 할당
+    
+    strcpy(bxptr->doll, "bear");
 
-    //printf("%d\n", bxptr->candy);
-    //printf("%f\n", bxptr->snack);
-    //printf("%s\n", bxptr->doll);
+    printf("초기화후 %d\n", bxptr->candy);
+    printf("%f\n", bxptr->snack);
+    printf("%s\n", bxptr->doll);
 
-    //free(bxptr); => heap영역 초기화 할때 에러 발생
+    //free(bxptr); //=> heap영역 초기화 할때 에러 발생
+
 
 
     //구조체 안에 구조체 선언
@@ -252,12 +253,20 @@ int main()
 
     //구조체 안의 구조체에 메모리 할당하기
     //포인터에서 구조체의구조체로 값 할당
+    struct Person3 test_num = { 0, };
     struct Person3* psn4 = malloc(sizeof(struct Person3));
     psn4->phone.areacode = 83;
     psn4->phone.number = 3045671234;
 
+    free(psn4);
+
+    printf("==========중간 체크 ========\n");
+
     //포인터에서 구조체의 포인터로 값 할당
+    struct Person4 test_num2 = { 0, };
+
     struct Person4* psn5 = malloc(sizeof(struct Person4));
+    psn5->phone = malloc(sizeof(struct Phone));//선언을 생략하면 안됨
     psn5->phone->areacode = 83;
     psn5->phone->number = 3045671234;
     printf("포인터로 값 : %d %llu\n", psn5->phone->areacode, psn5->phone->number);
@@ -305,7 +314,7 @@ int main()
     printf("%u\n", f2.e); 
     //1111 1010000 10 100 => 비트순서대로 배치하기 때문에 해당 2진수를 10진수로 바꾸면 64020됨
     
-
+    //111 11
 
 #pragma endregion
 

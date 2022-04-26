@@ -24,5 +24,8 @@
     <ClCompile Include="dojangc.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="dojang2.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
