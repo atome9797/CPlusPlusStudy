@@ -3,7 +3,7 @@
 #include <math.h>
 
 int arr[1000000];
-int alpha_arr[1000000];
+char alpha_arr[10000000];
 
 int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해줌
 
@@ -11,30 +11,55 @@ int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해�
 	//1157
 	//입력 :
 	// 1. 문자열 A 입력 받기 1,000,000
+	// 1-1 문자열이 대문자이면 소문자로 전환
 	// 2. 알파벳 문자열 alpha 입력 받기 26
 	// 3. alpha 배열과 문자열 a 2중 반복문 돌린뒤 
 	// 3-1 값이 같으면 알파벳 카운트 문자열 beta 에 +1입력 받기
 	// 4. 최댓값과 같으면 ? 더 크면 큰값이 출력되게 설정
-	scanf("%s", alpha_arr);
-	char logic_alpa2[26] = { 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' };
-	int beta_count[26] = { 0 };
-	for (int i = 0; i < strlen(logic_alpa2); i++) {
 
-		int count = 0;//알파벳 마다 0으로 초기화
+	scanf("%s", &alpha_arr);
+	char mb = '#';
+	int max = 0;
+	int beta_count[92] = { 0 };
+	int j = 0;
+	while (alpha_arr[j] != 0) {//int i = 65; i <= 90; i++
+		for (int i = 65; i <= 90; i++) {//alpha_arr[j] != 0
 
-		for (int j = 0; j < strlen(alpha_arr); j++) {
-			if (logic_alpa2[i] == alpha_arr[j]) {
-				beta_count[i] += 1;
-				
-				if (beta_count[i] > count) {
-					count = i;//알파벳 
-				}
+			if (alpha_arr[j] >= 'a' && alpha_arr[j] <= 'z') {
+				alpha_arr[j] -= 32;
 			}
 
 
+			if ((char)i == alpha_arr[j]) {
+				beta_count[i] += 1;
+
+				if (beta_count[i] > max) {
+					max = beta_count[i];
+					mb = (char)i;
+				}
+				else if (beta_count[i] == max) {//같으면 ?
+					mb = '?';
+				}
+
+				break;
+			}
+
 		}
 
+		j++;
 	}
+
+	printf("%c\n", mb);
+
+
+
+	//최적화
+	// 입력 :
+	//1. 문자열 A 입력 받기 1000000
+	// 처리 : 
+	//1. 아스키 코드값으로 대문자 A에서 Z사이의 범위를 반복문 돌리기
+	//2. 문자열 A를 대문자로 바꾸고 A에서 Z사이중 몇번째 인지 
+
 
 
 	//처리 :
@@ -97,6 +122,10 @@ int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해�
 		}
 		printf("%d ", logic_count);
 	}
+
+
+	//최적화
+
 
 
 
