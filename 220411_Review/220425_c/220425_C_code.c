@@ -3,171 +3,147 @@
 #include <math.h>
 
 int arr[1000000];
+int alpha_arr[1000000];
 
-int main() {
-
-	//입력
-	int test_case_num = 0;//반복 횟수
-	char count_test[80] = "#";
-	int count_score = 0;
-	int count_sp = 0;
-	scanf("%d", &test_case_num);
+int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해줌
 
 
-	for (int i = 0; i < test_case_num; i++){//5입력됨
-		count_score = 0;
-		
-		scanf("%s", &count_test); //문자열
+	//1157
+	//입력 :
+	// 1. 문자열 A 입력 받기 1,000,000
+	// 2. 알파벳 문자열 alpha 입력 받기 26
+	// 3. alpha 배열과 문자열 a 2중 반복문 돌린뒤 
+	// 3-1 값이 같으면 알파벳 카운트 문자열 beta 에 +1입력 받기
+	// 4. 최댓값과 같으면 ? 더 크면 큰값이 출력되게 설정
+	scanf("%s", alpha_arr);
+	char logic_alpa2[26] = { 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' };
+	int beta_count[26] = { 0 };
+	for (int i = 0; i < strlen(logic_alpa2); i++) {
 
+		int count = 0;//알파벳 마다 0으로 초기화
 
-		for (int j = 0; j < 80; j++) { //한줄에 80개 까지 받을수 있도록 설정
-			if (count_test[j] == 'O') {
-				count_score += 1;
-				if (j >= 1 && count_test[j] == 'O' && count_test[j - 1] == 'O') {
-					count_sp += 1;
-					count_score += count_sp;
-				}
-				else {
-					count_sp = 0;
+		for (int j = 0; j < strlen(alpha_arr); j++) {
+			if (logic_alpa2[i] == alpha_arr[j]) {
+				beta_count[i] += 1;
+				
+				if (beta_count[i] > count) {
+					count = i;//알파벳 
 				}
 			}
+
+
 		}
 
-		printf("%d\n", count_score);
 	}
 
-		//for (int k = 0; k < 80; k++) {
-		//	count_score += count_test[k];
-		//	if (count_test[k] == 1 && count_test[k-1] == 1) {
-		//		count_score += 1;
-		//	}
-		//}
 
-	//평균
-	//1. 최댓값은 M, 모든점수 => 점수/M*100
-
-	//입력
-	int testCnt = 0; // 테스트 갯수
-	int testScore = 0; //테스트 한개 점수
-	int maxScore = 0; //최대점수
-	double calScore = 0;//종합 점수
-	int input_score[101] = { 0 };
-
-	scanf("%d", &testCnt);
-
-	for (int i = 0; i < testCnt; i++){
-		scanf("%d", &testScore);
-		input_score[testScore] += 1; //점수값을 저장해서 카운트로 가져올수 있음
-		if (maxScore < testScore) {//최댓값 구하기
-			maxScore = testScore;//최댓값에 넣기
-		}	
-	}
-
-	for (int i = 1; i <= 100; i++)
-	{
-		if (input_score[i] >= 1) {//해당 인덱스에 값이 있을때
-			calScore += (double)i* input_score[i] / maxScore * 100;
-		}
-	}
-
-	printf("%f\n", calScore/ testCnt);
-
-
-
-
-	//1. 나머지가 서로다른게 몇개있는지 구하기
-
-	//입력
-	int input_a[42] = {0};//받는 배열
-	int number_c = 0;//입력값
-	int count_a = 0;
-	//처리
-	for (int i = 0; i < 10; i++) {
-		scanf("%d", &number_c);
-		input_a[number_c % 42] +=1;
-	}
-
-	//printf("%d\n", input_a[0]);
-
-	for (int i = 0; i < 42; i++)
-	{
-		if (input_a[i] >=1) {
-			//각 나머지 index값을 검사 하는 것이므로 input_a[0]일때 3이든 4든 뭐든 1개로 카운트 됨
-			count_a++;
-		}
-	}
-
-	printf("%d\n", count_a);
-
-
-	/*
-		첫째 줄에 A, 둘째 줄에 B, 셋째 줄에 C가 주어진다. 
-		A, B, C는 모두 100보다 크거나 같고, 1,000보다 작은 자연수이다.
-
-		첫째 줄에는 A × B × C의 결과에 0 이 몇 번 쓰였는지 출력한다. 
-		마찬가지로 둘째 줄부터 열 번째 줄까지 A × B × C의
-		결과에 1부터 9까지의 숫자가 각각 몇 번 쓰였는지 차례로 한 줄에 하나씩 출력한다.
-
-		1. A,B,C 값을 받을 변수 선언
-		2. scanf 로 값 받기
-		3. 곲값을 자리수 와 자리수의 값을 배열로 저장하기 => 0 자리수의 값 ? 이런식으로
-		4. 2중 for문으로 각 자리수별 숫자 카운트해서 뽑기
-	*/
-
-	int digit[3];
-	int sumDigit = 0;
-	int cntDigit[] = {0,}; //빈 함수 선언해서 값을 할당할수 있음
-	int count100 = 1;
-	int ddd =0;
-
-	for (int i = 0; i < 3; i++) {
-		scanf("%d", &digit[i]);
-	}
-
-	sumDigit = digit[0] * digit[1] * digit[2];
-	
-	//printf("%d\n", sumDigit);
-
-	//sumDigit 배열로 전환
-	while (1) {
-		if (sumDigit / 10 != 0) {
-			sumDigit = sumDigit / 10;
-			count100++;
-		}
-		else {
-			break;
-		}
-	}
-
-	//printf("자리수 : %d\n", count100);
+	//처리 :
+	//출력 :
 
 	
-	sumDigit = digit[0] * digit[1] * digit[2];
+	//2675
+	//입력 :
+	// 1. 테스트 케이스 T입력 받기 1000
+	// 2. T만큼 반복문 돌리기
+	// 3. 반복문에서 반복 횟수 R입력 받기 8
+	// 4. 문자열 s 받기 20
+	// 5. s문자열 반복시켜서 R과 곱해줌으로 출력하기
+	int logic_T;
+	scanf("%d", &logic_T);
 
-
-	for (int i = 0; i < count100; i++) {
-		cntDigit[i] = sumDigit % 10;
-		sumDigit = sumDigit / 10;
-	}
-
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < count100; j++){
-			if (i == cntDigit[j]) {
-				ddd += 1;
+	//처리 :
+	for (int i = 0; i < logic_T; i++) {
+		int logic_R;
+		char logic_S[20];
+		scanf("%d %s", &logic_R, &logic_S);
+		for (int i = 0; i < strlen(logic_S); i++) 
+		{
+			for (int j = 0; j < logic_R; j++)
+			{
+				printf("%c", logic_S[i]);
 			}
 		}
-		printf("%d\n", ddd);
-		ddd = 0;
+		printf("\n");
 	}
 
-	//printf("배열 값 : %d %d %d %d %d %d\n", cntDigit[0], cntDigit[1], cntDigit[2], cntDigit[3], cntDigit[4], cntDigit[5]);
-	
-	
-
-	
+	//출력 :
 
 
-#pragma region c언어
+
+	//10809
+	//입력 : 
+	// 1. 첫째 줄에 단어 S가 주어진다.(char 100배열) , s를 입력 받는다.
+	// 2. 알파벳 문자열을 받는다 
+	char logic_s[100] = { 0 };
+	char logic_alpa[26] = { 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' };
+	scanf("%s", logic_s);
+	//처리 : 
+	// 1. 문자열 반복문 돌리기
+	// 1-1 . 문자열에 알파벳이 있는지 없는지 검사
+	// 1-1-1 . 알파벳이 없으면 -1
+	// 1-1-2 . 알파벳이 있으면 
+	// 1-1-2-1. 몇번째 문자열에 있는지 검사
+	//출력 : 
+	int logic_count = 0;
+	for (int i = 0; i < 26; i++) {
+		for (int j = 0; j < 100; j++) {
+			if (logic_s[j] != logic_alpa[i]) {
+				logic_count = -1;
+			}
+			else {
+				logic_count = j;
+				break;
+			}
+		}
+		printf("%d ", logic_count);
+	}
+
+
+
+	//함수를 호출한 사람을 caller(main함수), 호출됨 함수(add함수)를 callee라고 한다.
+	//매개변수()를 초기화 시켜주는 것 a, b을 인자라고 한다. 
+	int fun1 = add(1, 2);//호출 연산자 : 함수를 호출 한다. 
+	int fun2 = add(3, 4);
+	int fun3 = add(5, 6);
+	printf("%d\n", fun1);
+	printf("%d\n", fun2);
+	printf("%d\n", fun3);
+	
+
+	//11654
+	//입력 :
+	//  정수, 문자 int , char 를 입력 값으로 받는다.
+	char aci;
+	scanf("%c", &aci);
+	//처리 :
+	//출력 : int ,char 를 아스키 코드로 변환한 출력 값ㄴ을 출력한다.
+	printf("%d\n", aci);
+	
+	//11720
+	// 입력 :
+	// 1. 첫 번째 줄은 입력할 숫자의 갯수 int 형식으로 입력받음
+	// 2. 두번 째 줄은 문자열 입력받음 => 배열로 받음
+	// 3. 총합 값 변수 선언 
+	int logic_n = 0;
+	char logic_c[101] ={0};
+	int logic_sum = 0;
+
+	scanf("%d", &logic_n);
+	scanf("%s", &logic_c);
+	
+
+	// 처리 :
+	// 1. n 갯수만큼 반복문 돌려 배열값을 추출하고 총합값 으로 더해준다.
+	for (int i = 0; i < logic_n; i++)
+	{
+		logic_sum += logic_c[i] - 48; //문자열에서 int 형 뽑으려면 아스키코드 48을빼줘야함
+	}
+	
+	// 출력 :
+	// 1. 총합 값 출력
+	printf("%d\n", logic_sum);
+
+#pragma region c언어강의
 
 
 	char ch = 'a';
@@ -218,12 +194,225 @@ int main() {
 	*/
 
 
+	//1.입력
+	//Case#1 : 10 20 30
+	int caseNum, data1, data2, data3;
+	scanf("Case#%d : %d %d %d", &caseNum, &data1, &data2, &data3);
+
+	//2. 출력
+	//Case#1 : 10 20 30
+	printf("Case#%d : %d %d %d", caseNum, data1, data2, data3);
+
+	//3.연산
+
+	//4. 분기문
+	//if/switch
+
+	/*
+		5. 반복문
+		- for/while/do-while
+		- for: 반복 횟수가 정해져 있지 않을때
+		- while :반복횟수가 정해져 있지 않을때
+		- do-while : 조건식 평가가 나중에 일어나야 할때
+	*/
+
+	//6.배열
+	// 같은 성질의 여러 데이터를 한번에 다루기 위한것
+
+
+	//시프트 연산자
+
+	signed char chs = -1;
+	//0000 0001 => ...1111 1111 1111 1110 +1 => ...1111 1111 1111 1111
+	
+
+	chs >> 2;//2의2제곱 만큼 나누기 한값 출력됨
+	//... 1111 1111 => 부호 비트가 내려옴 (부호 비트는 시프트 연산자로 안바뀜)
+
+	chs << 2; //2의 2제곱 만큼 곱한 값 출력됨
+
+	chs << 1; //2의 1제곱 만큼 곱한 값 출력됨
+
+	//0x24 16진수를 10진수로 표현 하면 16*1+ 16*2 = 36으로 표현가능
+
+
+
+	//함수 : 일련의 코드에 이름을 붙인것 
+	//함수는 api라고 불리기도함
+	//API
+	// Apllication Programming
+	/*
+		Interface => 함수 하나를 일컫는것
+
+		standard => 플랫폼에 독립적이다. (ios, android, window...등등 표준이면 다 사용가능)
+		-> 이식성이 높다고 함
+
+		Library => 유용한 api 모음
+	*/
 
 
 
 #pragma endregion
 
 #pragma region 알고리즘
+
+	//입력
+	int test_case_num = 0;//반복 횟수
+	char count_test[80] = "#";
+	int count_score = 0;
+	int count_sp = 0;
+	scanf("%d", &test_case_num);
+
+
+	for (int i = 0; i < test_case_num; i++) {//5입력됨
+		count_score = 0;
+
+		scanf("%s", &count_test); //문자열
+
+
+		for (int j = 0; j < 80; j++) { //한줄에 80개 까지 받을수 있도록 설정
+			if (count_test[j] == 'O') {
+				count_score += 1;
+				if (j >= 1 && count_test[j] == 'O' && count_test[j - 1] == 'O') {
+					count_sp += 1;
+					count_score += count_sp;
+				}
+				else {
+					count_sp = 0;
+				}
+			}
+		}
+
+		printf("%d\n", count_score);
+	}
+
+	//for (int k = 0; k < 80; k++) {
+	//	count_score += count_test[k];
+	//	if (count_test[k] == 1 && count_test[k-1] == 1) {
+	//		count_score += 1;
+	//	}
+	//}
+
+//평균
+//1. 최댓값은 M, 모든점수 => 점수/M*100
+
+//입력
+	int testCnt = 0; // 테스트 갯수
+	int testScore = 0; //테스트 한개 점수
+	int maxScore = 0; //최대점수
+	double calScore = 0;//종합 점수
+	int input_score[101] = { 0 };
+
+	scanf("%d", &testCnt);
+
+	for (int i = 0; i < testCnt; i++) {
+		scanf("%d", &testScore);
+		input_score[testScore] += 1; //점수값을 저장해서 카운트로 가져올수 있음
+		if (maxScore < testScore) {//최댓값 구하기
+			maxScore = testScore;//최댓값에 넣기
+		}
+	}
+
+	for (int i = 1; i <= 100; i++)
+	{
+		if (input_score[i] >= 1) {//해당 인덱스에 값이 있을때
+			calScore += (double)i * input_score[i] / maxScore * 100;
+		}
+	}
+
+	printf("%f\n", calScore / testCnt);
+
+
+
+
+	//1. 나머지가 서로다른게 몇개있는지 구하기
+
+	//입력
+	int input_a[42] = { 0 };//받는 배열
+	int number_c = 0;//입력값
+	int count_a = 0;
+	//처리
+	for (int i = 0; i < 10; i++) {
+		scanf("%d", &number_c);
+		input_a[number_c % 42] += 1;
+	}
+
+	//printf("%d\n", input_a[0]);
+
+	for (int i = 0; i < 42; i++)
+	{
+		if (input_a[i] >= 1) {
+			//각 나머지 index값을 검사 하는 것이므로 input_a[0]일때 3이든 4든 뭐든 1개로 카운트 됨
+			count_a++;
+		}
+	}
+
+	printf("%d\n", count_a);
+
+
+	/*
+		첫째 줄에 A, 둘째 줄에 B, 셋째 줄에 C가 주어진다.
+		A, B, C는 모두 100보다 크거나 같고, 1,000보다 작은 자연수이다.
+
+		첫째 줄에는 A × B × C의 결과에 0 이 몇 번 쓰였는지 출력한다.
+		마찬가지로 둘째 줄부터 열 번째 줄까지 A × B × C의
+		결과에 1부터 9까지의 숫자가 각각 몇 번 쓰였는지 차례로 한 줄에 하나씩 출력한다.
+
+		1. A,B,C 값을 받을 변수 선언
+		2. scanf 로 값 받기
+		3. 곲값을 자리수 와 자리수의 값을 배열로 저장하기 => 0 자리수의 값 ? 이런식으로
+		4. 2중 for문으로 각 자리수별 숫자 카운트해서 뽑기
+	*/
+
+	int digit[3];
+	int sumDigit = 0;
+	int cntDigit[] = { 0, }; //빈 함수 선언해서 값을 할당할수 있음
+	int count100 = 1;
+	int ddd = 0;
+
+	for (int i = 0; i < 3; i++) {
+		scanf("%d", &digit[i]);
+	}
+
+	sumDigit = digit[0] * digit[1] * digit[2];
+
+	//printf("%d\n", sumDigit);
+
+	//sumDigit 배열로 전환
+	while (1) {
+		if (sumDigit / 10 != 0) {
+			sumDigit = sumDigit / 10;
+			count100++;
+		}
+		else {
+			break;
+		}
+	}
+
+	//printf("자리수 : %d\n", count100);
+
+
+	sumDigit = digit[0] * digit[1] * digit[2];
+
+
+	for (int i = 0; i < count100; i++) {
+		cntDigit[i] = sumDigit % 10;
+		sumDigit = sumDigit / 10;
+	}
+
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < count100; j++) {
+			if (i == cntDigit[j]) {
+				ddd += 1;
+			}
+		}
+		printf("%d\n", ddd);
+		ddd = 0;
+	}
+
+	//printf("배열 값 : %d %d %d %d %d %d\n", cntDigit[0], cntDigit[1], cntDigit[2], cntDigit[3], cntDigit[4], cntDigit[5]);
+
+
 
 	/*
 	N개의 정수가 주어진다. 이때, 최솟값과 최댓값을 구하는 프로그램을 작성하시오.
@@ -774,4 +963,17 @@ int main() {
 
 
 	return 0;
+}
+
+
+//함수
+	/*
+		함수 : 일련의 과정에 이름을 붙인것
+		왜 이름을 붙였을까?
+		재사용하기 위해서
+	*/
+	//두수를 입력받아 그 결과값을 출력하는 함수를 만들기로 했다.
+int add(int a, int b) {
+	int result = a + b;
+	return result;
 }
