@@ -1,176 +1,125 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
 int arr[1000000];
 char alpha_arr[10000000];
+char aaa[10000000];
 
 int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해줌
 
 
-	//1157
+	//1316
+	//목표 : 
+	// 1. 그룹 단어 개수를 출력하는 프로그램을 만들기
+	// 2. 그룹단어가 아닐땐 카운트 안한다. -> 그룹단어는 같은 문자는 같은 문자끼리 이어져 있음
 	//입력 :
-	// 1. 문자열 A 입력 받기 1,000,000
-	// 1-1 문자열이 대문자이면 소문자로 전환
-	// 2. 알파벳 문자열 alpha 입력 받기 26
-	// 3. alpha 배열과 문자열 a 2중 반복문 돌린뒤 
-	// 3-1 값이 같으면 알파벳 카운트 문자열 beta 에 +1입력 받기
-	// 4. 최댓값과 같으면 ? 더 크면 큰값이 출력되게 설정
-
-	scanf("%s", &alpha_arr);
-	char mb = '#';
-	int max = 0;
-	int beta_count[92] = { 0 };
-	int j = 0;
-	while (alpha_arr[j] != 0) {//int i = 65; i <= 90; i++
-		for (int i = 65; i <= 90; i++) {//alpha_arr[j] != 0
-
-			if (alpha_arr[j] >= 'a' && alpha_arr[j] <= 'z') {
-				alpha_arr[j] -= 32;
-			}
-
-
-			if ((char)i == alpha_arr[j]) {
-				beta_count[i] += 1;
-
-				if (beta_count[i] > max) {
-					max = beta_count[i];
-					mb = (char)i;
-				}
-				else if (beta_count[i] == max) {//같으면 ?
-					mb = '?';
-				}
-
-				break;
-			}
-
-		}
-
-		j++;
-	}
-
-	printf("%c\n", mb);
-
-
-
-	//최적화
-	// 입력 :
-	//1. 문자열 A 입력 받기 1000000
-	// 처리 : 
-	//1. 아스키 코드값으로 대문자 A에서 Z사이의 범위를 반복문 돌리기
-	//2. 문자열 A를 대문자로 바꾸고 A에서 Z사이중 몇번째 인지 
-
-
-
+	// 1. 입력 할 그룹단어 갯수를 logic_group_cnt 로 선언하고 입력 받는다.
+	int logic_group_cnt = 0;
+	scanf("%d", &logic_group_cnt);
 	//처리 :
-	//출력 :
-
+	// 2. logic_group_cnt의 갯수 만큼 반복문을 돌린다.
+	// 3. char 문자열로된 group_word 를 선언하고 입력 받는다.
+	// 4. group_word 문자열을 반복문 돌린다.
+	// 5. group_word문자의 알파벳을 0 ~ 26으로 뽑고 새로운 count 배열 [index]에 넣어준다. => 값은 group_word문자위치로
+	// 6. group_word 반복문을 돌릴때, 별짓기 방식으로 count 해준다(새로운 for문)
+	// 6-1. 예를들어 p 알파벳을 구한다 할때 별짓기 갯수 만큼 안늘어 나 있으면 그룹 단어가 아니다.
+	// 6-2. 
 	
-	//2675
-	//입력 :
-	// 1. 테스트 케이스 T입력 받기 1000
-	// 2. T만큼 반복문 돌리기
-	// 3. 반복문에서 반복 횟수 R입력 받기 8
-	// 4. 문자열 s 받기 20
-	// 5. s문자열 반복시켜서 R과 곱해줌으로 출력하기
-	int logic_T;
-	scanf("%d", &logic_T);
-
-	//처리 :
-	for (int i = 0; i < logic_T; i++) {
-		int logic_R;
-		char logic_S[20];
-		scanf("%d %s", &logic_R, &logic_S);
-		for (int i = 0; i < strlen(logic_S); i++) 
-		{
-			for (int j = 0; j < logic_R; j++)
-			{
-				printf("%c", logic_S[i]);
-			}
-		}
-		printf("\n");
+	int word_array[26]={0};
+	int minor = 0;
+	for (int i = 0; i < 26; i++){
+		word_array[i] = -1;
 	}
 
-	//출력 :
-
-
-
-	//10809
-	//입력 : 
-	// 1. 첫째 줄에 단어 S가 주어진다.(char 100배열) , s를 입력 받는다.
-	// 2. 알파벳 문자열을 받는다 
-	char logic_s[100] = { 0 };
-	char logic_alpa[26] = { 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' };
-	scanf("%s", logic_s);
-	//처리 : 
-	// 1. 문자열 반복문 돌리기
-	// 1-1 . 문자열에 알파벳이 있는지 없는지 검사
-	// 1-1-1 . 알파벳이 없으면 -1
-	// 1-1-2 . 알파벳이 있으면 
-	// 1-1-2-1. 몇번째 문자열에 있는지 검사
-	//출력 : 
-	int logic_count = 0;
-	for (int i = 0; i < 26; i++) {
-		for (int j = 0; j < 100; j++) {
-			if (logic_s[j] != logic_alpa[i]) {
-				logic_count = -1;
+	for (int i = 0; i < logic_group_cnt; i++) {
+		char group_word[100];
+		scanf("%s", group_word);
+		minor = strlen(group_word);
+		int exp_count = 1;
+		for (int j = 0; j < strlen(group_word); j++) {
+			int word_count = group_word[j] - 'a';//0~25까지 알파벳인덱스를 받는다.
+			
+			if (word_array[word_count] != -1) { //이미 자리에 값이 있을때
+				exp_count++;
 			}
 			else {
-				logic_count = j;
+				exp_count = 1;
+			}
+			
+
+			word_array[word_count] = j;//문자열의 위치를 알파벳배열 index에 담아준다.
+			int test_count = 0;
+			//for (int k = 0; k < j+1; k++){
+			for (int k = 0; k < 3; k++) {
+				if (group_word[j] == group_word[k]) {//알파벳이 있는지 확인하기
+					test_count++; //해당 알파벳을 카운트해서 갯수 가져오기
+					printf("어쩌라고 %d\n", test_count);
+				}
+			}
+
+			printf("시발 %d\n", test_count);
+			printf("놈아 %d\n", exp_count);
+
+			if (test_count != exp_count) {
+				minor--;
 				break;
 			}
 		}
-		printf("%d ", logic_count);
 	}
+	//출력 : 
+	printf("%d", minor);
 
-
-	//최적화
-
-
-
-
-	//함수를 호출한 사람을 caller(main함수), 호출됨 함수(add함수)를 callee라고 한다.
-	//매개변수()를 초기화 시켜주는 것 a, b을 인자라고 한다. 
-	int fun1 = add(1, 2);//호출 연산자 : 함수를 호출 한다. 
-	int fun2 = add(3, 4);
-	int fun3 = add(5, 6);
-	printf("%d\n", fun1);
-	printf("%d\n", fun2);
-	printf("%d\n", fun3);
 	
-
-	//11654
-	//입력 :
-	//  정수, 문자 int , char 를 입력 값으로 받는다.
-	char aci;
-	scanf("%c", &aci);
+	
+	//2941
+	//목표 : 크로아티아 알파벳과 이외알파벳 갯수를 구한다.
+	//입력 : 
+	// 1. 최대 100글자단어를 입력 받는다.
+	char cro_alpha[100] = { 0 };
+	scanf("%s", cro_alpha);
+	// 2. 크로아티아 배열을 만든다.
+	// 3. count를 선언한다.
+	int cro_count = strlen(cro_alpha);//글자를 카운트 해준다.
 	//처리 :
-	//출력 : int ,char 를 아스키 코드로 변환한 출력 값ㄴ을 출력한다.
-	printf("%d\n", aci);
-	
-	//11720
-	// 입력 :
-	// 1. 첫 번째 줄은 입력할 숫자의 갯수 int 형식으로 입력받음
-	// 2. 두번 째 줄은 문자열 입력받음 => 배열로 받음
-	// 3. 총합 값 변수 선언 
-	int logic_n = 0;
-	char logic_c[101] ={0};
-	int logic_sum = 0;
+	// 3. 단어를 반복문을 돌린다.
 
-	scanf("%d", &logic_n);
-	scanf("%s", &logic_c);
-	
+	for (int i = 0; i < strlen(cro_alpha); i++) {
+		if (cro_alpha[i - 1] == 'c' && cro_alpha[i] == '=') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 1] == 'c' && cro_alpha[i] == '-') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 2] == 'd' && cro_alpha[i - 1] == 'z' && cro_alpha[i] == '=') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 1] == 'd' && cro_alpha[i] == '-') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 1] == 'l' && cro_alpha[i] == 'j') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 1] == 'n' && cro_alpha[i] == 'j') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 1] == 's' && cro_alpha[i] == '=') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 1] == 'z' && cro_alpha[i] == '=') {
+			cro_count--;
+		}
+		
 
-	// 처리 :
-	// 1. n 갯수만큼 반복문 돌려 배열값을 추출하고 총합값 으로 더해준다.
-	for (int i = 0; i < logic_n; i++)
-	{
-		logic_sum += logic_c[i] - 48; //문자열에서 int 형 뽑으려면 아스키코드 48을빼줘야함
 	}
-	
-	// 출력 :
-	// 1. 총합 값 출력
-	printf("%d\n", logic_sum);
+	// 3-1. 이전 문자가 크로아티아 문자이고, 해당 문자가 크로아 티아 문자이면 count 해준다.
+	// 3-1. 크로이티아 문자가 아니면 count 해준다.
+	// 4-1. count 값을 출력해준다.
+	//출력 :
+	printf("%d\n", cro_count);
+
+
 
 #pragma region c언어강의
 
@@ -189,7 +138,7 @@ int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해�
 	float temp1 = 0.0f;
 	int temp2 =0;
 	//변수 초기화 안하면 쓰레기값이 들어가 있다.
-	scanf("%f | %d", &temp1, &temp2);
+	//scanf("%f | %d", &temp1, &temp2);
 
 	printf("%f %d\n", temp1, temp2);
 
@@ -225,12 +174,12 @@ int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해�
 
 	//1.입력
 	//Case#1 : 10 20 30
-	int caseNum, data1, data2, data3;
-	scanf("Case#%d : %d %d %d", &caseNum, &data1, &data2, &data3);
+	//int caseNum, data1, data2, data3;
+	//scanf("Case#%d : %d %d %d", &caseNum, &data1, &data2, &data3);
 
 	//2. 출력
 	//Case#1 : 10 20 30
-	printf("Case#%d : %d %d %d", caseNum, data1, data2, data3);
+	//printf("Case#%d : %d %d %d", caseNum, data1, data2, data3);
 
 	//3.연산
 
@@ -279,6 +228,33 @@ int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해�
 		Library => 유용한 api 모음
 	*/
 
+
+	//220428 문자열
+	char str100[128];
+	str100[0] = 'H';
+	str100[1] = 'H';
+	str100[2] = 'H';
+	str100[3] = 'H';
+	str100[4] = 'H';
+	str100[5] = NULL;//null문자로 끝내야함 '\0'
+
+	printf("문자 %s", str100);// 문자열을 종료시키지 않았을때 쓰레기값 나옴
+	//왜냐하면 128 배열이므로 나머지 값도 함께 나옴 (null로 끝내줘야함) 
+
+
+	//pointer type : 주소값으로 해석하는 타입
+	//배열은 pointer type으로 암시적 변환됨 -> 포인터로 퇴행했다.
+
+	char str101[10];
+	//10 이상 담으면 오류뜸 => buffer overrun이라고 한다.
+	scanf("%s", str101); //=> 배열은 포인터 타입임, 주소 안씀
+
+	//문자열 길이를 지정할수 있는 %n을 설정한다 => 시큐어 함수
+	scanf("%9s", str101);
+	
+	//scanf_s 로 범위를 지정할수도 있다.
+	scanf_s("%s", str101, 10); 
+	
 
 
 #pragma endregion
@@ -986,6 +962,333 @@ int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해�
 
 	printf("%d\n", cnt10);
 
+	char asdasd[4] = { 'a','b','c' };
+	printf("배열 갯수 %d\n", strlen(asdasd));
+	//마지막 배열[4] 자리에 null이 들어 가는데, 
+	//strlen함수는 배열의 null을 만나야 문자열의 끝을 판별할수 있다.
+
+
+	//1157
+	//입력 :
+	// 1. 문자열 A 입력 받기 1,000,000
+	// 1-1 문자열이 대문자이면 소문자로 전환
+	// 2. 알파벳 문자열 alpha 입력 받기 26
+	// 3. alpha 배열과 문자열 a 2중 반복문 돌린뒤 
+	// 3-1 값이 같으면 알파벳 카운트 문자열 beta 에 +1입력 받기
+	// 4. 최댓값과 같으면 ? 더 크면 큰값이 출력되게 설정
+
+	scanf("%s", &alpha_arr);
+	char mb = '#';
+	int max = 0;
+	int beta_count[92] = { 0 };
+	int j = 0;
+	while (alpha_arr[j] != 0) {//int i = 65; i <= 90; i++
+		for (int i = 65; i <= 90; i++) {//alpha_arr[j] != 0
+
+			if (alpha_arr[j] >= 'a' && alpha_arr[j] <= 'z') {
+				alpha_arr[j] -= 32;
+			}
+
+
+			if ((char)i == alpha_arr[j]) {
+				beta_count[i] += 1;
+
+				if (beta_count[i] > max) {
+					max = beta_count[i];
+					mb = (char)i;
+				}
+				else if (beta_count[i] == max) {//같으면 ?
+					mb = '?';
+				}
+
+				break;
+			}
+
+		}
+
+		j++;
+	}
+
+	printf("%c\n", mb);
+
+
+
+	//최적화
+	// 입력 :
+	//1. 문자열 A 입력 받기 1000000
+	// 처리 : 
+	//1. 아스키 코드값으로 대문자 A에서 Z사이의 범위를 반복문 돌리기
+	//2. 문자열 A를 대문자로 바꾸고 A에서 Z사이중 몇번째 인지 
+
+
+
+	//처리 :
+	//출력 :
+
+
+	//2675
+	//입력 :
+	// 1. 테스트 케이스 T입력 받기 1000
+	// 2. T만큼 반복문 돌리기
+	// 3. 반복문에서 반복 횟수 R입력 받기 8
+	// 4. 문자열 s 받기 20
+	// 5. s문자열 반복시켜서 R과 곱해줌으로 출력하기
+	int logic_T;
+	scanf("%d", &logic_T);
+
+	//처리 :
+	for (int i = 0; i < logic_T; i++) {
+		int logic_R;
+		char logic_S[20];
+		scanf("%d %s", &logic_R, &logic_S);
+		for (int i = 0; i < strlen(logic_S); i++)
+		{
+			for (int j = 0; j < logic_R; j++)
+			{
+				printf("%c", logic_S[i]);
+			}
+		}
+		printf("\n");
+	}
+
+	//출력 :
+
+
+
+	//10809
+	//입력 : 
+	// 1. 첫째 줄에 단어 S가 주어진다.(char 100배열) , s를 입력 받는다.
+	// 2. 알파벳 문자열을 받는다 
+	char logic_s[100] = { 0 };
+	char logic_alpa[26] = { 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' };
+	scanf("%s", logic_s);
+	//처리 : 
+	// 1. 문자열 반복문 돌리기
+	// 1-1 . 문자열에 알파벳이 있는지 없는지 검사
+	// 1-1-1 . 알파벳이 없으면 -1
+	// 1-1-2 . 알파벳이 있으면 
+	// 1-1-2-1. 몇번째 문자열에 있는지 검사
+	//출력 : 
+	int logic_count = 0;
+	for (int i = 0; i < 26; i++) {
+		for (int j = 0; j < 100; j++) {
+			if (logic_s[j] != logic_alpa[i]) {
+				logic_count = -1;
+			}
+			else {
+				logic_count = j;
+				break;
+			}
+		}
+		printf("%d ", logic_count);
+	}
+
+
+	//최적화
+
+
+
+
+	//함수를 호출한 사람을 caller(main함수), 호출됨 함수(add함수)를 callee라고 한다.
+	//매개변수()를 초기화 시켜주는 것 a, b을 인자라고 한다. 
+	int fun1 = add(1, 2);//호출 연산자 : 함수를 호출 한다. 
+	int fun2 = add(3, 4);
+	int fun3 = add(5, 6);
+	printf("%d\n", fun1);
+	printf("%d\n", fun2);
+	printf("%d\n", fun3);
+
+
+	//11654
+	//입력 :
+	//  정수, 문자 int , char 를 입력 값으로 받는다.
+	char aci;
+	scanf("%c", &aci);
+	//처리 :
+	//출력 : int ,char 를 아스키 코드로 변환한 출력 값ㄴ을 출력한다.
+	printf("%d\n", aci);
+
+	//11720
+	// 입력 :
+	// 1. 첫 번째 줄은 입력할 숫자의 갯수 int 형식으로 입력받음
+	// 2. 두번 째 줄은 문자열 입력받음 => 배열로 받음
+	// 3. 총합 값 변수 선언 
+	int logic_n = 0;
+	char logic_c[101] = { 0 };
+	int logic_sum = 0;
+
+	scanf("%d", &logic_n);
+	scanf("%s", &logic_c);
+
+
+	// 처리 :
+	// 1. n 갯수만큼 반복문 돌려 배열값을 추출하고 총합값 으로 더해준다.
+	for (int i = 0; i < logic_n; i++)
+	{
+		logic_sum += logic_c[i] - 48; //문자열에서 int 형 뽑으려면 아스키코드 48을빼줘야함
+	}
+
+	// 출력 :
+	// 1. 총합 값 출력
+	printf("%d\n", logic_sum);
+
+
+
+	//입력 :
+	// 1. 출력할 테스트 케이스 n 을 입력 받는다.
+	//처리 :
+	// 2. n갯수 만큼 반복문을 돌린다.
+	// 3. char 배열로 문자열을 입력 받는다. (80)
+	// 4. 문자열에 o가 들어가면 count해준다
+	// 4-1. 앞 문자열이 o 이면 count + 1을 더해준다. => 카운트는 별짓기 문제 처럼 푼다.
+	// 
+	//출력 :
+	// 5. count값을 출력한다.
+	int testcnt = 0;
+	scanf("%d", &testcnt);
+	for (int i = 0; i < testcnt; i++) {
+		char testch[81];
+		int testcount = 0;
+		int testcount2 = 0;
+		scanf("%80s", testch);
+		for (int j = 1; j < strlen(testch) + 1; j++) {
+			testcount = 0;
+			for (int k = 0; k < j; k++) {
+				if (testch[k] == 'O') {
+					testcount++;
+				}
+				else {
+					testcount = 0;
+				}
+			}
+
+			testcount2 += testcount;
+		}
+		printf("%d\n", testcount2);
+
+	}
+
+	//5622
+	//목표 : 전화을 걸기위해 필요한 최소한의 시간을 구하시오
+	// 1. 숫자 1을 걸려면 2초 걸림, 안칸 옆 숫자는 1초씩 더걸림.
+	// 2. 문자로 표현된 숫자를 가지고 걸리는 시간을 구하는 문제.
+	//입력 : 
+	// 1. 할머니의 문자열을 입력받음 (0과1 은 입력 안함)
+	char phone_alpha[16] = { 0 };
+	scanf("%15s", phone_alpha);
+
+	// 2. 시간 총합값을 선언한다.
+	int tel_time = 0;
+	//처리 :
+	// 3. 문자열을 for 반복문을 사용한다 2보다 크거나 같고 15보다 작거나 같다
+	// 4. 알파벳은 3개씩에 1개의 번호를 가지므로, 나머지와 몫으로 번호를 출력한다.
+	// 4-1. 
+	for (int i = 0; i < strlen(phone_alpha); i++) {
+
+		if (phone_alpha[i] >= 'a' && phone_alpha[i] <= 'z') {//대문자 범위 65 ~ 90
+			phone_alpha[i] -= 32;
+		}
+
+		//대문자 범위를 반복문 돌림
+		for (int j = 65; j <= 90; j++) {
+			if (phone_alpha[i] == j) { //할머니 문자가 해당 대문자면
+				phone_alpha[i] = (j - 65) / 3 + 2 + 48; //012345....26 
+				if (j == 83 || j == 86 || j == 89 || j == 90) {
+					phone_alpha[i] = (j - 65) / 3 + 2 + 47;
+				}
+
+				//시간을 더해줌
+				tel_time += phone_alpha[i] + 1 - 48;
+			}
+		}
+	}
+	// 5. 번호를 출력했으면 번호 까지 가는 시간 값을 추가해준다. 
+	//출력 :
+	// 6. 총 시간을 출력한다.
+
+	printf("%d", tel_time);
+
+
+
+
+
+
+
+
+
+
+	//2908
+	//목표 : 두 수를 입력 받고 숫자를 거꾸로 만든다음 비교하기
+	//입력 : 
+	// 1. A와 B를 int 형 정수로 입력 받는다. => 0이 없다
+	int logic_A = 0;
+	int logic_B = 0;
+
+	char result_a[3] = { 0 };
+	char result_b[3] = { 0 };
+
+
+	scanf("%d", &logic_A);
+	scanf("%d", &logic_B);
+
+	//처리 : s
+	// 2. A와 B의 숫자를 거꾸로 반복문을 돌려 입력한다.
+	for (int i = 0; i < 3; i++) {
+		result_a[2 - i] = logic_A % 10 + 48;
+		logic_A = logic_A / 10;
+		result_b[2 - i] = logic_B % 10 + 48;
+		logic_B = logic_B / 10;
+	}
+
+	// 3. 두수를 비교 하고 큰수를 출력한다. => char를 정수로 변환 할때 - 48 사용 할것 
+	int logic_count_test = 1;
+	for (int i = 0; i < 3; i++) {
+		logic_A += (result_a[i] - 48) * logic_count_test;
+		logic_B += (result_b[i] - 48) * logic_count_test;
+		logic_count_test *= 10;
+	}
+
+	//출력 : 
+	if (logic_A > logic_B) {
+		printf("%d\n", logic_A);
+	}
+	else {
+		printf("%d\n", logic_B);
+	}
+
+
+
+
+
+	//1152
+	//목표 : 문자열에 들어간 단어 갯수 구하기 (문자 아님 단어임) => fgets 사용
+	//입력 :
+	// 1. 문자열 str 을 입력 받는다. (1000000) , count 정수를 선언한다.
+	char logic_str[1000001];
+	int logic_count100 = 0;
+	fgets(logic_str, 1000000, stdin); //띄어쓰기까지 받을수 있는 함수 
+
+	//처리 :
+	// 2. 문자열 str을 반복문 돌린다.
+	// 2-1. 문자가 공백이면 count 해준다.
+	// 3. 맨 앞 자리와 맨 뒷자리가 공백이면 -1 count 해준다.
+	for (int i = 0; i < strlen(logic_str) - 1; i++) {
+		if (logic_str[i] == ' ') {//strlen에 null 까지 포함됨
+			logic_count100 += 1;
+		}
+	}
+
+
+	if (logic_str[0] == ' ') {
+		logic_count100 -= 1;
+	}
+	if (logic_str[strlen(logic_str) - 2] == ' ') {
+		logic_count100 -= 1;
+	}
+
+
+	//출력 :
+	printf("%d\n", logic_count100 + 1);
 
 #pragma endregion
 
