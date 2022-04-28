@@ -27,21 +27,20 @@ int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해�
 	// 6-1. 예를들어 p 알파벳을 구한다 할때 별짓기 갯수 만큼 안늘어 나 있으면 그룹 단어가 아니다.
 	// 6-2. 
 	
-	int word_array[26]={0};
-	int minor = 0;
-	for (int i = 0; i < 26; i++){
-		word_array[i] = -1;
-	}
+	int minor = logic_group_cnt;
 
 	for (int i = 0; i < logic_group_cnt; i++) {
+		int word_array[26]={0};
+		for (int i = 0; i < 26; i++){
+			word_array[i] = -1;
+		}
 		char group_word[100];
 		scanf("%s", group_word);
-		minor = strlen(group_word);
 		int exp_count = 1;
 		for (int j = 0; j < strlen(group_word); j++) {
 			int word_count = group_word[j] - 'a';//0~25까지 알파벳인덱스를 받는다.
 			
-			if (word_array[word_count] != -1) { //이미 자리에 값이 있을때
+			if (group_word[j-1] == group_word[j] && word_array[word_count] != -1) { //이미 자리에 값이 있을때
 				exp_count++;
 			}
 			else {
@@ -51,17 +50,12 @@ int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해�
 
 			word_array[word_count] = j;//문자열의 위치를 알파벳배열 index에 담아준다.
 			int test_count = 0;
-			//for (int k = 0; k < j+1; k++){
-			for (int k = 0; k < 3; k++) {
+			//for (int k = 0; k < 3; k++) {
+			for (int k = 0; k < j+1; k++){
 				if (group_word[j] == group_word[k]) {//알파벳이 있는지 확인하기
 					test_count++; //해당 알파벳을 카운트해서 갯수 가져오기
-					printf("어쩌라고 %d\n", test_count);
 				}
 			}
-
-			printf("시발 %d\n", test_count);
-			printf("놈아 %d\n", exp_count);
-
 			if (test_count != exp_count) {
 				minor--;
 				break;
