@@ -263,9 +263,30 @@ int main() {
 
 
 	//포인터 연산 사용하기 (메모리 연산하기)
+
+	//포인터 연산 사용하기
+	//포인터 연산을 하면 다른 메모리 주소를 손쉽게 옮겨 다닐수있다.
+	int numArr[5] = { 11,22,33,44,55 };
+	int *numPtrA;
+	int *numPtrB;
+	int *numPtrC;
+
+	numPtrA = numArr;//배열 포인터 저장
+
+	numPtrB = numPtrA + 1; //포인터 연산
+	numPtrC = numPtrA + 2; //포인터 연산
+
+
+	printf("%p\n", numPtrA); //11주소 받음
+	printf("%p\n", numPtrB); //22주소 받음 (4바이트 만큼 이동)
+	printf("%p\n", numPtrC); //33주소 받음 (8바이트 만큼 이동)
+
+	//포인터 연산 사용하기2
+	char* cPtr1 = NULL;
+	short* numPtr1000 = NULL;
+
+
 	
-
-
 
 
 	return 0;

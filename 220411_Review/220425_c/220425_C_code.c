@@ -2,121 +2,240 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+#include <ctype.h>
 
 int arr[1000000];
 char alpha_arr[10000000];
 char aaa[10000000];
 
+
+//=> ///3개 써서 함수 설명 적음
+/// <summary>
+/// 배열에 모든 원소를 더한다.
+/// </summary>
+/// <param name="a">정수 n개가 저장되어 있는 배열</param>
+/// <param name="n">배열의 크기</param>
+/// <returns>배열의 모든원소를 더한값</returns>
+long long sum(int* a, int n) {
+	long long sum100 = 0LL;
+	for (int i = 0; i < n; i++)
+	{
+		sum100 += (long long)a[i]; //a는 퐁니터 타입이기때문에 배열로 변환 가능
+	}
+	return sum100;
+}
+
+
+
+
+void Swap(int* a, int* b)
+{
+	// a : 0x1234 -> 0xabcd
+	// b : 0x5678 -> 0x5780
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+//함수
+//return-type identifier(parameter-list) => header
+//complicated statement => Body
+
+//매개변수(Parameter)
+//Parameter : 함수에서 사용되는 변수, 함수 외부에서 입력값을 받기 위해 사용.
+
+//함수를 사용하는 의의는 코드를 재사용하기 위함이다.
+
+//함수를 호출한다. 호출한 main을 호출자, 호출된 함수를 피호출자
+//호출자에게 내가 계산한 결과를 '반환'해줄수 있다.
+//반환은 return문을 사용함. 반환 값은 반환 타입과 일치 해야함
+//반환 해줄것이 없다면 void 타입 사용.
+int sum2(int x, int y) {
+	return x + y;
+}
+
+
+void foo() {
+	if (1) {
+		return; //반환 타입이 void인 경우에도 return문을 사용할수있으며,
+		//함수를 중간에 끝낼때 사용한다.
+	}
+}
+
+
+//3개의 입력을 받아 모든 입력값을 더해서 반환하는 함수 sum3()를 만들어라
+int sum3(int a, int b, int c) {
+	return a + b + c;
+}
+
+
+//Swap() : 2개의 정수를 입력받아 서로 데이터를 교환
+void Swap2(int *a, int *b) {
+	int temp;
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+//isLower() : 한개의 문자를 받아 소문자인지 판별한다.
+int islower(char n) {
+	int testnum = 0;
+	if (n >='a' && n <= 'z') {
+		testnum = 1;
+	}
+	return testnum;
+}
+
+//isupper() : 한개의 문자를 받아 대문자인지 판별한다.
+int isupper(char n) {
+	int testnum = 0;
+	if (n >= 'A' && n <= 'Z') {
+		testnum = 1;
+	}
+	return testnum;
+}
+
+
+//tolower()/ toupper()
+char tolower2(char a) {
+	const int special_acii_num = 32;
+	if (a >= 'A' && a <= 'Z') {
+		a + special_acii_num;
+	}
+
+	return a;
+}
+
+char toupper2(char a) {
+	const int special_acii_num = 32;
+	if (a >= 'a' && a <= 'z') {
+		a - special_acii_num;
+	}
+
+	return a;
+}
+
+//strlen() : 문자열의 길이를 구하는 함수
+// 배열을 받으려면 포인터를 사용해야한다.
+// 배열을 매개변수로 받는 함수는 배열의 크기를 같이 받는다.
+// 문자열의 끝은 null문자다 => 따라서 배열의 크기를 알지 않아도 끝을 알수 있다.
+//매개변수 1개 => 문자열을 저장하기 위한 객체  => pointer to char  
+int strlen2(const char *str) {
+	
+	int count = 0;
+	for (int i = 0; str[i] != '\0' ; i++)
+	{
+		count++;
+	}
+	//둘중하나 사용가능
+
+	while (*str++ != '\0') {
+		++count;
+	}
+
+	return count;
+}
+
+
+// strchr() : 문자열에서 특정 문자의 위치를 찾는 것
+// 입력 : 문자열(const char*), 내가 찾을 문자(const char)
+// 처리 : 입력된 문자열에서 그 문자가 나온 위치(메모리 주소)를 찾는다.
+// 출력 : 문자의 위치 => 그 문자가 있는 메모리 주소값(char*)
+// 1. 문자가 있는 경우 => 그 문자의 위치
+// 2. 문자가 없는 경우 => NULL
+// char* pos = strchr("Hello, 'l');
+// "Hello"
+//    ↑
+
+// 1. 문제 정의 => 입력, 처리, 출력. 문제를 충분히 해결할 수 있을 정도로 계속해서 작은 단위로 쪼개서 생각해야 함.
+// 2. 작은 문제로 쪼갰다면 그 문제를 해결할 절차를 기술.
+// 3. 문제를 해결하기 위해 어떤 데이터가 필요한가? => 즉, 어떤 데이터를 저장해야 하는가?
+
+char* strchr3(const char* str, const char ch)
+{
+	while (*str != '\0')
+	{
+		if (*str == ch)
+		{
+			return (char*)str;
+		}
+
+		++str;
+	}
+
+	return NULL;
+}
+
+
+
+//strrchr() : 문자열의 위치를 바꿔주는것
+//배열형태로 리턴 가능
+char* strrchr2(char* str) {
+
+	char* temp2 = str; // reverse해줄 변수 선언 => 포인터에서 포인터로 참조할땐 &안씀 => 값이 동일해짐
+	//문자열의 갯수가 정해지지 않았으므로 while문을 쓰는것이 좋다.
+	int count = 0;
+	while (*str != '\0') {
+		printf("주소1 %p\n", str);
+		str;
+	}
+	while (*temp2 != '\0') {
+		printf("주소2 %p\n", str);
+		--str;
+
+	}
+
+	return temp2;
+}
+
+	
+
+
+	//while (*str != 0) {
+	//	//*temp2 = *str;//str의 첫 배열주소값을 temp에 넣어준다.
+	//	printf("주소 %p\n", str);
+	//	++str;//그리고 str을 계속 연산해서 주소값이 null이 나올때 까지 반복한다.
+	//}
+	//printf("무엇일까 %p\n", --str);
+	
+
+//}
+
+char * strrchr(char* str) {
+	char* temp;
+	temp = str;
+	int count = 0;
+	for (int i = 0; str[i] != '\0'; i++) {
+		temp[i] = str[i];
+		count++;
+	}
+	for (int j = 0; str[j] != '\0'; j++) {
+		str[j] = temp[count - j];
+	}
+
+}
+
+
+
+
+
 int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해줌
 
 
-	//1316
-	//목표 : 
-	// 1. 그룹 단어 개수를 출력하는 프로그램을 만들기
-	// 2. 그룹단어가 아닐땐 카운트 안한다. -> 그룹단어는 같은 문자는 같은 문자끼리 이어져 있음
-	//입력 :
-	// 1. 입력 할 그룹단어 갯수를 logic_group_cnt 로 선언하고 입력 받는다.
-	int logic_group_cnt = 0;
-	scanf("%d", &logic_group_cnt);
-	//처리 :
-	// 2. logic_group_cnt의 갯수 만큼 반복문을 돌린다.
-	// 3. char 문자열로된 group_word 를 선언하고 입력 받는다.
-	// 4. group_word 문자열을 반복문 돌린다.
-	// 5. group_word문자의 알파벳을 0 ~ 26으로 뽑고 새로운 count 배열 [index]에 넣어준다. => 값은 group_word문자위치로
-	// 6. group_word 반복문을 돌릴때, 별짓기 방식으로 count 해준다(새로운 for문)
-	// 6-1. 예를들어 p 알파벳을 구한다 할때 별짓기 갯수 만큼 안늘어 나 있으면 그룹 단어가 아니다.
-	// 6-2. 
-	
-	int minor = logic_group_cnt;
-
-	for (int i = 0; i < logic_group_cnt; i++) {
-		int word_array[26]={0};
-		for (int i = 0; i < 26; i++){
-			word_array[i] = -1;
-		}
-		char group_word[100];
-		scanf("%s", group_word);
-		int exp_count = 1;
-		for (int j = 0; j < strlen(group_word); j++) {
-			int word_count = group_word[j] - 'a';//0~25까지 알파벳인덱스를 받는다.
-			
-			if (group_word[j-1] == group_word[j] && word_array[word_count] != -1) { //이미 자리에 값이 있을때
-				exp_count++;
-			}
-			else {
-				exp_count = 1;
-			}
-			
-
-			word_array[word_count] = j;//문자열의 위치를 알파벳배열 index에 담아준다.
-			int test_count = 0;
-			//for (int k = 0; k < 3; k++) {
-			for (int k = 0; k < j+1; k++){
-				if (group_word[j] == group_word[k]) {//알파벳이 있는지 확인하기
-					test_count++; //해당 알파벳을 카운트해서 갯수 가져오기
-				}
-			}
-			if (test_count != exp_count) {
-				minor--;
-				break;
-			}
-		}
-	}
-	//출력 : 
-	printf("%d", minor);
 
 	
-	
-	//2941
-	//목표 : 크로아티아 알파벳과 이외알파벳 갯수를 구한다.
-	//입력 : 
-	// 1. 최대 100글자단어를 입력 받는다.
-	char cro_alpha[100] = { 0 };
-	scanf("%s", cro_alpha);
-	// 2. 크로아티아 배열을 만든다.
-	// 3. count를 선언한다.
-	int cro_count = strlen(cro_alpha);//글자를 카운트 해준다.
-	//처리 :
-	// 3. 단어를 반복문을 돌린다.
-
-	for (int i = 0; i < strlen(cro_alpha); i++) {
-		if (cro_alpha[i - 1] == 'c' && cro_alpha[i] == '=') {
-			cro_count--;
-		}
-		if (cro_alpha[i - 1] == 'c' && cro_alpha[i] == '-') {
-			cro_count--;
-		}
-		if (cro_alpha[i - 2] == 'd' && cro_alpha[i - 1] == 'z' && cro_alpha[i] == '=') {
-			cro_count--;
-		}
-		if (cro_alpha[i - 1] == 'd' && cro_alpha[i] == '-') {
-			cro_count--;
-		}
-		if (cro_alpha[i - 1] == 'l' && cro_alpha[i] == 'j') {
-			cro_count--;
-		}
-		if (cro_alpha[i - 1] == 'n' && cro_alpha[i] == 'j') {
-			cro_count--;
-		}
-		if (cro_alpha[i - 1] == 's' && cro_alpha[i] == '=') {
-			cro_count--;
-		}
-		if (cro_alpha[i - 1] == 'z' && cro_alpha[i] == '=') {
-			cro_count--;
-		}
-		
-
-	}
-	// 3-1. 이전 문자가 크로아티아 문자이고, 해당 문자가 크로아 티아 문자이면 count 해준다.
-	// 3-1. 크로이티아 문자가 아니면 count 해준다.
-	// 4-1. count 값을 출력해준다.
-	//출력 :
-	printf("%d\n", cro_count);
-
-
 
 #pragma region c언어강의
 
+
+	int isAlreadyExist[26] = { 0 };
+
+	isAlreadyExist[0] = -1;
+	if (isAlreadyExist[0])
+	{
+		printf("참");
+
+	}
 
 	char ch = 'a';
 	int number = 20;
@@ -241,16 +360,233 @@ int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해�
 
 	char str101[10];
 	//10 이상 담으면 오류뜸 => buffer overrun이라고 한다.
-	scanf("%s", str101); //=> 배열은 포인터 타입임, 주소 안씀
+	//scanf("%s", str101); //=> 배열은 포인터 타입임, 주소 안씀
 
 	//문자열 길이를 지정할수 있는 %n을 설정한다 => 시큐어 함수
-	scanf("%9s", str101);
+	//scanf("%9s", str101);
 	
 	//scanf_s 로 범위를 지정할수도 있다.
-	scanf_s("%s", str101, 10); 
+	//scanf_s("%s", str101, 10); 
+
+	char N100[26] = { 0 };
+	char asdasdasd[23] = "";
+	//scanf("%s", asdasdasd);
+	printf("%s \n", asdasdasd);
+
+	for (int i = 0; i < 3; i++)
+	{
+		//scanf("%1s", &N100[i]); //=> 1글자씩 받기 때문에 줄바꿈이나 이어붙여도 3개까지 저장시킴
+	}
+
+	for (int i = 0; i < 3; i++) {
+
+		printf("%c ", N100[i]);
+	}
+
+
+	//strcpy
+	char word[128] = "Hello, String!";
+
+	//Hello, string => Drunkenjaesung
+	strcpy(word, "Drunkenjaesung"); //조건 : 반드시 null종료 문자열 이어야 함
+	puts(word); //출력문
+
+	
+	char word2[128] = "";
+	strcpy(word2, word);
+	puts(word2);
+
+	char word3[5];
+	word3[0] = 'H';
+	word3[1] = 'H';
+	word3[2] = 'H';
+	word3[3] = 'H';
+	//word3[4] = '\0';  => null값이 없으면 다른 메모리 침범 가능성 생김
+
+
+	strcpy(word2, word3); //null값 설정 안해서 오류남 => 다른 메모리 침범해서 저장하게 될수 있음 (오류 원인)
+
+
+	//strcat
+	char nameT[100] = "hana"; //소스는 null로 종료가 되었는지 꼭 확인
+	strcat(nameT, " one");
+	puts(nameT);
+
+	//strlen 
+	char nameF[100] = "hana1"; //소스는 null로 종료가 되었는지 꼭 확인
+	size_t lenf = strlen(nameF);//null문자를 제외한 갯수를 알려줌
+
+	//size_t : 타입의 별명을 지어줌 (타입 재정의)
+	//puts(lenf); //=> 안됨
+	printf("%d", lenf);
+
+	//strcmp : 비교
+	if (0 == strcmp(nameF, "hana1")) {
+		puts("같음");
+	}
+
+
+	char input[] = "A bird came down the walk";
+
+	// Pointer : 데이터를 메모리 주소값으로 해석
+	// Type* Identifier;
+	// int* p; => pointer to int
+
+	int a10 = 10; // a : 0x1234
+	int b10 = 20; // b : 0x5678
+
+	// a <-> b
+	Swap(&a10, &b10);
+	printf("%d %d", a10, b10);
+
+	int num = 10;
+	int* p2 = NULL;
+	int* p = &num;
+
+	int** p3 = &p; // pointer to pointer to int
+	**p3 = 30;
+
+	int*** p4 = &p3; // pointer to pointer to pointer to int
+	***p4 = 50;
+
+
+
+	*p = 20;
+
+	// 왜? 포인터를 사용해야 하는가
+	// 메모리에 접근하는 방법은 2가지가 있다.
+	// 직접 참조(Direct Reference / Direct Access) : 메모리 주소에 직접 접근하는 것
+	// num = 20;
+	// 간접 참조(Indirect Reference / Indirect Access) : 메모리 주소를 포인터를 통해서 접근하는 것
+	// => 함수에서 불가능했던 다른 주소값에 접근후 할당이 가능하다 (예 . a와 b를 바꾸기)
+	// *p = 20;
+	// Scope : 프로그램이 식별자를 찾을 수 있는 영역
+	// Block Scope => Local Variable
+	// File Scope => Global Variable
+
+	//Pointer Type 크기는 얼마인가?
+	//Pointer Type :데이터를 메모리 주소값으로 해석한다.
+	//x86에서는 4바이트
+	//x64에서는 8바이트임
+
+	//a[b] => *(a+b);
+
+	//address operation 주소 연산 : 배열이나 포인터에서 사용가능
+	// 주소 연산은 포인터 또는 배열에서 일어난다. 
+	// int * ptr[] = {1,2,3,4};
+	// int * ptr = malloc(sizeof(int));
+	// char * am = "asdasdasdasd";
+	// ...
+	// 
+	// + - : 메모리 주소를 가리키고 있는 타입의 크기 만큼옮긴다.
+	int arr100[2] = { 10,20 };
+	p = arr100;//arr의 첫번째 원소의 주소를 가리키게된다.
+	p = p + 1; //&arr[1] => 배열의 다음주소로 이동하게된다. (int형이므로 4바이트 만큼 주소 이동)
+	p = p - 1; //&arr[0]
+	
+	char* psh; //pointer to pointer
+	psh + 1; // 1바이트 만큼 뒤로 이동
+	psh - 1; // 1바이트 만큼 앞으로 이동
+	
+	//a[b] => *(a+b);
+	int arr101[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	arr101[2] == *(arr101 + 2); // => 배열포인터에서 주소연산 +2 를 한다는건 arr의 3번째값을 가져온다는 뜻이다.
+	p = arr101; //포인터와배열은 같다.
+	p[2]; //같은 의미 => 배열과 포인터는 같기때문에 포인터에서 배열 인덱스에 접근가능하다.
+
+	//주의 : 역참조 연산자와 증감 연산자를 결합할때 연산 순서를 유의해야한다.
+	int testnum1 = *p++; //=> *p 가 실행된 다음 ++ 이 실행됨 (++은 주소 연산자로 주소 값을 이동하게됨)
+	//testnum1에 역참조값 1값을 부여하고 포인터를 1 증가 시킴
+	int testnum2 = *++p; 
+	//testnum2에 포인터 2에서 1증가 시킨후 역참조값 3값을 변수에 대입시킨다.
+	int testnum3 = ++(*p);
+	//testnum3에 포인터 3에서 1증가시킨후 역참조 값 4값을 변수에 대입시킨다.
+
+	printf("\n%d", sizeof(p));
+
+
+	//strchr  : 문자열에서 주소값을 반환 
+	const char* str1001 = "Try not.Do, or do not. There is no try.";
+	char target = 'T';
+	const char* result1000 = str1001;
+
+	const char* pos = strchr(str1001, target);
+	
+	while ((result1000 = strchr(result1000,target)) != NULL) {
+		printf("%c %s\n", target, result1000);
+		++result1000; //포인터 에 + 연산해줌 (포인터가 캐릭터 이므로 1바이트 이동함) => 배열에서 r찾음 
+	} 
 	
 
+	//strtok : 토큰 단위로 분리 하기 => 문자열의 끝을 null 로 반환 해줌 => 끊어줌
+	//null로 문자열을 끊어주며 단어를 분리시켜 반환 해줌 => 처음에는 문자열을 집어넣고 
+	//안쪽에선 해당 문자열에 null을 삽입 시켜 토큰을 끊어주게된다.
+	char input100[] = "A bird came down the walk";
+	printf("Parsing the input string '%s' \n", input100);
+	char* token = strtok(input100, " "); // => " " 띄어쓰기 만나면 해당 문자열을 끊어준다. 
+	//strtok 함수에 토큰 쓰고 나머지값 남아 있음 => ""안에 다양한 문자를 지정해서 끊어줄수 있음
+	while (token) { // token도 출력 하다 문자열이 null일때 끝난다.
+		printf("%s\n", token);//puts(token) 가능
+		token = strtok(NULL, "c");//다음 끊고 싶은 문자열 패턴을지정하고 NULL값을 삽입해 끝어준다.
+	}
 
+
+	//void pointer
+	//함수나 포인터에서만 타입 선언가능 : 주소 자체로만 다룰때 사용함
+	void* p1000; // pointer to void (int,double,function 등 여러 타입받음)
+	int* p2000;  //int 
+
+
+	//함수 
+	//함수는 선언과 정의가 명확히 나뉜다.
+	int func1 = sum2(1, 2); //인자(argument) : 매개변수의 초기값
+	//puts(func1);
+	printf("%d\n", func1);
+
+	//()괄호도 호출 연산자이다
+
+
+	int sp1 = 1;
+	int sp2 = 2;
+	Swap2(&sp1, &sp2);
+	//printf("%d %d", sp1, sp2);
+
+	//문자가 소문자인지 함수 써서 판별
+	char test_m = 'A';
+	if (islower(test_m) == 1) {
+		printf("소문자 입니다.\n");
+	}
+	else {
+		printf("대문자 입니다.\n");		
+	}
+
+	printf("%c\n", tolower2('A'));
+	printf("%c\n", toupper2('c'));
+
+	char test_chch[100] = "asdasdasdasdasdasdasdasdasdasdasdasd";
+	printf("%d\n", strlen2(test_chch));
+
+	char test_ch100[100] = "asdasd";
+	printf("%p\n", strchr3(test_ch100, 'd'));
+	
+	//메모리 주소값을 가져옴
+	char test_ch200[100] = "qweqwe";
+	printf("%p\n", strchr3(test_ch200, 'w'));
+
+	char test_ch101[100] = "asdasd";
+	strrchr(test_ch101);
+	printf("%s", test_ch101);
+	
+	char test_ch300[100] = "asdasd";
+	strrchr2(test_ch300);
+	printf("%p", test_ch300);
+
+
+
+	//숙제 : 레퍼런스에서 배운 함수들을 내가 함수 만들기
+	/*
+		
+	*/
 #pragma endregion
 
 #pragma region 알고리즘
@@ -1283,6 +1619,113 @@ int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해�
 
 	//출력 :
 	printf("%d\n", logic_count100 + 1);
+
+
+
+	//1316
+	//목표 : 
+	// 1. 그룹 단어 개수를 출력하는 프로그램을 만들기
+	// 2. 그룹단어가 아닐땐 카운트 안한다. -> 그룹단어는 같은 문자는 같은 문자끼리 이어져 있음
+	//입력 :
+	// 1. 입력 할 그룹단어 갯수를 logic_group_cnt 로 선언하고 입력 받는다.
+	int logic_group_cnt = 0;
+	scanf("%d", &logic_group_cnt);
+	//처리 :
+	// 2. logic_group_cnt의 갯수 만큼 반복문을 돌린다.
+	// 3. char 문자열로된 group_word 를 선언하고 입력 받는다.
+	// 4. group_word 문자열을 반복문 돌린다.
+	// 5. group_word문자의 알파벳을 0 ~ 26으로 뽑고 새로운 count 배열 [index]에 넣어준다. => 값은 group_word문자위치로
+	// 6. group_word 반복문을 돌릴때, 별짓기 방식으로 count 해준다(새로운 for문)
+	// 6-1. 예를들어 p 알파벳을 구한다 할때 별짓기 갯수 만큼 안늘어 나 있으면 그룹 단어가 아니다.
+	// 6-2. 
+
+	int minor = logic_group_cnt;
+
+	for (int i = 0; i < logic_group_cnt; i++) {
+		int word_array[26] = { 0 };
+		for (int i = 0; i < 26; i++) {
+			word_array[i] = -1;
+		}
+		char group_word[100];
+		scanf("%s", group_word);
+		int exp_count = 1;
+		for (int j = 0; j < strlen(group_word); j++) {
+			int word_count = group_word[j] - 'a';//0~25까지 알파벳인덱스를 받는다.
+
+			if (group_word[j - 1] == group_word[j] && word_array[word_count] != -1) { //이미 자리에 값이 있을때
+				exp_count++;
+			}
+			else {
+				exp_count = 1;
+			}
+
+
+			word_array[word_count] = j;//문자열의 위치를 알파벳배열 index에 담아준다.
+			int test_count = 0;
+			//for (int k = 0; k < 3; k++) {
+			for (int k = 0; k < j + 1; k++) {
+				if (group_word[j] == group_word[k]) {//알파벳이 있는지 확인하기
+					test_count++; //해당 알파벳을 카운트해서 갯수 가져오기
+				}
+			}
+			if (test_count != exp_count) {
+				minor--;
+				break;
+			}
+		}
+	}
+	//출력 : 
+	printf("%d", minor);
+
+
+
+	//2941
+	//목표 : 크로아티아 알파벳과 이외알파벳 갯수를 구한다.
+	//입력 : 
+	// 1. 최대 100글자단어를 입력 받는다.
+	char cro_alpha[100] = { 0 };
+	scanf("%s", cro_alpha);
+	// 2. 크로아티아 배열을 만든다.
+	// 3. count를 선언한다.
+	int cro_count = strlen(cro_alpha);//글자를 카운트 해준다.
+	//처리 :
+	// 3. 단어를 반복문을 돌린다.
+
+	for (int i = 0; i < strlen(cro_alpha); i++) {
+		if (cro_alpha[i - 1] == 'c' && cro_alpha[i] == '=') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 1] == 'c' && cro_alpha[i] == '-') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 2] == 'd' && cro_alpha[i - 1] == 'z' && cro_alpha[i] == '=') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 1] == 'd' && cro_alpha[i] == '-') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 1] == 'l' && cro_alpha[i] == 'j') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 1] == 'n' && cro_alpha[i] == 'j') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 1] == 's' && cro_alpha[i] == '=') {
+			cro_count--;
+		}
+		if (cro_alpha[i - 1] == 'z' && cro_alpha[i] == '=') {
+			cro_count--;
+		}
+
+
+	}
+	// 3-1. 이전 문자가 크로아티아 문자이고, 해당 문자가 크로아 티아 문자이면 count 해준다.
+	// 3-1. 크로이티아 문자가 아니면 count 해준다.
+	// 4-1. count 값을 출력해준다.
+	//출력 :
+	printf("%d\n", cro_count);
+
+
 
 #pragma endregion
 
