@@ -21,10 +21,13 @@
     <ClCompile Include="dojang1.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="dojangc.c">
+    <ClCompile Include="dojang2.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="dojang2.c">
+    <ClCompile Include="dojang3.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="dojang4.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

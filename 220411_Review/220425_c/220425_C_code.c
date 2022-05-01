@@ -27,7 +27,12 @@ long long sum(int* a, int n) {
 
 
 
-
+/// <summary>
+/// µÎ¼öÀÇ °ªÀ» ¼­·Î ±³Ã¼ÇÑ´Ù.
+/// </summary>
+/// <param name="a">Á¤¼ö aÀÇ °ª</param>
+/// <param name="b">Á¤¼ö bÀÇ °ª</param>
+/// <returns>µÎ Á¤¼ö°ªÀ» ±³Ã¼ÇÑ´Ù.</returns>
 void Swap(int* a, int* b)
 {
 	// a : 0x1234 -> 0xabcd
@@ -53,6 +58,7 @@ void Swap(int* a, int* b)
 int sum2(int x, int y) {
 	return x + y;
 }
+
 
 
 void foo() {
@@ -168,52 +174,153 @@ char* strchr3(const char* str, const char ch)
 
 
 
-//strrchr() : ¹®ÀÚ¿­ÀÇ À§Ä¡¸¦ ¹Ù²ãÁÖ´Â°Í
-//¹è¿­ÇüÅÂ·Î ¸®ÅÏ °¡´É
-char* strrchr2(char* str) {
+/// <summary>
+/// ¹®ÀÚ¿­À» ÀÔ·Â ¹Þ¾Æ, ¹®ÀÚ¿­¿¡¼­ °Å²Ù·Î ¹®ÀÚ¸¦ Ã£¾Æ ÁÖ¼Ò°ªÀ» ¹ÝÈ¯
+/// </summary>
+/// <param name="str">¹®ÀÚ¿­ str ¹è¿­·Î ¹ÞÀ½</param>
+/// <param name="ch">Ã£À¸·Á´Â ¹®ÀÚ</param>
+/// <returns>¹®ÀÚ¿­ strÀ» °Å²Ù·Î °Ë»öÇØ ÇØ´ç ¹®ÀÚÀÇ ÁÖ¼Ò¸¦ Ã£´Â´Ù.</returns>
+char* strrchr(const char* str, const char ch) {
 
-	char* temp2 = str; // reverseÇØÁÙ º¯¼ö ¼±¾ð => Æ÷ÀÎÅÍ¿¡¼­ Æ÷ÀÎÅÍ·Î ÂüÁ¶ÇÒ¶© &¾È¾¸ => °ªÀÌ µ¿ÀÏÇØÁü
-	//¹®ÀÚ¿­ÀÇ °¹¼ö°¡ Á¤ÇØÁöÁö ¾Ê¾ÒÀ¸¹Ç·Î while¹®À» ¾²´Â°ÍÀÌ ÁÁ´Ù.
 	int count = 0;
 	while (*str != '\0') {
-		printf("ÁÖ¼Ò1 %p\n", str);
-		str;
-	}
-	while (*temp2 != '\0') {
-		printf("ÁÖ¼Ò2 %p\n", str);
-		--str;
-
-	}
-
-	return temp2;
-}
-
-	
-
-
-	//while (*str != 0) {
-	//	//*temp2 = *str;//strÀÇ Ã¹ ¹è¿­ÁÖ¼Ò°ªÀ» temp¿¡ ³Ö¾îÁØ´Ù.
-	//	printf("ÁÖ¼Ò %p\n", str);
-	//	++str;//±×¸®°í strÀ» °è¼Ó ¿¬»êÇØ¼­ ÁÖ¼Ò°ªÀÌ nullÀÌ ³ª¿Ã¶§ ±îÁö ¹Ýº¹ÇÑ´Ù.
-	//}
-	//printf("¹«¾ùÀÏ±î %p\n", --str);
-	
-
-//}
-
-char * strrchr(char* str) {
-	char* temp;
-	temp = str;
-	int count = 0;
-	for (int i = 0; str[i] != '\0'; i++) {
-		temp[i] = str[i];
+		++str;
 		count++;
 	}
-	for (int j = 0; str[j] != '\0'; j++) {
-		str[j] = temp[count - j];
+
+	while (count > 0) {
+		--str;
+		
+		if (*str == ch)
+		{
+			return (char*)str;
+		}
+		count--;
 	}
 
+	return NULL;
 }
+
+
+
+
+	
+
+
+//char* strrchr(char* str) {
+//	char* temp="asdasd";
+//	//temp = str; // reverseÇØÁÙ º¯¼ö ¼±¾ð => Æ÷ÀÎÅÍ¿¡¼­ Æ÷ÀÎÅÍ·Î ÂüÁ¶ÇÒ¶© &¾È¾¸ => °ªÀÌ µ¿ÀÏÇØÁü
+//	int count = 0;
+//	int count2 = 0;
+//
+//	while (*str != '\0') {
+//		//temp[count] = *str;
+//		//printf("¸®¹ö½º1 : %c\n", temp[count]);
+//		count++;
+//		++str;
+//	}
+//
+//	printf("Ä«¿îÆ® : %d\n", count);
+//
+//	while (count > 0) {
+//		temp[count] = *str;
+//		--str;
+//		printf("¸®¹ö½º2 : %c\n", *str);
+//		printf("¸®¹ö½º3 : %c\n", temp[count]);
+//		count--;
+//		count2++;
+//	}
+//
+//
+//	return temp;
+//
+//}
+
+
+/// <summary>
+/// ¹®ÀÚ¿­À» ¹Ý´ë·Î Ãâ·ÂÇÑ´Ù.
+/// </summary>
+/// <param name="str">¹®ÀÚ¿­À» ¹Þ´Â´Ù.</param>
+/// <returns>¹ÞÀº ¹®ÀÚ¿­À» ¹Ý´ë·Î Ãâ·ÂÇÑ´Ù.</returns>
+char* strreverse(char str[]) {
+	
+	int length;
+	char temp;
+	
+	length = strlen(str);
+
+	for (int i = 0; i < length/2; i++){
+		temp = str[i];
+		str[i] = str[length - i - 1];
+		str[length - i - 1] = temp;
+	}
+
+	return str;
+}
+
+
+
+//strcpy
+
+/// <summary>
+/// ¹®ÀÚ¿­À» º¹»çÇØ¼­ ¹Ù²ãÁÖ´Â ÇÔ¼ö
+/// </summary>
+/// <param name="str">¿ø·¡ ¹®ÀÚ¿­</param>
+/// <param name="str2">¹Ù²Ü ¹®ÀÚ¿­</param>
+/// char *strÀº test_ch301¹è¿­ÀÇ ÁÖ¼Ò°ªÀ» ÂüÁ¶ÇÑ°ÍÀ¸·Î *strÀ» ¹Ù²Ù¸é test_ch301°ªÀÌ º¯ÇÑ´Ù.
+void strcpy2(char *str, char * str2) {
+	while (*str2 != '\0') {
+		*str = *str2;
+		str2++;
+		str++;
+	}
+}
+
+
+//strcat
+
+/// <summary>
+/// ±âÁ¸ ¹®ÀÚ¿­¿¡ »õ·Î¿î ¹®ÀÚ¿­À» ´õÇØÁÖ´Â ÇÔ¼ö
+/// </summary>
+/// <param name="str">±âÁ¸¹®ÀÚ¿­</param>
+/// <param name="str2">»õ·Î¿î ¹®ÀÚ¿­</param>
+void strcat2(char* str, char* str2) {
+	while (*str != '\0') {
+		str++;
+	}
+	while (*str2 != '\0') {
+		*str = *str2;
+		str2++;
+		str++;
+	}
+}
+
+
+//strcmp
+
+/// <summary>
+/// ±âÁ¸ ¹®ÀÚ¿­°ú »õ·Î¿î ¹®ÀÚ¿­ÀÌ °°ÀºÁö ºñ±³ÇÏ´Â ÇÔ¼ö
+/// </summary>
+/// <param name="str">±âÁ¸¹®ÀÚ¿­</param>
+/// <param name="str2">»õ·Î¿î ¹®ÀÚ¿­</param>
+/// <returns>°°À¸¸é 0, ´Ù¸£¸é 1 ¸®ÅÏ</returns>
+int strcmp2(char* str, char* str2) {
+	
+	while (*str != '\0' || *str2 != '\0') {
+		
+		if (*str != *str2) {
+			return 1;
+		}
+		str++;
+		str2++;
+	}
+
+	return 0;
+}
+
+
+//ÇÔ¼ö
+
 
 
 
@@ -383,8 +490,9 @@ int main() {//mainÇÔ¼ö´Â ½Ã½ºÅÛÀÌ È£ÃâÇÏ´Â °Í => runtime ¶óÀÌºê·¯¸®¿¡¼­ Ã³¸® ÇØÁ
 		printf("%c ", N100[i]);
 	}
 
+	printf("ÁÙ¹Ù²Þ\n");
 
-	//strcpy
+	//strcpy : º¹»çÇØ¼­ ¹Ù²ãÁÜ
 	char word[128] = "Hello, String!";
 
 	//Hello, string => Drunkenjaesung
@@ -502,7 +610,11 @@ int main() {//mainÇÔ¼ö´Â ½Ã½ºÅÛÀÌ È£ÃâÇÏ´Â °Í => runtime ¶óÀÌºê·¯¸®¿¡¼­ Ã³¸® ÇØÁ
 	int testnum3 = ++(*p);
 	//testnum3¿¡ Æ÷ÀÎÅÍ 3¿¡¼­ 1Áõ°¡½ÃÅ²ÈÄ ¿ªÂüÁ¶ °ª 4°ªÀ» º¯¼ö¿¡ ´ëÀÔ½ÃÅ²´Ù.
 
-	printf("\n%d", sizeof(p));
+	printf("%d\n", testnum1);
+	printf("%d\n", testnum2);
+	printf("%d\n", testnum3);
+
+	printf("Æ÷ÀÎÅÍ »çÀÌÁî : %d\n", sizeof(p));
 
 
 	//strchr  : ¹®ÀÚ¿­¿¡¼­ ÁÖ¼Ò°ªÀ» ¹ÝÈ¯ 
@@ -549,7 +661,7 @@ int main() {//mainÇÔ¼ö´Â ½Ã½ºÅÛÀÌ È£ÃâÇÏ´Â °Í => runtime ¶óÀÌºê·¯¸®¿¡¼­ Ã³¸® ÇØÁ
 	int sp1 = 1;
 	int sp2 = 2;
 	Swap2(&sp1, &sp2);
-	//printf("%d %d", sp1, sp2);
+	printf("Swap2 : %d %d", sp1, sp2);
 
 	//¹®ÀÚ°¡ ¼Ò¹®ÀÚÀÎÁö ÇÔ¼ö ½á¼­ ÆÇº°
 	char test_m = 'A';
@@ -574,20 +686,50 @@ int main() {//mainÇÔ¼ö´Â ½Ã½ºÅÛÀÌ È£ÃâÇÏ´Â °Í => runtime ¶óÀÌºê·¯¸®¿¡¼­ Ã³¸® ÇØÁ
 	printf("%p\n", strchr3(test_ch200, 'w'));
 
 	char test_ch101[100] = "asdasd";
-	strrchr(test_ch101);
-	printf("%s", test_ch101);
+	printf("Ãâ·Â : %s\n", strreverse(test_ch101));
 	
+	//strrchr
 	char test_ch300[100] = "asdasd";
-	strrchr2(test_ch300);
-	printf("%p", test_ch300);
+	printf("Ãâ·Â2 : %p\n", strrchr(test_ch300, 's'));
 
+
+
+
+	//
+	/*char test_ch300[100] = "asdasd";
+	strrchr2(test_ch300);
+	printf("%p", test_ch300);*/
 
 
 	//¼÷Á¦ : ·¹ÆÛ·±½º¿¡¼­ ¹è¿î ÇÔ¼öµéÀ» ³»°¡ ÇÔ¼ö ¸¸µé±â
-	/*
-		
-	*/
+	
+	//strcpy
+	char test_ch301[100] = "hello";
+	
+	//hello => Drunkenjaesung
+
+	strcpy2(test_ch301, "Drunkenjaesung"); //Á¶°Ç : ¹Ýµå½Ã nullÁ¾·á ¹®ÀÚ¿­ ÀÌ¾î¾ß ÇÔ
+	puts(test_ch301); //Ãâ·Â¹®
+
+
+	//strcat
+	char test_ch302[100] = "hana"; //¼Ò½º´Â null·Î Á¾·á°¡ µÇ¾ú´ÂÁö ²À È®ÀÎ
+	strcat2(test_ch302, " one");
+	puts(test_ch302);
+
+	//strcmp
+	char test_ch303[100] = "hana1";
+	if (0 == strcmp2(test_ch303, "hana1")) {
+		puts("°°À½");
+	}
+	else {
+		puts("´Ù¸§");
+	}
+
+
 #pragma endregion
+
+	printf("============= °­ÀÇ ³¡ =====================\n");
 
 #pragma region ¾Ë°í¸®Áò
 
