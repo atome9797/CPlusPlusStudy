@@ -215,6 +215,70 @@ void helloString2(char s1[])    // 반환값 없음, char 배열을 매개변수로 지정, 크�
 }
 
 
+//배열의 매개변수 사용하기
+void printfArray(int arr[], int count) {
+	for (int i = 0; i < count; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+}
+
+void setElement(int arr[]) {
+	arr[2] = 300; //arr[]은 배열이고 배열은 포인터 타입이기 때문에 값 변경 가능
+}
+
+//매개변수를 포인터로 지정하여 배열을 받음
+void printArray(int* arr, int count) {
+	for (int i = 0; i < count; i++){
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+}
+
+void swapElement(int arr[], int first, int second) {
+	int temp;
+	temp = arr[first];
+	arr[first] = arr[second];
+	arr[second] = temp;
+}
+
+//복합 리터럴  사용하기
+//배열 따로 선언없이 사용가능
+void printArray2(int arr[], int count) {
+	
+	for (int i = 0; i < count; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+}
+
+
+//2차원 배열을 매개 변수로 사용할때는 요소 값을 저장해 줘야함
+void print2DArray(int arr[][5], int col, int row) {
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			printf("%d ", arr[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+//pointer to array를 함수값으로 사용하기
+void print2DArray2(int (*arr)[5], int col, int row) {
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			printf("%d ", arr[i][j]);
+		}
+		printf("\n");
+	}
+}
+
 int main() {
 
 	//함수 선언과 정의 분리하기
@@ -379,8 +443,42 @@ int main() {
 	
 
 	
+	//배열의 매개변수 사용하기
+	int numArr[10] = {1,2,3,4,5,6,7,8,9,10};
+	printfArray(numArr, sizeof(numArr) / sizeof(int));
+	
+	int numArr2[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	setElement(numArr2);
+	printf("%d\n", numArr2[2]);
 
 
+	//배열을 포인터로 받아 매개변수 사용하기
+	int numArr3[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	printArray(numArr3, sizeof(numArr3) / sizeof(int));
+	
+	//배열의 요소 바꾸기
+	int numArr4[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	swapElement(numArr4, 0, 1);//0 index와 1index 값 바꾸기
+	printf("%d %d\n", numArr4[0], numArr4[1]);
+	
+
+	//복합리터럴 사용하기
+	//int 배열 형태로 형변환
+	printArray2((int[]) { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 10);
+	
+
+	//2차원 배열 매개변수 사용하기
+	int numArr5[2][5] = { {1,2,3,4,5},{6,7,8,9,10} };
+	int col = sizeof(numArr5[0]) / sizeof(int); //가로 갯수 구함
+	int row = sizeof(numArr5) / sizeof(numArr5[0]);
+	print2DArray(numArr5, col, row);
+
+
+	//pointer to array를 함수값으로 사용하기
+	print2DArray2(numArr5, col, row);
+
+	//복합 리터럴 사용하기
+	print2DArray2((int[2][5]) { {1, 2, 3, 4, 5}, { 6,7,8,9,10 } }, 5,2);
 
 
 	return 0;
