@@ -180,7 +180,7 @@ char* strchr3(const char* str, const char ch)
 /// <param name="str">문자열 str 배열로 받음</param>
 /// <param name="ch">찾으려는 문자</param>
 /// <returns>문자열 str을 거꾸로 검색해 해당 문자의 주소를 찾는다.</returns>
-char* strrchr(const char* str, const char ch) {
+char* strrchr2(const char* str, const char ch) {
 
 	int count = 0;
 	while (*str != '\0') {
@@ -269,11 +269,12 @@ char* strreverse(char str[]) {
 /// <param name="str">원래 문자열</param>
 /// <param name="str2">바꿀 문자열</param>
 /// char *str은 test_ch301배열의 주소값을 참조한것으로 *str을 바꾸면 test_ch301값이 변한다.
-void strcpy2(char *str, char * str2) {
+void strcpy2(char *str, const char *str2) {
+
 	while (*str2 != '\0') {
 		*str = *str2;
-		str2++;
-		str++;
+		++str;
+		++str2;
 	}
 }
 
@@ -285,7 +286,7 @@ void strcpy2(char *str, char * str2) {
 /// </summary>
 /// <param name="str">기존문자열</param>
 /// <param name="str2">새로운 문자열</param>
-void strcat2(char* str, char* str2) {
+void strcat2(char* str, const char* str2) {
 	while (*str != '\0') {
 		str++;
 	}
@@ -305,7 +306,7 @@ void strcat2(char* str, char* str2) {
 /// <param name="str">기존문자열</param>
 /// <param name="str2">새로운 문자열</param>
 /// <returns>같으면 0, 다르면 1 리턴</returns>
-int strcmp2(char* str, char* str2) {
+int strcmp2(char* str, const char* str2) {
 	
 	while (*str != '\0' || *str2 != '\0') {
 		
@@ -691,7 +692,7 @@ int main() {//main함수는 시스템이 호출하는 것 => runtime 라이브러리에서 처리 해�
 	
 	//strrchr
 	char test_ch300[100] = "asdasd";
-	printf("출력2 : %p\n", strrchr(test_ch300, 's'));
+	printf("출력2 : %p\n", strrchr2(test_ch300, 's'));
 
 
 

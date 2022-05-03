@@ -80,17 +80,17 @@ struct Person* allocPerson() {
 }
 
 //구조체 별칭 사용하기
-typedef struct _Person {
+typedef struct _Person3 {
 	char name[20];
 	int age;
 	char address[100];
-} Person, *PPerson; //구조체 별칭과 포인터 별칭을 반환
+} Person3, *PPerson3; //구조체 별칭과 포인터 별칭을 반환
 
 
 //포인터로 반환 => 별칭으로 사용가능 
-PPerson allocPerson2() {
+PPerson3 allocPerson3() {
 	//포인터 변수 선언
-	PPerson p = malloc(sizeof(struct Person));
+	PPerson3 p = malloc(sizeof(Person3));
 	strcpy(p->name, "김실장");
 	p->age = 30;
 	strcpy(p->address, "서울");
@@ -114,9 +114,9 @@ enum BOX_TYPE {
 //리턴값이 공용체임
 union Box getBox () {
 	
-	union Box b;
-	b.candy = 10;
-	return b;
+	union Box b1;
+	b1.candy = 10;
+	return b1;
 };
 
 //리턴값이 열거형임
@@ -228,6 +228,7 @@ void setElement(int arr[]) {
 	arr[2] = 300; //arr[]은 배열이고 배열은 포인터 타입이기 때문에 값 변경 가능
 }
 
+
 //매개변수를 포인터로 지정하여 배열을 받음
 void printArray(int* arr, int count) {
 	for (int i = 0; i < count; i++){
@@ -236,12 +237,15 @@ void printArray(int* arr, int count) {
 	printf("\n");
 }
 
+
 void swapElement(int arr[], int first, int second) {
 	int temp;
 	temp = arr[first];
 	arr[first] = arr[second];
 	arr[second] = temp;
 }
+
+
 
 //복합 리터럴  사용하기
 //배열 따로 선언없이 사용가능
@@ -278,6 +282,82 @@ void print2DArray2(int (*arr)[5], int col, int row) {
 		printf("\n");
 	}
 }
+
+void setIdentityMatrix(float(*arr)[4], int col) {
+	for (int i = 0; i < col; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			if (i == j) {
+				arr[i][j] = 1.0f;
+			}
+		}
+
+	}
+}
+
+
+//구조체 선언
+struct Person2 {
+	char name[20];
+	int age;
+	char address[100];
+};
+
+void printPerson(struct Person2 p) {
+	printf("이름: %s\n", p.name);
+	printf("나이: %d\n", p.age);
+	printf("주소: %s\n", p.address);
+}
+
+void setPerson(struct Person2 p) {
+	strcpy(p.name, "김영훈");
+	p.age = 30;
+	strcpy(p.address, "서울 광진구");
+}
+
+void setPerson2(struct Person2 *p10) {
+	strcpy(p10->name, "철구");
+	p10->age = 40;
+	strcpy(p10->address, "서울 광진구");
+}
+
+
+//구조체 별칭 사용하기
+typedef struct _Person {
+	char name[20];
+	int age;
+	char address[100];
+} Person, *PPerson;
+
+
+void setPerson3(PPerson p) {
+	strcpy(p->name, "김영훈");
+	p->age = 40;
+	strcpy(p->address, "서울시 광진구 중곡동");
+}
+
+
+union Box2 {
+	short candy;
+	float snack;
+	char doll[8];
+};
+
+enum BOX_TYPE2 {
+	BOX_PAPER = 0,
+	BOX_WOOD,
+	BOX_PLASTIC
+};
+
+void printBox(union Box box) {
+	printf("%d\n", box.candy);
+}
+
+void printBoxType(enum BOX_TYPE boxType) {
+	printf("%d\n", boxType);
+}
+
 
 int main() {
 
@@ -357,8 +437,8 @@ int main() {
 	
 
 	//구조체 포인터 별칭 사용
-	PPerson pps;
-	pps = allocPerson2();
+	PPerson3 pps;
+	pps = allocPerson3();
 	printf("이름 : %s\n", pps->name);
 	printf("나이 : %d\n", pps->age);
 	printf("주소 : %s\n", pps->address);
@@ -481,8 +561,78 @@ int main() {
 	print2DArray2((int[2][5]) { {1, 2, 3, 4, 5}, { 6,7,8,9,10 } }, 5,2);
 
 
+	//단위 행렬 만들기
+	float matrix[4][4] = { 0.0f };
+	int n = sizeof(matrix[0]) / sizeof(float); //4
+	
+	setIdentityMatrix(matrix, n);
+	
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			printf("%f ", matrix[i][j]);
+		}
+		printf("\n");
+	}
+
+
+	//구조체 매개변수 사용하기
+	struct Person2 p3;
+	strcpy(p3.name, "홍길동");
+	p3.age = 30;
+	strcpy(p3.address, "서울시 광진구 중곡동");
+
+	printPerson(p3);
+
+
+	//복합 리터럴 사용하기
+	printPerson((struct Person2) { .name = "홍길동", .age = 30, .address = "서울 한남동" });
+	printPerson((struct Person2) { "홍길동", 30, "서울 한남동" });
+
+	
+	//setPerson에서 설정한 값은 함수 내에서 새로운 객체에 담은것으로
+	//함수 밖으로 나오면 person p3객체에 영향이 없음 
+	//객체는 독립적인 것으로 struct 구조체 자체에 영향을 주는것이 아니라
+	// 타입만 받아오는것임
+	setPerson(p3); //=> person p3에 영향을 주지 않음
+	printf("이름 : %s\n",p3.name);
+	printf("나이 : %d\n",p3.age);
+	printf("주소 : %s\n",p3.address);
+
+
+	//구조체 포인터 매개변수 사용하기
+	setPerson2(&p3);//구조체의 주소를 넘겨줌
+	printf("이름 : %s\n", p3.name);
+	printf("나이 : %d\n", p3.age);
+	printf("주소 : %s\n", p3.address);
+
+
+	//복합 리터럴 
+	setPerson2(&(struct Person2) { .name = "김영훈", .age = 30, .address = "사울" });
+	setPerson2(&(struct Person2) { "김영훈", 30, "사울" });
+
+
+	//공용체와 열거형 매개변수로 사용하기
+	union Box2 box2;
+	enum BOX_TYPE2 boxType2;
+	
+	box2.candy = 10;
+	boxType2 = BOX_PLASTIC;
+	
+
+	//printBox(box);
+	//printBoxType(boxType);
+
+
+	
+	
+	
+
 	return 0;
 }
+
+
 
 
 //함수 본체
