@@ -2,9 +2,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <assert.h>
+#include <float.h>
+#include <math.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
 
-//
-
+//typedef : 타입을 재정의 하는것. 어떤 타입에 별명을 지어주는것
+typedef char btye;
+typedef struct tagA {
+	int n;
+} A;
 
 char* strstr3(char* str, char* str2) {
 	
@@ -87,6 +96,14 @@ void myprintf(int count, ...) {
 void myprintf2(const char* format, ...);
 
 void myprintf3(int a, int b, ...);
+
+
+void CreateUser(const char* nickname) {
+
+	//int n = 1;
+	int n = strlen(nickname);
+	assert(n);
+}
 
 int main() {
 
@@ -218,14 +235,209 @@ int main() {
 	printf("\n");
 
 	//가변인자2
-	myprintf2("Hello My ptrinf : %d, %c , %s", 10, 'A', "Hello");
+	myprintf2("Hello My ptrinf : %d, %c , %s", -10, 'A', "Hello");
 	//output : Hello My ptrinf : 10, A, 3.140000, Hello
 	//printf 사용하지 말것 => putchar 사용할것 : 문자을 한 넣으면 그것만 출력함
 
 	myprintf3(3, 4, 10, 20, 30);
 
 
-	return -4;
+
+
+	//<assert.h>
+	//assert : 예외처리시 사용 : 디버그에서 작용
+	//assert은 어떤 조건을 반드시 만족해야할때 사용함 => 만족못하면 exception나오게 설정
+	assert(0 != 10);
+	
+	//<float.h>
+	//실수 객체를 실행할때 사용함 , 보통 epsilon 값을 볼때 사용함
+	printf("float의 유효숫자 : %f\n", FLT_DIG);
+	printf("double의 유효숫자 : %f\n", DBL_DIG);
+	printf("long double 의 유효숫자 : %f\n", LDBL_DIG);
+
+	//소수 비교
+	float f = 1.0 - 0.7;
+	if (f - 0.3 < FLT_EPSILON) { //f == 0.3 아님
+		printf("같음");
+	}
+
+	//<math.h>
+	//수학적인 계산들 지원
+	// pow , hyopot , cos ,sin, tan , round
+	
+
+	// <stdlib.h>
+	//예제 
+	//사용자로부터 두수를 입력 받고
+	// 몫과 나머지를 출력하세요.
+	int testnum1 = 0;
+	int testnum2 = 0;
+	scanf("%d %d", &testnum1, &testnum2);
+	
+	div_t result = div(testnum1, testnum2); //몫과 나머지 연산
+
+	printf("몫 : %d, 나머지 : %d\n", result.quot, result.rem);
+
+	// <stdbool.h>
+	//참 거짓 판별
+	bool bool1 = true;
+	bool1 = false;
+	
+	//<stddef.h>
+	//<stdint.h>
+	//호환성 상관없이 고정 길이,타입을 지정
+	//int8_t;
+
+	//<time.h>
+	//time : 현재 시간을 나타내줌
+	time_t timeresult = time(NULL);//null값은 초기화
+	char timestr[128] = "";
+	printf("현재 시간 : %s\n", asctime(gmtime(&timeresult))); //최초시간 나옴
+	
+	//clock : 시점 적용
+
+
+	//파일 포인터 만들기
+// 1. 파일을 다루기 위한 객체 생성
+	FILE* fp = NULL;
+
+	// -------------------------------
+	// 텍스트 파일
+	// -------------------------------
+
+	// 2. 파일을 연다.
+	// 1) 텍스트 파일 : 텍스트 에디터로 열 수 있는 파일로 우리가 읽을 수 있는 문자로 구성
+	// 2) 바이너리 파일 : 그 외의 모든 파일
+
+	// Metaverse라는 이름을 가진 텍스트 파일을 연다.
+	//성공했을때 0을 반환한다. 실패했을대 오류코드를 반환한다.
+	if (0 != fopen_s(&fp, "Metaverse", "w"))
+	{
+		printf("오류 발생함.");
+
+		return 1;
+	}
+
+	// 3. 파일을 조작한다.
+	// 텍스트 파일에 작성할 수 있는 함수 : fputs() / fputc() / fprintf()
+	// 바이너리 파일에 작성할 수 있는 함수 : fwrite()
+	fputs("Hello File!", fp);
+	fputc('J', fp);
+	fprintf(fp, "\nThe name of the queen : %s\n", "퀸균지");
+
+	// 4. 파일을 닫는다.
+	fclose(fp);
+
+	if (0 != fopen_s(&fp, "Metaverse", "r"))
+	{
+		printf("오류 발생함.");
+
+		return 1;
+	}
+
+	// 텍스트 파일에서 읽어들일 수 있는 함수 : fgets() / fgetc() / fscanf()
+	// 바이너리 파일에서 읽어들일 수 있는 함수 : fread()
+	char ch = fgetc(fp); //문자 1개 읽기
+	char strf1[128] = "";
+	fgets(strf1, sizeof(strf1), fp); // 개행 문자까지 받아들인다. 
+	char strf2[128] = "";
+	fscanf_s(fp, "The name of the queen : %s", strf2, sizeof(strf2)); //문자열이 끝나는 null위치까지 받는다.
+
+
+	printf("읽어들인 문자 : %c\n", ch);
+	printf("읽어들인 문자열 : %s\n", strf1);
+	printf("퀸은 누구? : %s\n", strf2);
+
+	fclose(fp);
+
+	// -------------------------------
+	// 바이너리 파일 만들기 및 열기
+	// -------------------------------
+	if (0 != fopen_s(&fp, "Metaverse2", "wb")) //write binary의 약자
+	{
+		printf("오류 발생함.");
+
+		return 1;
+	}
+
+	struct Student
+	{
+		int Age;                  // 4바이트
+		enum { A, B, O, AB } BloodType;
+		char Name[24];
+	};
+
+	struct Student s = { 20, A, "최선문" };
+	//바이너리 파일 1개 작성 구조체에 => 정상적이면 1 출력됨
+	if (1 != fwrite(&s, sizeof(s), 1, fp))
+	{
+		printf("오류 발생함.");
+
+		fclose(fp);
+
+		return 1;
+	}
+
+	fclose(fp);
+
+	if (0 != fopen_s(&fp, "Metaverse2", "rb"))//read binary의 약자
+	{
+		printf("오류 발생함.");
+
+		fclose(fp);
+
+		return 1;
+	}
+
+	struct Student s2 = { 0 };
+	//해당 구조체의 데이터를 파일 1개에 바이너리로 읽어오기
+	if (1 != fread(&s2, sizeof(s2), 1, fp)) //파일을 읽은 개수 가 1개가 아니면 => 오류 반환
+		//오류 일땐 0을 출력함
+	{
+		printf("오류 발생함.");
+
+		fclose(fp);
+
+		return 1;
+	}
+
+	printf("나이 : %d, 혈액형 : %d, 이름 : %s\n", s2.Age, s2.BloodType, s2.Name);//BloodType은 값이 나옴
+
+
+	fclose(fp);
+
+	//바이너리는 구조체에 데이터를 담을때 유용하다.
+	
+
+
+	//malloc => 동적 할당
+	int pnum = 0;
+	scanf("%d", &pnum);
+	int* pm = malloc(sizeof(int) * pnum);
+
+	//메모리는 자원이다.
+	//자원이라는 것은 시스템으로부터 빌려와서 사용이 끝나면 돌려줘야 하는것
+	//사용이 끝난 메모리를 돌려주지 않으면 메모리 누수(memory Leak)가 발생
+
+	//누수를 막으려면 메모리를 돌려주는 free함수를 사용해야 한다.
+	free(pm);//힙에 메모리 반환
+	pm = NULL; //해제가 됬다면 꼭 null포인터로 만들어줄것
+
+	//메모리를 수동으로 관리할때 문제점
+	//1. 언제 사용이 끝나는지 불명확함 => 반환이 안될수 있음. => 메모리 누수 발생
+	//2. 반환이 됐음에도 불구하고 접근하는 경우 => 메모리 접근 엑세스 위반 뜸 => 유효하지 않는 메모리 주소를 갖고 있는 포인터를 댕글링 포인터라고한다.
+	//3. 반환이 됏음에도 불구하고 또 반환하는 경우 => 이중해제(double free)
+	
+
+
+	
+
+
+
+
+	
+
+	return 0;
 }
 
 
@@ -241,6 +453,38 @@ void myprintf3(int a, int b, ...) {
 	va_end(args);
 }
 
+void stringNumber(int num) {
+	
+	//32 비트(4바이트) 자리수를 비교하고 1이면 음수임 =>0일땐 거짓나오도록 설정
+	//&한개 사용하는 이유는 비트 단위 연산할때는 &하나 사용함
+	const int isNegative = num & (1 << 31);//부호 비트 사용 (1&&1 은 1) => 0이 아닐땐 참임
+
+
+	//음수이므로 계산식 적용함
+	// 양수의 2의 보수 비트 반전 할때 , 1) 양수 비트 반전하기 2) +1하기 => 음수나옴
+	// 그것을 거꾸로 음수에서 양수로 변환 할려면 , 1) -1하기 2) 음수 비트 반전하기 => 양수나옴
+	if (isNegative) {
+		putchar('-');
+		num -= 1; 
+		num = ~num; 
+	}
+
+
+	char temp[31] = {0}; //바이트수 만큼 지정
+	int count = 0;
+	while (num != 0) {
+		temp[count] = num % 10 + '0';
+		num = num / 10;
+		count++;
+	}
+
+	for (int i = count-1; i >= 0; i--)
+	{
+		putchar(temp[i]);
+	}
+
+
+}
 
 void myprintf2(const char* format, ...) {
 	
@@ -261,7 +505,10 @@ void myprintf2(const char* format, ...) {
 			{
 			case 'd':  {
 				int num = va_arg(args, int); //...의 첫 인자를 int타입으로 가져옴
-				if (num >= 10) {
+				
+				stringNumber(num);
+											 
+				/*if (num >= 10) {
 					int odd = num / 10;
 					int pdd = num % 10;
 					char test10 = odd + '0';
@@ -272,7 +519,7 @@ void myprintf2(const char* format, ...) {
 				else {
 					char test30 = num + '0';
 					putchar(test30);
-				}
+				}*/
 
 				break;
 			}
