@@ -1,14 +1,14 @@
 #include <stdio.h>
-//#include "MyHeaderFile.h"
+#include "MyHeaderFile.h"
 
-#include "A.h"
+//#include "A.h"
 
 //정의
 #define SPEED_OF_LIGHT 299792458
 #define MIN(a,b) ((a) < b ? a : b)
 //음수 처리를 위해 괄호 사용할것
 #define PRINT(msg) puts(#msg);
-#define DECLARE_MYTYPE(typename) struct MyType##typename
+#define DECLARE_MYTYPE2(typename) struct MyType##typename
 // 가변 인자도 사용할 수 있다.
 // __VA_ARGS__는 ...이 들어갈 곳이다.
 #define SIMPLE_PRINT(...) puts(#__VA_ARGS__) //문자열로 출력
@@ -16,26 +16,35 @@
 
 #undef SPEED_OF_LIGHT // 매크로 해제 => 빨간줄뜸
 
-#define PRINT_ERROR(msg) printf("[%s:%d] %s\n", __FILE__, __LINE__, msg);
+//#define PRINT_ERROR(msg) printf("[%s:%d] %s\n", __FILE__, __LINE__, msg);
 
+
+//pragma pack
+#pragma pack(1) //정렬요건이 1바이트로 바뀜
+struct A2 {
+	int a;
+	double d;
+	char ch;
+};
 
 
 int main(void) {
 
+	sizeof(struct A2);//24바이트가 아닌 13바이트로 바뀜
 	
 	
-	//Add(10, 20);
+	printf("외부 함수 : %d\n", Add(10, 20));
 
 	//printf("빛의 속도는 %d m/s이다.\n", SPEED_OF_LIGHT);
 	
 	//-10 , 0
-	if (MIN(10-20 ,20 < 4)) {//0이 아닐대 실행
+	if (MIN(10-20 ,20 < 4)) {//0이 아닐때 실행
 		printf("10과 20중에 작은 수는 10입니다.\n");
 	}
 
 	PRINT(안녕하세요);//#을 붙이면 문자열 리터럴로 인식됨
 	
-	DECLARE_MYTYPE(Student)
+	DECLARE_MYTYPE2(Student)
 	{
 		int a;
 	} a;
@@ -55,10 +64,12 @@ int main(void) {
 		PRINT_ERROR("오류가 발생했습니다.");
 	}
 
+//#if : 참일때 실행
 #if 1
 	puts("1. 이건 실행됨");
 #endif
 
+//#if defined : 정의 되어있을때 실행
 #if defined(TEST)
 	puts("2. 이건 실행 안됨");
 	// #else로 #if의 식이 만족하지 않았을 때의 내용을 만들 수 있다.
@@ -66,26 +77,31 @@ int main(void) {
 	puts("2. 이건 실행됨");
 #endif
 
+//#if !defined : 정의 되어 있지 않을때 실행
 #if !defined(TEST)
 	puts("3. 이건 실행됨");
 #endif
 
-	// #if defined를 #ifdef로 줄일 수 있다.
 #define TEST
+// #if defined를 #ifdef로 줄일 수 있다.
 #ifdef TEST
 	puts("4. 이건 실행됨");
 #endif
 
-	// 마찬가지로 #if !defined를 #ifndef로 줄일 수 있다.
+
+//T라는 식별자로 10일 정의함
 #define T 10
+// 마찬가지로 #if !defined를 #ifndef로 줄일 수 있다.
 #ifndef TEST
 	puts("5. 이건 실행 안됨");
 	// #elif는 else if 쓰는 것과 비슷하다.
 #elif defined(T) && T > 2
 	printf("5. 이건 실행됨");
 #else
+	//위에서 참이면 else 는 실행 안되도록 설계됨
 	printf("5. 이건 실행 안됨");
 #endif
+
 
 
 	//빌드 : 프로그램을 만드는 과정

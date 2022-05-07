@@ -1,9 +1,11 @@
 #pragma once
-#include "MyHeaderFile.c"
+
+#define PRINT_ERROR(msg) printf("[%s:%d] %s\n", __FILE__, __LINE__, msg);
+
 
 typedef struct A {
 	int a;
 	int b;
 } A;
 
-void Add(int a, int b);
+int Add(int a, int b);

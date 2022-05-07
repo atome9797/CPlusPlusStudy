@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 
 struct Calc {
@@ -13,24 +14,18 @@ int sub(int a, int b) {
 }
 
 
-//함수 배열2개 받는 포인터 선언
 struct Calc4 {
 	int (*fp4[2]) (int, int);
 };
 
-
-//함수를 참조시키는 포인터 함수를 매개변수로 받음
-int executer(int (*fp4) (int, int), int a,int b) {
-	return fp(a, b);//함수 포인터로 add, sub함수에 접근해서 호출
+int executer4(int (* fp4)(int, int), int a, int b) {
+	return fp4(a, b); //함수를 리턴값으로 받음=> 함수의 포인터로 받음
 }
 
-
-int(*getFunc(struct Calc4 *c4, int index))(int, int) {
-
-	return c4->fp4[index];
+//함수 포인터로 선언
+int (* getFunc4(struct Calc4* c, int index)) (int, int) {
+	return c->fp4[index];
 }
-
-
 
 
 
@@ -40,10 +35,12 @@ void executer(int (*fp)(int, int)) {
 }
 
 
+
 //getAdd라는 포인터함수로 add함수 주소값을 리턴
 int (*getAdd())(int, int) { //int (*fp)(int, int) getAdd() 와 동일한것
 	return add;
 }
+
 
 
 //매개변수가 있는 함수 포인터 반환하기
@@ -77,9 +74,48 @@ void executer2(FP2 fp2) {
 }
 
 
+struct Person {
+	char name[30];
+	int age;
+	void (*print)(struct Person*);
+};
+
+void print(struct Person* p)
+{
+	printf("함 %s %d\n", p->name, p->age);
+}
+
+void executer3(void (*fp[])(struct Person*), struct Person p[], int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		fp[i](&p[i]);
+	}
+}
+
+//void 함수도 리턴값을 지정할수 있다.
+//포인터 함수에 담을 함수를 선언 => 동작구현
+//p에 접근해 함수를 불러와야 함으로 인자가 아닌 매개변수가 있는 함수로 리턴값을 지정해야함
+void (* getPrintFunc(struct Person* p))(struct Person *) {
+	return p->print;
+}
+
+//이렇게 안하고 주소 할당으로 사용가능
+void *getPrintFunc2(struct Person *p) {
+	return p->print;
+}
+
+
 
 int main() {
 	
+	struct Calc4 c4 = { { add, sub } };
+
+	printf("출력 : %d\n", executer4(getFunc4(&c4, 0), 10, 20));
+	printf("출력 : %d\n", executer4(getFunc4(&c4, 1), 10, 20));
+
+
+
 	//함수 포인터 구조체 멤버 사용하기
 	struct Calc c;
 
@@ -125,7 +161,68 @@ int main() {
 	executer2(add);
 
 
-	//함수 예제1
+	//함수 예제2
+	struct Person p[3]; //구조체 선언
+	p[0].print = print; //구조체의 함수포인터에 함수주소삽입 => 연결 
+	p[1].print = print; //구조체의 함수포인터에 함수주소삽입 => 연결
+	p[2].print = print; //구조체의 함수포인터에 함수주소삽입 => 연결
+
+								//문자열은 주소 안적지만, int는 적어야함
+	//scanf("%s %d %s %d %s %d", p[0].name, &p[0].age, p[1].name, &p[1].age, p[2].name, &p[2].age);
+
+
+	void (*fp4[3])(struct Person*);//구조체 포인터를 인자로 받는 포인터 함수 배열 선언
+
+
+	for (int i = 0; i < sizeof(p)/sizeof(struct Person); i++) //배열값 3만큼 반복
+	{
+		fp4[i] = getPrintFunc2(&p[i]); //구조체의 정보를 포인터 함수에 담음
+	}
+
+
+	executer3(fp4, p, sizeof(p) / sizeof(struct Person)); //포인터 함수와 구조체 , 배열 3크기를 보냄
+	
+
+	//파일에서 문자열을 읽고 쓰기
+	//파일 포인터
+	FILE* fp5 = fopen("hello.txt", "w");
+	fprintf(fp5, "%s %d\n", "hello", 100);
+	fclose(fp5);
+
+	//파일에서 문자열 읽기
+	char s1[10];
+	int num1;
+	FILE* fp6 = fopen("hello.txt", "r");
+	fscanf(fp6, "%s %d", s1, &num1); //서식을 지정하여 문자열 읽기
+	
+	printf("%s %d\n", s1, num1);
+	fclose(fp6);
+	
+	//파일에서 문자열 쓰기
+	FILE* fp7 = fopen("hello.txt", "w");
+	fputs("Hello, world", fp7);
+	fclose(fp7);
+
+	char* s10 = "Hello, world!";
+	FILE* fp8 = fopen("hello.txt", "w");
+	fwrite(s10, strlen(s10), 1, fp8);
+	fclose(fp8);
+	
+	//파일에서 문자열 읽기
+	char buffer[20];
+	FILE* fp9 = fopen("hello.txt", "r");
+	fgets(buffer, sizeof(buffer), fp9);
+	fclose(fp9);
+	
+
+	char buffer2[20];
+	FILE* fp10 = fopen("hello.txt","r");
+	fread(buffer2, sizeof(buffer2), 1, fp10); //버퍼 크기만큼 파일 끝날때까지 문자열 가져옴
+	printf("버퍼 끝 : %s\n", buffer2);
+	fclose(fp10);
+
+
+	//파일크기 구하기
 	
 
 
