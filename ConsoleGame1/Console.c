@@ -10,13 +10,7 @@ void Clear(void)
 }
 
 
-void GotoXY(int _x, int _y)
-{
-	//커서 이동 함수
-	COORD pos = { _x, _y };
 
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-}
 
 
 void SetConsoleSize(int _col, int _lines)

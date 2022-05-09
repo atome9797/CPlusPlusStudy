@@ -30,6 +30,9 @@
     <ClCompile Include="MyHeaderFile.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="220509_C_code.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyHeaderFile.h">
