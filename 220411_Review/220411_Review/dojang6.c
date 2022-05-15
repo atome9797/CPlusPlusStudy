@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-
+#include <stdlib.h>    // malloc, free 함수가 선언된 헤더 파일
+#include <string.h>    // memset 함수가 선언된 헤더 파일
 struct Calc {
 	int (*fp)(int, int);
 };
@@ -105,6 +106,15 @@ void *getPrintFunc2(struct Person *p) {
 	return p->print;
 }
 
+
+#pragma pack(push, 1)    // 1바이트 크기로 정렬
+struct Data {
+	char c1;        //  1바이트
+	short num1;     //  2바이트
+	int num2;       //  4바이트
+	char s1[20];    // 20바이트
+};
+#pragma pack(pop)        // 정렬 설정을 이전 상태(기본값)로 되돌림
 
 
 int main() {
@@ -224,7 +234,113 @@ int main() {
 
 
 	//파일크기 구하기
+	int size;
+	FILE* fp11 = fopen("hello.txt", "r");
+	//      이동할 크기, 기준점 
+	// SEEK_SET : 파일의 처음 부터 이동을 시작
+	// SEEK_CUR : 현재 위치 부터 이동을 시작
+	// SEEK_END : 파일의 끝부터 이동을 시작
+	fseek(fp11, 0, SEEK_END);//파일 포인터를 파일의 끝으로 이동시킴
+	size = ftell(fp11);//파일 포인터의 현재 위치를 얻음
+	printf("%d\n", size);
+	fclose(fp11);//파일 닫기
+
+	//파일 크기 만큼 읽기
+	char* buffer3;
+	int size3;
+	int count;
+
+	FILE* fp12 = fopen("hello.txt", "r");
+	fseek(fp12, 0, SEEK_END);
+	size3 = ftell(fp12);//문자열 길이를 반환
+
+	buffer3 = malloc(size3 + 1);
+	memset(buffer3, 0, size3 + 1); //char 포인터를 0으로 초기화
+
+	fseek(fp12, 0, SEEK_SET); //포인터 위치를 맨 처음 위치로 이동시킴
+	count = fread(buffer3, size3, 1, fp12); //fp12데이터를 buffer에 저장 => 성공시 1반환
+
+	printf("%s size: %d, count : %d\n", buffer3, size3, count);
+	fclose(fp12);
+	free(buffer3);
+
+	//파일을 부분적으로 읽고 쓰기 1
+	char buffer4[10] = { 0, };
+	FILE* fp13 = fopen("hello.txt", "r");
+
+	fseek(fp13, 2, SEEK_SET);//파일 시작 처음 시작위치에서 2바이트 만큼 움직임
+	fread(buffer4, 3, 1, fp13);//3바이트 만큼 읽기,3바이트 만큼 움직임
+
+	printf("%s\n", buffer4);//llo
+	memset(buffer4, 0, 10);//pointer to char 초기화
+
+	fseek(fp13, 3, SEEK_CUR);//현재 위치에서 3바이트 이동
+	fread(buffer4, 4, 1, fp13);//현재 위치에서 4바이트 만큼 읽기
 	
+	printf("%s\n", buffer4); //orld
+	fclose(fp13);
+	
+	//파일을 부분적으로 읽고 쓰기 2
+	char* s11 = "abcd";
+	char buffer5[20] = { 0, };
+	FILE* fp14 = fopen("hello.txt", "r+"); //r+는 파일 읽기/쓰기 모드
+	fseek(fp14, 3, SEEK_SET);//맨처음에서 3바이트 이동
+	fwrite(s11, strlen(s11), 1, fp14);//문자열 을 파일에 저장
+	
+	rewind(fp14);//파일 포인터를 파일의 맨 처음으로 이동시킴
+	fread(buffer5, 20, 1, fp14); //현재 위치에서 fp14를 20바이트 읽어서 char*에 저장
+
+	printf("파일 : %s\n", buffer5);
+	fclose(fp14);
+
+	
+	//제한된 버퍼로 파일 전체 읽기
+	//파일의 끝인지 검사하는 함수 feof
+	
+	char buffer6[5] = { 0, };
+	int  count2 = 0;
+	int total = 0;
+	FILE* fp15 = fopen("hello.txt", "r");
+
+	//파일의 끝이 아니면 0, 파일의 끝이면 1을 반환함
+	while (feof(fp15) == 0) {
+		count2 = fread(buffer6, sizeof(char), 4, fp15);//1바이트 씩 4번 포인터를 읽어옴 => 4바이트 읽음
+		printf("인 %s\n", buffer6);
+		memset(buffer, 0, 5);//5바이트 만큼 메모리0으로 초기화 => 마지막 null까지
+		total += count2;//성공시 1반환
+	}
+
+	printf("\ntotal: %d\n", total);
+	fclose(fp15);
+
+
+	//파일에서 구조체를 읽고 쓰기
+	//파일은 텍스트 파일과 바이너리 파일(2진 파일)로 나눌수 있음
+	//엑셀도 바이너리 형식임
+
+	struct Data d1;
+	memset(&d1, 0, sizeof(d1));    // 구조체 변수의 내용을 0으로 초기화
+
+	d1.c1 = 'a';                       // 문자 저장
+	d1.num1 = 32100;                   // 2바이트 크기의 숫자 저장
+	d1.num2 = 2100000100;              // 4바이트 크기의 숫자 저장
+	strcpy(d1.s1, "Hello, world!");    // 문자열 저장
+
+	FILE* fp16 = fopen("data2.csv", "wb");   // 파일을 쓰기/바이너리 모드(wb)로 열기
+
+	fwrite(&d1, sizeof(d1), 1, fp16);        // 구조체의 내용을 파일에 저장
+
+	fclose(fp16);    // 파일 포인터 닫기
+
+
+	//파일에서 구조체 읽기
+	FILE* fp17 = fopen("data2.csv", "rb");
+	fread(&d1, sizeof(d1), 1, fp17);
+	printf("%c %d %d %s\n", d1.c1, d1.num1, d1.num2, d1.s1);    // a 32100 210
+	fclose(fp17);
+
+
+
 
 
 
