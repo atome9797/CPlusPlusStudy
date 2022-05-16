@@ -1,4 +1,18 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <stdlib.h>
+
+typedef struct tagPlayer
+{
+    //int num;
+    int		Gun2[2];
+} Player;
+
+
+typedef struct tagGun
+{
+    int	BulletCount;
+} Gun;
 
 void bubble_sort(int arr[], int count)    // 매개변수로 정렬할 배열과 요소의 개수를 받음
 {
@@ -21,6 +35,42 @@ void bubble_sort(int arr[], int count)    // 매개변수로 정렬할 배열과 요소의 개�
 
 
 
+char* replaceAll(char* s, const char* olds, const char* news) {
+    char* result, * sr;
+    size_t i, count = 0;
+    size_t oldlen = strlen(olds); if (oldlen < 1) return s;
+    size_t newlen = strlen(news);
+
+
+    if (newlen != oldlen) {
+        for (i = 0; s[i] != '\0';) {
+            if (memcmp(&s[i], olds, oldlen) == 0) count++, i += oldlen;
+            else i++;
+        }
+    }
+    else i = strlen(s);
+
+
+    result = (char*)malloc(i + 1 + count * (newlen - oldlen));
+    if (result == NULL) return NULL;
+
+
+    sr = result;
+    while (*s) {
+        if (memcmp(s, olds, oldlen) == 0) {
+            memcpy(sr, news, newlen);
+            sr += newlen;
+            s += oldlen;
+        }
+        else *sr++ = *s++;
+    }
+    *sr = '\0';
+
+    return result;
+}
+
+
+
 int main() {
 
 	//거품 정렬 구현하기
@@ -34,7 +84,38 @@ int main() {
     }
 
     printf("\n");
+    
+    
+    Player py;
 
+    int count = 0;
+    
+    
+
+    printf("%d\n", sizeof(Player));
+
+
+    char one_line_string[128];
+    FILE* p_file = NULL;
+    if (0 == fopen_s(&p_file, "school.csv", "rt")) {
+        if (NULL != fgets(one_line_string, 128, p_file)) {
+            fclose(p_file);
+        }
+    }
+    wchar_t wtext2[30];
+
+    char* ptr = replaceAll(one_line_string, ",", "\n");
+
+    //mbstowcs(wtext2, one_line_string, sizeof(one_line_string)+1); //문자 1개만 인식됨
+    //printf("%s", wtext2);
+    MultiByteToWideChar(0, NULL, one_line_string, -1, wtext2, 30);
+    wprintf(L"%s\n", wtext2);
+
+
+    char str[128] = "기억나abc나비야";
+    wchar_t *warr = L"김영훈";
+    //mbstowcs(warr, L"김영훈", 128);
+    wprintf(L"%s\n", warr);//유니코드 문자열 출력
 
 	return 0;
 }
