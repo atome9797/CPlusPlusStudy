@@ -1,5 +1,7 @@
-﻿#include <iostream>
+﻿#define _CRT_SECURE_NO_WARNINGS // scanf 보안 경고로 인한 컴파일 에러 방지
+#include <iostream>
 #include <string>
+#include <cstdio> //stdio.h 와 똑같음
 
 using namespace std;
 
@@ -240,6 +242,7 @@ int main()
     }
 
     if (customer_age % 10 == 9) {
+
         cout << "true" << endl;
     }
     else {
@@ -269,8 +272,59 @@ int main()
 
 
 
+    int num1;
+    printf("정수를 한 개 입력하세요.: ");
+    scanf("%d", &num1); //scanf를 사용하려면 맨 윗줄에 에러 방지 선언 해야한다.
+    //&(엠퍼센트를 쓰는 이유는 주소를 찾기 위해 사용한다.)
+    printf("%d\n", num1);
+
+    int num3, num4;
+    printf("정수를 두 개 입력하세요.: ");
+    scanf("%d %d", &num3, &num4);
+    printf("%d %d\n", num3, num4);
+    
+    //c++ 에서 double 받기
+    double num5;
+    double num6;
+    num5 = 1.5;
+    printf("%lf", num5);
+    printf("double 형 받기\n");
+    //scanf("%lf", &num6);
 
 
+    //getchar()함수로 문자 입력 받기
+    /*char s1;
+    printf("문자 한개 입력:\n");
+    s1 = getchar();
+    printf("%c", s1);*/
+
+    //putchar()함수로 문자 출력 => printf 나 cout이 대체제
+    char c1 = 'a';
+    putchar(c1);
+    
+    cout << "증감 연산자 char형" << endl;
+    //증감 연산자 char 형태 변화 => char 는 증감 연산자에 의해 알파벳 순으로 증감 한다.
+    char ch1 = 'b';
+    char ch2 = 'b';
+
+    ch1++; // c
+    ch2--; // a
+    printf("%c %c\n", ch1, ch2);
+
+    // 증감 연산자 변수 할당 시 주의
+    int num01 = 2;
+    int num02 = 2;
+    int num03;
+    int num04;
+
+    num03 = num01++; // num01은 num03에 값을 대입 하고 자기 자신에 +1 해준다.
+    num04 = num02--; // num02는 num04에 값을 대입 한후 자기 자신에 -1 해준다.
+
+    printf("%d %d %d %d ", num01, num02, num03, num04); //3 1 2 2
 
 
-}
+    //4월 첫째주 복습 
+    std::cout << "HELLO WORLD\n" << endl;
+
+    
+} 
